@@ -1,0 +1,19 @@
+[project]
+name = "swarm-translate"
+version = "0.1.0"
+description = "Multi-agent translation system using OpenAI Swarm and local LLM"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "swarm @ git+https://github.com/openai/swarm.git",
+    "openai",
+    "torch>=2.0.0",
+    "transformers>=4.31.0",
+    "sentencepiece",
+    "safetensors"
+]
+
+[tool.tabby]
+model_path = "/home/clear/.cache/lm-studio/models/lmstudio-community/Llama-3.3-70B-Instruct-GGUF"  # We'll update this later
+host = "127.0.0.1"
+port = 5000

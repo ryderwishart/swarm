@@ -1,0 +1,44 @@
+{
+    "name": "Vox Populi Translation - French (Natural)",
+    "description": "Translation of Biblical texts from English (Berean Standard Bible) to French",
+    
+    "input": {
+        "file": "data/bsb-utf8.jsonl",
+        "format": "jsonl",
+        "content_field": "content",
+        "id_field": "id"
+    },
+    
+    "output": {
+        "directory": "translations",
+        "format": "jsonl",
+        "filename_template": "{source_code}-{target_code}_bible_{date}"
+    },
+    
+    "source": {
+        "code": "eng",
+        "label": "English (Berean Standard Bible)"
+    },
+    
+    "target": {
+        "code": "fra",
+        "label": "French"
+    },
+    
+    "style": {
+        "formality": "natural",
+        "register": "informal",
+        "notes": "Aim for natural, idiomatic translation, avoiding overly formal language. Emphasize simplicity, clarity, and readability."
+    },
+    
+    "models": {
+        "routing": "llama-3.2-1b-instruct",
+        "translation": "llama-3.2-1b-instruct"
+    },
+    
+    "batch_settings": {
+        "batch_size": 10,
+        "save_frequency": 5,
+        "resume_from_last": true
+    }
+} 

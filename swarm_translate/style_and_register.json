@@ -1,0 +1,15 @@
+{
+    "source": {
+        "code": "en",
+        "label": "Biblical Hebrew"
+    },
+    "target": {
+        "code": "de",
+        "label": "Modern German"
+    },
+    "style": {
+        "formality": "formal",
+        "register": "literary",
+        "notes": "Maintain biblical gravitas while ensuring modern comprehensibility"
+    }
+} 

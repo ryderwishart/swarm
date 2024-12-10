@@ -1,0 +1,44 @@
+{
+    "name": "Vox Populi Translation - Tok Pisin (Formal)",
+    "description": "Translation of Biblical texts from English (Berean Standard Bible) to Tok Pisin",
+    
+    "input": {
+        "file": "data/bsb-utf8.jsonl",
+        "format": "jsonl",
+        "content_field": "content",
+        "id_field": "id"
+    },
+    
+    "output": {
+        "directory": "translations",
+        "format": "jsonl",
+        "filename_template": "{source_code}-{target_code}_bible_{date}"
+    },
+    
+    "source": {
+        "code": "eng",
+        "label": "English (Berean Standard Bible)"
+    },
+    
+    "target": {
+        "code": "tpi",
+        "label": "Tok Pisin"
+    },
+    
+    "style": {
+        "formality": "formal",
+        "register": "literary",
+        "notes": "Maintain biblical gravitas while ensuring modern comprehensibility"
+    },
+    
+    "models": {
+        "routing": "llama-3.3-70b-instruct",
+        "translation": "llama-3.3-70b-instruct"
+    },
+    
+    "batch_settings": {
+        "batch_size": 10,
+        "save_frequency": 5,
+        "resume_from_last": true
+    }
+} 

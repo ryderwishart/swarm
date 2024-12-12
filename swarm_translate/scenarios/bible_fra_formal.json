@@ -1,5 +1,5 @@
 {
-    "name": "Vox Populi Translation - French (Natural)",
+    "name": "Vox Populi Translation - French (Formal)",
     "description": "Translation of Biblical texts from English (Berean Standard Bible) to French",
     
     "input": {
@@ -26,9 +26,9 @@
     },
     
     "style": {
-        "formality": "natural",
-        "register": "informal",
-        "notes": "Aim for natural, idiomatic translation, avoiding overly formal language. Emphasize simplicity, clarity, and readability. Don't go with the conventional French wordings just because they are most popular. Use the most natural and idiomatic translation."
+        "formality": "formal",
+        "register": "formal",
+        "notes": "Aim for a formal, highly precise or even academic translation. Don't go with the conventional French wordings just because they are most popular. Use the most structurally conformant rendering that is still fully sensible in the target language. If additional"
     },
     
     "models": {

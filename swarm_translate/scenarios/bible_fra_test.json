@@ -1,9 +1,9 @@
 {
-    "name": "Vox Populi Translation - French (Natural)",
-    "description": "Translation of Biblical texts from English (Berean Standard Bible) to French",
+    "name": "Test Translation - French (Natural)",
+    "description": "Test translation of Genesis 1-2 from English to French",
     
     "input": {
-        "file": "data/bsb-utf8.jsonl",
+        "file": "data/bsb-test.jsonl",
         "format": "jsonl",
         "content_field": "content",
         "id_field": "id"
@@ -12,7 +12,7 @@
     "output": {
         "directory": "translations",
         "format": "jsonl",
-        "filename_template": "{source_code}-{target_code}_bible_{date}"
+        "filename_template": "{source_code}-{target_code}_bible_test_{date}"
     },
     
     "source": {
@@ -28,7 +28,7 @@
     "style": {
         "formality": "natural",
         "register": "informal",
-        "notes": "Aim for natural, idiomatic translation, avoiding overly formal language. Emphasize simplicity, clarity, and readability. Don't go with the conventional French wordings just because they are most popular. Use the most natural and idiomatic translation."
+        "notes": "Aim for natural, idiomatic translation while maintaining biblical accuracy."
     },
     
     "models": {
@@ -37,8 +37,8 @@
     },
     
     "batch_settings": {
-        "batch_size": 10,
-        "save_frequency": 5,
+        "batch_size": 2,
+        "save_frequency": 1,
         "resume_from_last": true
     }
 } 

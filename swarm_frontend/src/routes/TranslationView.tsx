@@ -1,5 +1,5 @@
 import { useState, useEffect, useReducer, useRef } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useNavigate } from 'react-router-dom';
 import { Button } from '../components/ui/button';
 import {
   ArrowLeft,
@@ -260,7 +260,16 @@ const TranslationView = () => {
   const chapterMapRef = useRef<ChapterMap>({});
 
   const [searchQuery, setSearchQuery] = useState('');
-  const { id } = useParams<{ id: string }>();
+  const {
+    id,
+    book: initialBook,
+    chapter: initialChapter,
+  } = useParams<{
+    id: string;
+    book?: string;
+    chapter?: string;
+  }>();
+  const navigate = useNavigate();
   const {
     scenario,
     loading: scenarioLoading,
@@ -425,6 +434,25 @@ const TranslationView = () => {
       setSelectedBook(null);
     }
   }, [isOpen]);
+
+  // Update URL when chapter changes
+  useEffect(() => {
+    if (currentChapter) {
+      const newPath = `/translation/${id}/${currentChapter.book}/${currentChapter.chapterNum}`;
+      navigate(newPath, { replace: true });
+    }
+  }, [currentChapter, id, navigate]);
+
+  // Handle initial deep link
+  useEffect(() => {
+    if (initialBook && initialChapter && !loading) {
+      const decodedBook = decodeURIComponent(initialBook);
+      const chapterNum = parseInt(initialChapter, 10);
+      if (navigation.books.includes(decodedBook)) {
+        setChapter(decodedBook, chapterNum);
+      }
+    }
+  }, [initialBook, initialChapter, loading, navigation.books]);
 
   if (scenarioError) {
     return (

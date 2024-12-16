@@ -15,6 +15,10 @@ const router = createBrowserRouter([
     path: '/translation/:id',
     element: <TranslationView />,
   },
+  {
+    path: '/translation/:id/:book/:chapter',
+    element: <TranslationView />,
+  },
 ]);
 
 ReactDOM.createRoot(document.getElementById('root')!).render(

@@ -25,12 +25,12 @@ const router = createBrowserRouter([
             children: [
               {
                 path: ':book/:chapter',
-                element: <TranslationView />
-              }
-            ]
-          }
-        ]
-      }
+                element: <TranslationView />,
+              },
+            ],
+          },
+        ],
+      },
     ],
   },
 ]);

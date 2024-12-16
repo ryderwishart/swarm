@@ -13,7 +13,6 @@ import { Input } from './components/ui/input';
 import { cn } from './lib/utils';
 import { InfoIcon } from 'lucide-react';
 import { SEO } from './components/SEO';
-import Layout from './components/Layout';
 
 interface Scenario {
   id: string;
@@ -69,33 +68,31 @@ const App = () => {
 
   const CopyrightStatement = () => {
     return (
-      <Layout>
-        <Card className="border-l-4 border-l-blue-500 bg-blue-50 dark:bg-blue-950/50">
-          <CardHeader className="pb-2">
-            <CardTitle className="text-blue-700 dark:text-blue-300 flex items-center gap-2 text-sm font-medium">
-              <InfoIcon className="h-4 w-4" />
-              Copyright Statement
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="text-sm text-blue-700 dark:text-blue-300">
-            <p>
-              Our goal is to release all of these translations into the public
-              domain. All rights reserved until novelty verified (coming soon!).
-            </p>
-            <p>
-              Please check our{' '}
-              <a
-                href="https://frontierrnd.com/policy"
-                target="_blank"
-                className="underline hover:text-blue-900 dark:hover:text-blue-100"
-              >
-                copyright policy
-              </a>
-              .
-            </p>
-          </CardContent>
-        </Card>
-      </Layout>
+      <Card className="border-l-4 border-l-blue-500 bg-blue-50 dark:bg-blue-950/50">
+        <CardHeader className="pb-2">
+          <CardTitle className="text-blue-700 dark:text-blue-300 flex items-center gap-2 text-sm font-medium">
+            <InfoIcon className="h-4 w-4" />
+            Copyright Statement
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="text-sm text-blue-700 dark:text-blue-300">
+          <p>
+            Our goal is to release all of these translations into the public
+            domain. All rights reserved until novelty verified (coming soon!).
+          </p>
+          <p>
+            Please check our{' '}
+            <a
+              href="https://frontierrnd.com/policy"
+              target="_blank"
+              className="underline hover:text-blue-900 dark:hover:text-blue-100"
+            >
+              copyright policy
+            </a>
+            .
+          </p>
+        </CardContent>
+      </Card>
     );
   };
 

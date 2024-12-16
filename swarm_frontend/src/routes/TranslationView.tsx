@@ -18,7 +18,6 @@ import {
 import { Command, CommandGroup } from '../components/ui/command';
 import { SEO } from '../components/SEO';
 import { Scenario, useScenario } from '../hooks/useScenario';
-import Layout from '../components/Layout';
 import {
   Card,
   CardContent,
@@ -507,59 +506,51 @@ const TranslationView = () => {
 
   if (scenarioError) {
     return (
-      <Layout>
-        <div className="flex items-center gap-4 mb-6">
-          <Link to="/">
-            <Button variant="ghost" size="icon">
-              <ArrowLeft className="h-4 w-4 text-foreground" />
-            </Button>
-          </Link>
-          <h1 className="text-2xl font-bold text-destructive">
-            {scenarioError}
-          </h1>
-        </div>
-      </Layout>
+      <div className="flex items-center gap-4 mb-6">
+        <Link to="/">
+          <Button variant="ghost" size="icon">
+            <ArrowLeft className="h-4 w-4 text-foreground" />
+          </Button>
+        </Link>
+        <h1 className="text-2xl font-bold text-destructive">{scenarioError}</h1>
+      </div>
     );
   }
 
   if (!scenario) {
     return (
-      <Layout>
+      <div className="flex items-center gap-4 mb-6">
         <p>Translation project not found</p>
         <Link to="/">
           <Button variant="link">Return to projects list</Button>
         </Link>
-      </Layout>
+      </div>
     );
   }
 
   if (combinedLoading) {
     return (
-      <Layout>
-        <div className="flex items-center gap-4 mb-6">
-          <Link to="/">
-            <Button variant="ghost" size="icon">
-              <ArrowLeft className="h-4 w-4 text-foreground" />
-            </Button>
-          </Link>
-          <h1 className="text-2xl font-bold">Loading translations...</h1>
-        </div>
-      </Layout>
+      <div className="flex items-center gap-4 mb-6">
+        <Link to="/">
+          <Button variant="ghost" size="icon">
+            <ArrowLeft className="h-4 w-4 text-foreground" />
+          </Button>
+        </Link>
+        <h1 className="text-2xl font-bold">Loading translations...</h1>
+      </div>
     );
   }
 
   if (error) {
     return (
-      <Layout>
-        <div className="flex items-center gap-4 mb-6">
-          <Link to="/">
-            <Button variant="ghost" size="icon">
-              <ArrowLeft className="h-4 w-4 text-foreground" />
-            </Button>
-          </Link>
-          <h1 className="text-2xl font-bold text-destructive">{error}</h1>
-        </div>
-      </Layout>
+      <div className="flex items-center gap-4 mb-6">
+        <Link to="/">
+          <Button variant="ghost" size="icon">
+            <ArrowLeft className="h-4 w-4 text-foreground" />
+          </Button>
+        </Link>
+        <h1 className="text-2xl font-bold text-destructive">{error}</h1>
+      </div>
     );
   }
 
@@ -609,44 +600,42 @@ const TranslationView = () => {
                       </div>
                       <CommandGroup>
                         <div className="max-h-[400px] overflow-y-auto">
-                          {Object.entries(BOOK_GROUPS).map(
-                            ([group, books]) => {
-                              const availableBooks = books.filter(
-                                (book) =>
-                                  navigation.books.includes(book) &&
-                                  book
-                                    .toLowerCase()
-                                    .includes(searchQuery.toLowerCase()),
-                              );
+                          {Object.entries(BOOK_GROUPS).map(([group, books]) => {
+                            const availableBooks = books.filter(
+                              (book) =>
+                                navigation.books.includes(book) &&
+                                book
+                                  .toLowerCase()
+                                  .includes(searchQuery.toLowerCase()),
+                            );
 
-                              if (availableBooks.length === 0) return null;
+                            if (availableBooks.length === 0) return null;
 
-                              return (
-                                <div key={group} className="px-2 py-1">
-                                  <div className="text-xs font-medium text-muted-foreground mb-1">
-                                    {group}
-                                  </div>
-                                  <div className="grid grid-cols-2 gap-1">
-                                    {availableBooks.map((book) => (
-                                      <Button
-                                        key={book}
-                                        variant={
-                                          currentChapter?.book === book
-                                            ? 'default'
-                                            : 'ghost'
-                                        }
-                                        size="sm"
-                                        className="h-7 justify-start text-left text-sm"
-                                        onClick={() => setSelectedBook(book)}
-                                      >
-                                        {book}
-                                      </Button>
-                                    ))}
-                                  </div>
+                            return (
+                              <div key={group} className="px-2 py-1">
+                                <div className="text-xs font-medium text-muted-foreground mb-1">
+                                  {group}
                                 </div>
-                              );
-                            },
-                          )}
+                                <div className="grid grid-cols-2 gap-1">
+                                  {availableBooks.map((book) => (
+                                    <Button
+                                      key={book}
+                                      variant={
+                                        currentChapter?.book === book
+                                          ? 'default'
+                                          : 'ghost'
+                                      }
+                                      size="sm"
+                                      className="h-7 justify-start text-left text-sm"
+                                      onClick={() => setSelectedBook(book)}
+                                    >
+                                      {book}
+                                    </Button>
+                                  ))}
+                                </div>
+                              </div>
+                            );
+                          })}
                         </div>
                       </CommandGroup>
                     </>

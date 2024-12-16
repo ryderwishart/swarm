@@ -1,3 +1,5 @@
+'use client';
+
 import { useState, useEffect, useReducer, useRef } from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import { Button } from '../components/ui/button';

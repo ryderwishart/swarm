@@ -1,18 +1,13 @@
-import {
-  useState,
-  useEffect,
-  useCallback,
-  useMemo,
-  useReducer,
-  useRef,
-} from 'react';
-import { useParams, useLocation, Link } from 'react-router-dom';
+import { useState, useEffect, useReducer, useRef } from 'react';
+import { useLocation, Link } from 'react-router-dom';
 import { Button } from '../components/ui/button';
 import {
   ArrowLeft,
   ChevronLeft,
   ChevronRight,
   ChevronDown,
+  Grid2X2,
+  LayoutGridIcon,
 } from 'lucide-react';
 import { ScrollArea } from '../components/ui/scroll-area';
 import type { Scenario } from '../types';
@@ -69,7 +64,12 @@ type ChapterAction =
 const createChapterNavigation = (
   chaptersMap: ChapterMap,
 ): ChapterNavigation => {
-  const books = Object.keys(chaptersMap).sort();
+  const books = Object.keys(chaptersMap).sort((a, b) => {
+    const indexA = CANONICAL_BOOKS.indexOf(a);
+    const indexB = CANONICAL_BOOKS.indexOf(b);
+    return indexA - indexB;
+  });
+
   const bookChapters: { [book: string]: number[] } = {};
   const chapterOrder: ChapterInfo[] = [];
 
@@ -382,8 +382,17 @@ const TranslationView = () => {
         setChapterMap(chaptersMap);
         setNavigation(nav);
 
-        // Set initial chapter
-        if (nav.chapterOrder.length > 0) {
+        // Find the first available canonical book
+        const firstCanonicalBook = CANONICAL_BOOKS.find((book) =>
+          nav.books.includes(book),
+        );
+
+        // Set initial chapter to the first chapter of the first canonical book
+        if (firstCanonicalBook) {
+          const firstChapter = nav.bookChapters[firstCanonicalBook][0];
+          setChapter(firstCanonicalBook, firstChapter);
+        } else if (nav.chapterOrder.length > 0) {
+          // Fallback to first available chapter if no canonical books found
           const first = nav.chapterOrder[0];
           setChapter(first.book, first.chapter);
         }
@@ -489,13 +498,10 @@ const TranslationView = () => {
       {currentChapter && (
         <div className="flex items-center justify-between mb-3">
           <div className="flex items-center gap-3">
-            <h2 className="text-lg font-semibold">
-              {currentChapter.book} {currentChapter.chapterNum}
-            </h2>
             <Popover open={isOpen} onOpenChange={setIsOpen}>
               <PopoverTrigger asChild>
                 <Button variant="outline" size="sm" className="h-7 gap-1">
-                  Navigate
+                  <LayoutGridIcon className="h-3 w-3 text-foreground" />
                   <ChevronDown className="h-3 w-3 text-foreground" />
                 </Button>
               </PopoverTrigger>
@@ -596,6 +602,11 @@ const TranslationView = () => {
                 </Command>
               </PopoverContent>
             </Popover>
+          </div>
+          <div className="flex items-center gap-1">
+            <h2 className="text-lg font-semibold">
+              {currentChapter.book} {currentChapter.chapterNum}
+            </h2>
           </div>
           <div className="flex gap-1">
             <Button

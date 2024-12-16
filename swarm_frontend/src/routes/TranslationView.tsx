@@ -18,6 +18,13 @@ import {
 import { Command, CommandGroup } from '../components/ui/command';
 import { SEO } from '../components/SEO';
 import { useScenario } from '../hooks/useScenario';
+import Layout from '../components/Layout';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardTitle,
+} from '../components/ui/card';
 
 interface Translation {
   source_lang: string;
@@ -421,7 +428,7 @@ const TranslationView = () => {
 
   if (scenarioError) {
     return (
-      <div className="container mx-auto p-4">
+      <Layout>
         <div className="flex items-center gap-4 mb-6">
           <Link to="/">
             <Button variant="ghost" size="icon">
@@ -432,24 +439,24 @@ const TranslationView = () => {
             {scenarioError}
           </h1>
         </div>
-      </div>
+      </Layout>
     );
   }
 
   if (!scenario) {
     return (
-      <div className="container mx-auto p-4">
+      <Layout>
         <p>Translation project not found</p>
         <Link to="/">
           <Button variant="link">Return to projects list</Button>
         </Link>
-      </div>
+      </Layout>
     );
   }
 
   if (combinedLoading) {
     return (
-      <div className="container mx-auto p-4">
+      <Layout>
         <div className="flex items-center gap-4 mb-6">
           <Link to="/">
             <Button variant="ghost" size="icon">
@@ -458,13 +465,13 @@ const TranslationView = () => {
           </Link>
           <h1 className="text-2xl font-bold">Loading translations...</h1>
         </div>
-      </div>
+      </Layout>
     );
   }
 
   if (error) {
     return (
-      <div className="container mx-auto p-4">
+      <Layout>
         <div className="flex items-center gap-4 mb-6">
           <Link to="/">
             <Button variant="ghost" size="icon">
@@ -473,7 +480,7 @@ const TranslationView = () => {
           </Link>
           <h1 className="text-2xl font-bold text-destructive">{error}</h1>
         </div>
-      </div>
+      </Layout>
     );
   }
 
@@ -483,21 +490,26 @@ const TranslationView = () => {
         title={`${scenario.source_label} → ${scenario.target_label}`}
         description={`AI-First Bible Translations`}
       />
-      <div className="container mx-auto p-3">
-        <div className="flex items-center gap-3 mb-4">
+      <Layout>
+        <Card className="flex items-center gap-4 w-full p-4 mb-4">
           <Link to="/">
             <Button variant="ghost" size="icon" className="h-8 w-8">
               <ArrowLeft className="h-4 w-4 text-foreground" />
             </Button>
           </Link>
-          <h1 className="text-xl font-bold">
-            {scenario.source_label} → {scenario.target_label}
-          </h1>
-        </div>
+          <CardContent className="p-0">
+            <CardTitle className="sm:text-md md:text-lg bg-gradient-to-r from-blue-500/80 to-green-500/80 bg-clip-text text-transparent animate-shimmer">
+              Blank Slate Bible Translation
+            </CardTitle>
+            <CardDescription>
+              {scenario.source_label} to {scenario.target_label}
+            </CardDescription>
+          </CardContent>
+        </Card>
 
         {currentChapter && (
-          <div className="flex items-center justify-between mb-3">
-            <div className="flex items-center gap-3">
+          <div className="flex items-center justify-between mb-6 w-full">
+            <div className="flex items-center gap-4 justify-between">
               <Popover open={isOpen} onOpenChange={setIsOpen}>
                 <PopoverTrigger asChild>
                   <Button variant="outline" size="sm" className="h-7 gap-1">
@@ -605,8 +617,8 @@ const TranslationView = () => {
                 </PopoverContent>
               </Popover>
             </div>
-            <div className="flex items-center gap-1">
-              <h2 className="text-lg font-semibold">
+            <div className="flex flex-col sm:flex-row items-center gap-1">
+              <h2 className="text-sm sm:text-xs md:text-sm font-semibold">
                 {currentChapter.book} {currentChapter.chapterNum}
               </h2>
             </div>
@@ -624,7 +636,7 @@ const TranslationView = () => {
                 className="h-7"
               >
                 <ChevronLeft className="h-4 w-4 text-foreground" />
-                Previous
+                <span className="hidden md:block">Previous</span>
               </Button>
               <Button
                 variant="outline"
@@ -633,7 +645,7 @@ const TranslationView = () => {
                 disabled={loading}
                 className="h-7"
               >
-                Next
+                <span className="hidden md:block">Next</span>
                 <ChevronRight className="h-4 w-4 text-foreground" />
               </Button>
             </div>
@@ -677,7 +689,7 @@ const TranslationView = () => {
             ))}
           </div>
         </ScrollArea>
-      </div>
+      </Layout>
     </>
   );
 };

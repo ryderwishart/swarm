@@ -13,6 +13,7 @@ import { Input } from './components/ui/input';
 import { cn } from './lib/utils';
 import { InfoIcon } from 'lucide-react';
 import { SEO } from './components/SEO';
+import Layout from './components/Layout';
 
 interface Scenario {
   id: string;
@@ -68,7 +69,7 @@ const App = () => {
 
   const CopyrightStatement = () => {
     return (
-      <div className="flex items-center justify-center p-4">
+      <Layout>
         <Card className="border-l-4 border-l-blue-500 bg-blue-50 dark:bg-blue-950/50">
           <CardHeader className="pb-2">
             <CardTitle className="text-blue-700 dark:text-blue-300 flex items-center gap-2 text-sm font-medium">
@@ -94,14 +95,14 @@ const App = () => {
             </p>
           </CardContent>
         </Card>
-      </div>
+      </Layout>
     );
   };
 
   return (
     <>
       <SEO />
-      <div className="min-h-screen bg-muted/30 py-8">
+      <Layout>
         <Card className="container mx-auto max-w-4xl shadow-lg">
           <CardHeader className="space-y-1">
             <CardTitle className="text-2xl">
@@ -177,7 +178,7 @@ const App = () => {
             </div>
           </CardContent>
         </Card>
-      </div>
+      </Layout>
     </>
   );
 };

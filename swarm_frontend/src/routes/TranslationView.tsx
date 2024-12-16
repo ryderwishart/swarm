@@ -47,6 +47,7 @@ const TranslationView = () => {
   const [availableChapters, setAvailableChapters] = useState<
     Array<{ book: string; chapter: number }>
   >([]);
+  const [showSource, setShowSource] = useState(false);
 
   const getBookAndChapterFromId = (verseId: string) => {
     const match = verseId.match(/^(.*?)\s+(\d+):/);
@@ -263,6 +264,11 @@ const TranslationView = () => {
     }
   };
 
+  const getVerseNumber = (verseId: string): string => {
+    const match = verseId.match(/:(\d+)$/);
+    return match ? match[1] : '';
+  };
+
   if (!scenario) {
     return (
       <div className="container mx-auto p-4">
@@ -370,23 +376,29 @@ const TranslationView = () => {
       )}
 
       <ScrollArea className="h-[calc(100vh-12rem)]">
-        <div className="space-y-4 pr-4">
+        <div className="flex justify-end mb-4">
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => setShowSource(!showSource)}
+            className="text-muted-foreground"
+          >
+            {showSource ? 'Hide' : 'Show'} original text
+          </Button>
+        </div>
+        <div className="space-y-6 pr-4">
           {currentChapter?.translations.map((item) => (
-            <Card key={item.id}>
-              <CardContent className="pt-6">
-                <div className="space-y-4">
-                  <div>
-                    <h3 className="text-sm font-medium text-muted-foreground mb-2">
-                      {item.id}
-                    </h3>
-                    <p className="text-lg">{item.original}</p>
-                  </div>
-                  <div>
-                    <p className="text-lg font-medium">{item.translation}</p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
+            <div key={item.id} className="group relative space-y-2 py-2">
+              {showSource && (
+                <p className="text-muted-foreground text-lg">{item.original}</p>
+              )}
+              <p className="text-lg">
+                <sup className="text-xs font-medium text-muted-foreground mr-2">
+                  {getVerseNumber(item.id)}
+                </sup>
+                {item.translation}
+              </p>
+            </div>
           ))}
         </div>
       </ScrollArea>

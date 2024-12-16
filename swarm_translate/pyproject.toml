@@ -14,8 +14,3 @@ dependencies = [
     "python-dotenv>=1.0.1",
     "aiohttp>=3.11.10",
 ]
-
-[tool.tabby]
-model_path = "/home/clear/.cache/lm-studio/models/lmstudio-community/Llama-3.3-70B-Instruct-GGUF"  # We'll update this later
-host = "127.0.0.1"
-port = 5000

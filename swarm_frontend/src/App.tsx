@@ -1,247 +1,112 @@
-import { useEffect, useState } from 'react'
-import { Card, CardContent, CardHeader, CardTitle } from "./components/ui/card"
-import { ScrollArea } from "./components/ui/scroll-area"
-import { Badge } from "./components/ui/badge"
-import { Separator } from "./components/ui/separator"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./components/ui/select"
-import { Progress } from "./components/ui/progress"
+import { useState, useEffect, useMemo } from 'react';
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+} from './components/ui/card';
+import { ScrollArea } from './components/ui/scroll-area';
+import { Separator } from './components/ui/separator';
+import { Input } from './components/ui/input';
+import { cn } from './lib/utils';
 
-interface Translation {
-  id: string
-  source_lang: string
-  source_label: string
-  target_lang: string
-  target_label: string
-  original: string
-  translation: string
-  translation_time: number
-  model: string
-  calver: string
+interface Scenario {
+  id: string;
+  filename: string;
+  source_lang: string;
+  source_label: string;
+  target_lang: string;
+  target_label: string;
 }
 
-interface Project {
-  name: string
-  description: string
-  source: {
-    code: string
-    label: string
-  }
-  target: {
-    code: string
-    label: string
-  }
-  latestFile: string | null
-  progress: {
-    last_processed_id: string
-    processed_count: number
-  } | null
+interface Manifest {
+  scenarios: Scenario[];
 }
 
-function TranslationCard({ translation }: { translation: Translation }) {
-  return (
-    <Card className="mb-4">
-      <CardHeader>
-        <div className="flex justify-between items-center">
-          <CardTitle className="text-lg">{translation.id}</CardTitle>
-          <div className="flex gap-2">
-            <Badge variant="outline">{translation.source_label}</Badge>
-            <span>→</span>
-            <Badge variant="outline">{translation.target_label}</Badge>
-          </div>
-        </div>
-      </CardHeader>
-      <CardContent>
-        <div className="space-y-4">
-          <div>
-            <p className="text-sm text-muted-foreground mb-1">Original:</p>
-            <p className="text-lg">{translation.original}</p>
-          </div>
-          <Separator />
-          <div>
-            <p className="text-sm text-muted-foreground mb-1">Translation:</p>
-            <p className="text-lg">{translation.translation}</p>
-          </div>
-          <div className="flex gap-2 text-sm text-muted-foreground mt-4">
-            <Badge variant="secondary" className="text-xs">
-              {translation.model}
-            </Badge>
-            <Badge variant="secondary" className="text-xs">
-              {translation.translation_time.toFixed(2)}s
-            </Badge>
-            <Badge variant="secondary" className="text-xs">
-              {translation.calver}
-            </Badge>
-          </div>
-        </div>
-      </CardContent>
-    </Card>
-  )
-}
+const App = () => {
+  const [scenarios, setScenarios] = useState<Scenario[]>([]);
+  const [searchQuery, setSearchQuery] = useState('');
 
-function App() {
-  const [translations, setTranslations] = useState<Translation[]>([])
-  const [error, setError] = useState<string | null>(null)
-  const [projects, setProjects] = useState<Project[]>([])
-  const [selectedProject, setSelectedProject] = useState<string | null>(null)
-  const [currentProject, setCurrentProject] = useState<Project | null>(null)
-
-  // Fetch available projects
   useEffect(() => {
-    const fetchProjects = async () => {
+    const loadManifest = async () => {
       try {
-        const response = await fetch('/api/projects')
-        const projectList = await response.json()
-        setProjects(projectList)
-        if (projectList.length > 0) {
-          setSelectedProject(projectList[0].name)
-          setCurrentProject(projectList[0])
+        const response = await fetch('/manifest.json');
+        if (!response.ok) {
+          throw new Error('Failed to fetch manifest');
         }
-      } catch (e) {
-        setError('Error loading projects')
-        console.error('Error fetching projects:', e)
+        const data: Manifest = await response.json();
+        setScenarios(data.scenarios);
+      } catch (err) {
+        console.error('Error loading manifest:', err);
       }
-    }
-    fetchProjects()
-  }, [])
+    };
+    loadManifest();
+  }, []);
 
-  // Handle project selection
-  useEffect(() => {
-    if (selectedProject) {
-      const project = projects.find(p => p.name === selectedProject)
-      if (project) {
-        setCurrentProject(project)
-      }
-    }
-  }, [selectedProject, projects])
+  const filteredScenarios = useMemo(() => {
+    const query = searchQuery.toLowerCase().trim();
+    if (!query) return scenarios;
 
-  const fetchTranslations = async () => {
-    if (!currentProject?.latestFile) {
-      setTranslations([])
-      return
-    }
-
-    try {
-      const response = await fetch(`/api/translations/${currentProject.latestFile}`)
-      const translations = await response.json()
-      setTranslations(translations)
-      setError(null)
-    } catch (e) {
-      setError('Error loading translations')
-      console.error('Error fetching translations:', e)
-    }
-  }
-
-  useEffect(() => {
-    if (currentProject) {
-      fetchTranslations()
-      const interval = setInterval(fetchTranslations, 5000)
-      return () => clearInterval(interval)
-    }
-  }, [currentProject])
+    return scenarios.filter((scenario) => {
+      return (
+        scenario.source_lang.toLowerCase().includes(query) ||
+        scenario.target_lang.toLowerCase().includes(query) ||
+        scenario.source_label.toLowerCase().includes(query) ||
+        scenario.target_label.toLowerCase().includes(query)
+      );
+    });
+  }, [scenarios, searchQuery]);
 
   return (
-    <div className="min-h-screen bg-background p-8">
-      <div className="container mx-auto">
-        <div className="flex justify-between items-center mb-8">
-          <h1 className="text-4xl font-bold">Translation Progress</h1>
-          <Select value={selectedProject || ''} onValueChange={setSelectedProject}>
-            <SelectTrigger className="w-[280px]">
-              <SelectValue placeholder="Select a project" />
-            </SelectTrigger>
-            <SelectContent>
-              {projects.map((project) => (
-                <SelectItem key={project.name} value={project.name}>
-                  {project.name}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
-
-        {currentProject && (
-          <Card className="mb-8">
-            <CardHeader>
-              <CardTitle>{currentProject.name}</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-muted-foreground">{currentProject.description}</p>
-              <div className="flex gap-2 mt-4">
-                <Badge variant="outline">{currentProject.source.label}</Badge>
-                <span>→</span>
-                <Badge variant="outline">{currentProject.target.label}</Badge>
-              </div>
-              {currentProject.progress && (
-                <div className="mt-4">
-                  <div className="flex justify-between text-sm text-muted-foreground mb-2">
-                    <span>Progress</span>
-                    <span>{currentProject.progress.processed_count} verses translated</span>
-                  </div>
-                  <Progress value={currentProject.progress.processed_count / 10} />
-                  <p className="text-sm text-muted-foreground mt-2">
-                    Last processed: {currentProject.progress.last_processed_id}
-                  </p>
-                </div>
-              )}
-            </CardContent>
-          </Card>
-        )}
-        
-        {error && (
-          <Card className="mb-4 bg-destructive/10">
-            <CardContent className="p-4">
-              <p className="text-destructive">{error}</p>
-            </CardContent>
-          </Card>
-        )}
-        
-        <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
-          <Card>
-            <CardHeader>
-              <CardTitle>Statistics</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <p className="text-sm text-muted-foreground">Total Translations</p>
-                  <p className="text-2xl font-bold">{translations.length}</p>
-                </div>
-                <div>
-                  <p className="text-sm text-muted-foreground">Average Time</p>
-                  <p className="text-2xl font-bold">
-                    {(translations.reduce((acc, t) => acc + t.translation_time, 0) / translations.length || 0).toFixed(2)}s
-                  </p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-          
-          <Card>
-            <CardHeader>
-              <CardTitle>Latest Translation</CardTitle>
-            </CardHeader>
-            <CardContent>
-              {translations[0] && (
-                <div>
-                  <p className="text-sm text-muted-foreground">ID</p>
-                  <p className="font-medium">{translations[0].id}</p>
-                  <p className="text-sm text-muted-foreground mt-2">Time</p>
-                  <p className="font-medium">{translations[0].translation_time.toFixed(2)}s</p>
-                </div>
-              )}
-            </CardContent>
-          </Card>
-        </div>
-        
-        <ScrollArea className="h-[600px] mt-8 rounded-lg border">
-          <div className="p-4">
-            {translations.map((translation, index) => (
-              <TranslationCard key={`${translation.id}-${index}`} translation={translation} />
-            ))}
-          </div>
-        </ScrollArea>
+    <div className="container mx-auto p-4 max-w-7xl">
+      <h1 className="text-3xl font-bold mb-6">Bible Translation Projects</h1>
+      
+      <div className="flex flex-col gap-4">
+        <Input
+          placeholder="Search by language code or name..."
+          value={searchQuery}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchQuery(e.target.value)}
+          className="max-w-md"
+        />
+        <Separator />
       </div>
-    </div>
-  )
-}
 
-export default App
+      <ScrollArea className="h-[calc(100vh-16rem)] pr-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {filteredScenarios.length === 0 ? (
+            <p className="text-muted-foreground">
+              {scenarios.length === 0
+                ? 'No translation projects found'
+                : 'No matches found for your search'}
+            </p>
+          ) : (
+            filteredScenarios.map((scenario) => (
+              <Card
+                key={scenario.id}
+                className={cn(
+                  'transition-all hover:shadow-lg cursor-pointer',
+                  'border-2 hover:border-primary',
+                )}
+              >
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <span className="text-primary">{scenario.source_lang}</span>
+                    <span className="text-muted-foreground">→</span>
+                    <span className="text-primary">{scenario.target_lang}</span>
+                  </CardTitle>
+                  <CardDescription>
+                    <div className="font-medium">{scenario.source_label}</div>
+                    <div className="text-muted-foreground">to</div>
+                    <div className="font-medium">{scenario.target_label}</div>
+                  </CardDescription>
+                </CardHeader>
+              </Card>
+            ))
+          )}
+        </div>
+      </ScrollArea>
+    </div>
+  );
+};
+
+export default App;

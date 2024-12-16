@@ -438,7 +438,9 @@ const TranslationView = () => {
   // Update URL when chapter changes
   useEffect(() => {
     if (currentChapter) {
-      const newPath = `/translation/${id}/${currentChapter.book}/${currentChapter.chapterNum}`;
+      const newPath = `/translation/${id}/${encodeURIComponent(
+        currentChapter.book,
+      )}/${currentChapter.chapterNum}`;
       navigate(newPath, { replace: true });
     }
   }, [currentChapter, id, navigate]);

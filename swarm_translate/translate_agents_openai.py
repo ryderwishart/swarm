@@ -82,6 +82,7 @@ def is_complete_thought(text: str) -> bool:
 
 def batch_translations(translations: List[Dict], scenario: TranslationScenario, qa_bot: Agent, swarm_client: Swarm) -> str:
     """Combine multiple translations into a cohesive paragraph."""
+    # Only use the translations from the current batch
     originals = [t["original"] for t in translations]
     translated = [t["translation"] for t in translations]
     
@@ -89,14 +90,16 @@ def batch_translations(translations: List[Dict], scenario: TranslationScenario, 
         agent=qa_bot,
         messages=[{
             "role": "user",
-            "content": f"""Combine these translations into natural, flowing {scenario.target_label} text.
-            Maintain the meaning and style while ensuring the translations connect smoothly.
+            "content": f"""Combine ONLY these {len(translations)} translations into natural, flowing {scenario.target_label} text.
+            Do not repeat or include any previous verses. Only combine these specific verses:
             
             Original {scenario.source_label} texts:
             {' '.join(originals)}
             
             Individual translations:
-            {' '.join(translated)}"""
+            {' '.join(translated)}
+            
+            Important: Return ONLY the combined translation of these specific verses, without including any previous verses."""
         }]
     )
     
@@ -339,17 +342,20 @@ def process_input_file(scenario: TranslationScenario):
                 current_batch, 
                 scenario, 
                 qa_bot,
-                swarm_client  # Pass the swarm_client
+                swarm_client
             )
             
-            # Update the last translation in the batch with the combined version
-            for j, translation in enumerate(current_batch):
-                if j == len(current_batch) - 1:
-                    translation["translation"] = combined_translation
-                
-                # Write to output file
+            # Write all translations except the last one as-is
+            for j, translation in enumerate(current_batch[:-1]):
                 with open(output_path, 'a', encoding='utf-8') as f:
                     f.write(json.dumps(translation, ensure_ascii=False) + '\n')
+            
+            # Update only the last translation with the combined version
+            if current_batch:
+                last_translation = current_batch[-1].copy()
+                last_translation["translation"] = combined_translation
+                with open(output_path, 'a', encoding='utf-8') as f:
+                    f.write(json.dumps(last_translation, ensure_ascii=False) + '\n')
             
             # Clear the batch
             current_batch = []

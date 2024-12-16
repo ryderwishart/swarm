@@ -8,7 +8,9 @@ import os
 from dotenv import load_dotenv
 
 # Load environment variables from parent directory
-load_dotenv(Path(__file__).parent.parent / '.env')
+load_dotenv()
+
+print('Has OPENAI_API_KEY:', os.getenv('OPENAI_API_KEY') is not None)
 
 def normalize_text(text: str) -> str:
     """Normalize text by removing extra spaces, standardizing quotes, and articles."""
@@ -41,7 +43,7 @@ Current French translation (may contain duplicates):
 Previous verses' translations (for reference):
 {' '.join(prev_translations)}
 
-Return ONLY the corrected French translation with duplicates removed. Do not include any explanations."""
+Return ONLY the corrected French translation with duplicates removed. Seamlessly subtract the previous verses' translations from the current translation. Do not include any explanations."""
         }],
         temperature=0.3,
     )
@@ -61,7 +63,6 @@ def clean_translations(file_path: Path):
     with open(file_path, 'r', encoding='utf-8') as f:
         lines = [json.loads(line) for line in f if line.strip()]
     
-    cleaned_lines = []
     window_size = 6
     number_of_llm_calls = 0
     
@@ -91,12 +92,12 @@ def clean_translations(file_path: Path):
             except Exception as e:
                 print(f"Error fixing translation: {e}")
         
-        cleaned_lines.append(current_line)
-    
-    # Write cleaned lines back to the same file
-    with open(file_path, 'w', encoding='utf-8') as f:
-        for line in cleaned_lines:
-            f.write(json.dumps(line, ensure_ascii=False) + '\n')
+        lines[i] = current_line
+        
+        # Write updated lines back to file after each iteration
+        with open(file_path, 'w', encoding='utf-8') as f:
+            for line in lines:
+                f.write(json.dumps(line, ensure_ascii=False) + '\n')
     
     print(f"Total LLM calls: {number_of_llm_calls}")
 

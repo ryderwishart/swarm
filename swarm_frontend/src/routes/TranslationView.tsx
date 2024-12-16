@@ -5,6 +5,7 @@ import { ArrowLeft, ChevronLeft, ChevronRight } from 'lucide-react';
 import { ScrollArea } from '../components/ui/scroll-area';
 import { Card, CardContent } from '../components/ui/card';
 import type { Scenario } from '../types';
+import { Input } from '../components/ui/input';
 
 interface Translation {
   source_lang: string;
@@ -24,6 +25,12 @@ interface Chapter {
   translations: Translation[];
 }
 
+interface ChapterMap {
+  [book: string]: {
+    [chapter: string]: Translation[];
+  };
+}
+
 const TranslationView = () => {
   const { id } = useParams<{ id: string }>();
   const location = useLocation();
@@ -33,10 +40,21 @@ const TranslationView = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [readerPosition, setReaderPosition] = useState<number>(0);
+  const [chapterInput, setChapterInput] = useState('1');
+  const [currentBook, setCurrentBook] = useState<string>('');
+  const [currentChapterNum, setCurrentChapterNum] = useState(1);
+  const [chapterMap, setChapterMap] = useState<ChapterMap>({});
+  const [availableChapters, setAvailableChapters] = useState<
+    Array<{ book: string; chapter: number }>
+  >([]);
 
-  const getChapterFromId = (verseId: string): string => {
-    const parts = verseId.split(':');
-    return parts[0]; // "Genesis 1:1" -> "Genesis 1"
+  const getBookAndChapterFromId = (verseId: string) => {
+    const match = verseId.match(/^(.*?)\s+(\d+):/);
+    if (!match) return null;
+    return {
+      book: match[1],
+      chapter: match[2],
+    };
   };
 
   const loadChapter = useCallback(
@@ -49,6 +67,7 @@ const TranslationView = () => {
       let buffer = '';
       let currentChapter: Chapter | null = null;
       let bytesRead = 0;
+      let currentChapterInfo = null;
 
       // Skip to the start position if needed
       while (bytesRead < startPosition) {
@@ -74,20 +93,29 @@ const TranslationView = () => {
 
           try {
             const translation = JSON.parse(line) as Translation;
-            const chapterName = getChapterFromId(translation.id);
+            const verseInfo = getBookAndChapterFromId(translation.id);
+
+            if (!verseInfo) continue;
 
             if (!currentChapter) {
-              currentChapter = { name: chapterName, translations: [] };
-            } else if (chapterName !== currentChapter.name) {
+              currentChapterInfo = verseInfo;
+              currentChapter = {
+                name: `${verseInfo.book} ${verseInfo.chapter}`,
+                translations: [translation],
+              };
+            } else if (
+              verseInfo.book !== currentChapterInfo?.book ||
+              verseInfo.chapter !== currentChapterInfo?.chapter
+            ) {
               // We've hit a new chapter
               reader.releaseLock();
               return {
                 chapter: currentChapter,
                 endPosition: bytesRead - buffer.length - line.length - 1,
               };
+            } else {
+              currentChapter.translations.push(translation);
             }
-
-            currentChapter.translations.push(translation);
           } catch (err) {
             console.error('Error parsing line:', err);
           }
@@ -100,18 +128,104 @@ const TranslationView = () => {
     [],
   );
 
+  const parseChapterInfo = (chapterName: string) => {
+    // "Genesis 1" -> { book: "Genesis", chapter: 1 }
+    const match = chapterName.match(/^(.*?)\s*(\d+)$/);
+    if (match) {
+      return {
+        book: match[1].trim(),
+        chapter: parseInt(match[2], 10),
+      };
+    }
+    return null;
+  };
+
+  const jumpToChapter = (targetChapter: number) => {
+    if (!currentBook || targetChapter < 1) return;
+
+    if (chapterMap[currentBook]?.[targetChapter]) {
+      const chapterContent = chapterMap[currentBook][targetChapter];
+
+      // Check if we already have this chapter loaded
+      const existingIndex = chapters.findIndex((ch) => {
+        const info = getBookAndChapterFromId(ch.translations[0].id);
+        return (
+          info?.book === currentBook && parseInt(info.chapter) === targetChapter
+        );
+      });
+
+      if (existingIndex !== -1) {
+        setCurrentChapterIndex(existingIndex);
+      } else {
+        setChapters((prev) => [
+          ...prev,
+          {
+            name: `${currentBook} ${targetChapter}`,
+            translations: chapterContent,
+          },
+        ]);
+        setCurrentChapterIndex(chapters.length);
+      }
+      setCurrentChapterNum(targetChapter);
+    } else {
+      setError(`Chapter ${targetChapter} not found in ${currentBook}`);
+    }
+  };
+
   useEffect(() => {
     const loadTranslations = async () => {
       try {
+        setLoading(true);
         const response = await fetch(`/${scenario.filename}`);
         if (!response.ok) {
           throw new Error('Failed to fetch translations');
         }
 
-        const { chapter, endPosition } = await loadChapter(response);
-        if (chapter) {
-          setChapters([chapter]);
-          setReaderPosition(endPosition);
+        const text = await response.text();
+        const lines = text.split('\n');
+        const chaptersMap: ChapterMap = {};
+        const chapters: Array<{ book: string; chapter: number }> = [];
+
+        for (const line of lines) {
+          if (!line.trim()) continue;
+
+          try {
+            const translation = JSON.parse(line) as Translation;
+            const verseInfo = getBookAndChapterFromId(translation.id);
+
+            if (!verseInfo) continue;
+
+            const { book, chapter } = verseInfo;
+
+            if (!chaptersMap[book]) {
+              chaptersMap[book] = {};
+            }
+            if (!chaptersMap[book][chapter]) {
+              chaptersMap[book][chapter] = [];
+              chapters.push({ book, chapter: parseInt(chapter) });
+            }
+
+            chaptersMap[book][chapter].push(translation);
+          } catch (err) {
+            console.error('Error parsing line:', err);
+          }
+        }
+
+        setChapterMap(chaptersMap);
+        setAvailableChapters(chapters);
+
+        // Set initial chapter
+        const firstChapter = chapters[0];
+        if (firstChapter) {
+          setCurrentBook(firstChapter.book);
+          setCurrentChapterNum(firstChapter.chapter);
+          setChapters([
+            {
+              name: `${firstChapter.book} ${firstChapter.chapter}`,
+              translations:
+                chaptersMap[firstChapter.book][firstChapter.chapter],
+            },
+          ]);
         }
 
         setLoading(false);
@@ -125,31 +239,27 @@ const TranslationView = () => {
     if (scenario) {
       loadTranslations();
     }
-  }, [scenario, loadChapter]);
+  }, [scenario]);
 
-  const loadNextChapter = async () => {
-    if (loading) return;
+  const loadNextChapter = () => {
+    const currentIndex = availableChapters.findIndex(
+      (ch) => ch.book === currentBook && ch.chapter === currentChapterNum,
+    );
 
-    try {
-      setLoading(true);
-      const response = await fetch(`/${scenario.filename}`);
-      if (!response.ok) throw new Error('Failed to fetch translations');
+    if (currentIndex < availableChapters.length - 1) {
+      const nextChapter = availableChapters[currentIndex + 1];
+      const chapterContent = chapterMap[nextChapter.book][nextChapter.chapter];
 
-      const { chapter, endPosition } = await loadChapter(
-        response,
-        readerPosition,
-      );
-
-      if (chapter) {
-        setChapters((prev) => [...prev, chapter]);
-        setCurrentChapterIndex((prev) => prev + 1);
-        setReaderPosition(endPosition);
-      }
-    } catch (err) {
-      console.error('Error loading next chapter:', err);
-      setError('Failed to load next chapter');
-    } finally {
-      setLoading(false);
+      setCurrentBook(nextChapter.book);
+      setCurrentChapterNum(nextChapter.chapter);
+      setChapters((prev) => [
+        ...prev,
+        {
+          name: `${nextChapter.book} ${nextChapter.chapter}`,
+          translations: chapterContent,
+        },
+      ]);
+      setCurrentChapterIndex((prev) => prev + 1);
     }
   };
 
@@ -211,15 +321,37 @@ const TranslationView = () => {
 
       {currentChapter && (
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-xl font-semibold">{currentChapter.name}</h2>
+          <div className="flex items-center gap-4">
+            <h2 className="text-xl font-semibold">{currentChapter.name}</h2>
+            <div className="flex items-center gap-2">
+              <Input
+                type="number"
+                value={chapterInput}
+                onChange={(e) => setChapterInput(e.target.value)}
+                className="w-20"
+                min="1"
+              />
+              <Button
+                variant="secondary"
+                size="sm"
+                onClick={() => jumpToChapter(parseInt(chapterInput, 10))}
+                disabled={loading}
+              >
+                Go
+              </Button>
+            </div>
+          </div>
           <div className="flex gap-2">
             <Button
               variant="outline"
               size="sm"
-              onClick={() =>
-                setCurrentChapterIndex((prev) => Math.max(0, prev - 1))
-              }
-              disabled={currentChapterIndex === 0}
+              onClick={() => {
+                const prevChapter = currentChapterNum - 1;
+                if (prevChapter >= 1) {
+                  jumpToChapter(prevChapter);
+                }
+              }}
+              disabled={currentChapterNum <= 1}
             >
               <ChevronLeft className="h-4 w-4" />
               Previous

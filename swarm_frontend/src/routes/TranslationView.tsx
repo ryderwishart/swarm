@@ -6,6 +6,7 @@ import { ScrollArea } from '../components/ui/scroll-area';
 import { Card, CardContent } from '../components/ui/card';
 import type { Scenario } from '../types';
 import { Input } from '../components/ui/input';
+import { cn } from '../lib/utils';
 
 interface Translation {
   source_lang: string;
@@ -48,6 +49,8 @@ const TranslationView = () => {
     Array<{ book: string; chapter: number }>
   >([]);
   const [showSource, setShowSource] = useState(false);
+  const [showAllSource, setShowAllSource] = useState(false);
+  const [expandedVerses, setExpandedVerses] = useState<Set<string>>(new Set());
 
   const getBookAndChapterFromId = (verseId: string) => {
     const match = verseId.match(/^(.*?)\s+(\d+):/);
@@ -269,6 +272,25 @@ const TranslationView = () => {
     return match ? match[1] : '';
   };
 
+  const toggleVerse = (verseId: string) => {
+    setExpandedVerses((prev) => {
+      const next = new Set(prev);
+      if (next.has(verseId)) {
+        next.delete(verseId);
+      } else {
+        next.add(verseId);
+      }
+      return next;
+    });
+  };
+
+  const toggleAllSource = () => {
+    setShowAllSource((prev) => !prev);
+    if (!showAllSource) {
+      setExpandedVerses(new Set());
+    }
+  };
+
   if (!scenario) {
     return (
       <div className="container mx-auto p-4">
@@ -380,17 +402,27 @@ const TranslationView = () => {
           <Button
             variant="ghost"
             size="sm"
-            onClick={() => setShowSource(!showSource)}
+            onClick={toggleAllSource}
             className="text-muted-foreground"
           >
-            {showSource ? 'Hide' : 'Show'} original text
+            {showAllSource ? 'Hide all' : 'Show all'} original text
           </Button>
         </div>
         <div className="space-y-6 pr-4">
           {currentChapter?.translations.map((item) => (
-            <div key={item.id} className="group relative space-y-2 py-2">
-              {showSource && (
-                <p className="text-muted-foreground text-lg">{item.original}</p>
+            <div
+              key={item.id}
+              onClick={() => toggleVerse(item.id)}
+              className={cn(
+                'group relative space-y-2 py-2 px-3 -mx-3 rounded-lg cursor-pointer',
+                'transition-colors duration-200',
+                'hover:bg-muted/50',
+              )}
+            >
+              {(showAllSource || expandedVerses.has(item.id)) && (
+                <p className="text-muted-foreground text-lg font-medium">
+                  {item.original}
+                </p>
               )}
               <p className="text-lg">
                 <sup className="text-xs font-medium text-muted-foreground mr-2">

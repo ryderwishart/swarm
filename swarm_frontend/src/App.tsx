@@ -12,6 +12,7 @@ import { Separator } from './components/ui/separator';
 import { Input } from './components/ui/input';
 import { cn } from './lib/utils';
 import { InfoIcon } from 'lucide-react';
+import { SEO } from './components/SEO';
 
 interface Scenario {
   id: string;
@@ -76,18 +77,21 @@ const App = () => {
             </CardTitle>
           </CardHeader>
           <CardContent className="text-sm text-blue-700 dark:text-blue-300">
-            Our goal is to release all of these translations into the public
-            domain. All rights reserved until novelty verified (coming soon!).
-            <br />
-            Please check our{' '}
-            <a
-              href="https://frontierrnd.com/policy"
-              target="_blank"
-              className="underline hover:text-blue-900 dark:hover:text-blue-100"
-            >
-              copyright policy
-            </a>
-            .
+            <p>
+              Our goal is to release all of these translations into the public
+              domain. All rights reserved until novelty verified (coming soon!).
+            </p>
+            <p>
+              Please check our{' '}
+              <a
+                href="https://frontierrnd.com/policy"
+                target="_blank"
+                className="underline hover:text-blue-900 dark:hover:text-blue-100"
+              >
+                copyright policy
+              </a>
+              .
+            </p>
           </CardContent>
         </Card>
       </div>
@@ -95,79 +99,86 @@ const App = () => {
   };
 
   return (
-    <div className="min-h-screen bg-muted/30 py-8">
-      <Card className="container mx-auto max-w-4xl shadow-lg">
-        <CardHeader className="space-y-1">
-          <CardTitle className="text-2xl">Bible Translation Projects</CardTitle>
-          <CardDescription>
-            Select a translation project to review and read
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <CopyrightStatement />
-          <div className="flex flex-col gap-4">
-            <Input
-              placeholder="Search by language code or name..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="max-w-md"
-            />
-            <Separator className="my-2" />
-            <ScrollArea className="h-[calc(100vh-20rem)] pr-4">
-              <div className="grid grid-cols-1 gap-4">
-                {filteredScenarios.length === 0 ? (
-                  <p className="text-muted-foreground py-4">
-                    {scenarios.length === 0
-                      ? 'No translation projects found'
-                      : 'No matches found for your search'}
-                  </p>
-                ) : (
-                  filteredScenarios.map((scenario) => (
-                    <Card
-                      key={scenario.id}
-                      className={cn(
-                        'transition-all hover:shadow-md cursor-pointer',
-                        'border hover:border-primary/50',
-                        'bg-card/50 hover:bg-card',
-                      )}
-                      onClick={() => handleScenarioClick(scenario)}
-                    >
-                      <CardHeader className="p-4">
-                        <div className="flex items-center justify-between">
-                          <div className="space-y-1">
-                            <CardTitle className="flex items-center gap-2 text-lg">
-                              <span className="font-medium text-primary">
-                                {scenario.source_label}
-                              </span>
-                              <span className="text-muted-foreground">→</span>
-                              <span className="font-medium text-primary">
-                                {scenario.target_label}
-                              </span>
-                            </CardTitle>
-                            <CardDescription className="flex items-center gap-2 text-xs">
-                              <code className="px-1 py-0.5 rounded bg-muted">
-                                {scenario.source_lang}
-                              </code>
-                              <span className="text-muted-foreground">to</span>
-                              <code className="px-1 py-0.5 rounded bg-muted">
-                                {scenario.target_lang}
-                              </code>
-                            </CardDescription>
+    <>
+      <SEO />
+      <div className="min-h-screen bg-muted/30 py-8">
+        <Card className="container mx-auto max-w-4xl shadow-lg">
+          <CardHeader className="space-y-1">
+            <CardTitle className="text-2xl">
+              Bible Translation Projects
+            </CardTitle>
+            <CardDescription>
+              Select a translation project to review and read
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <CopyrightStatement />
+            <div className="flex flex-col gap-4">
+              <Input
+                placeholder="Search by language code or name..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="max-w-md"
+              />
+              <Separator className="my-2" />
+              <ScrollArea className="h-[calc(100vh-20rem)] pr-4">
+                <div className="grid grid-cols-1 gap-4">
+                  {filteredScenarios.length === 0 ? (
+                    <p className="text-muted-foreground py-4">
+                      {scenarios.length === 0
+                        ? 'No translation projects found'
+                        : 'No matches found for your search'}
+                    </p>
+                  ) : (
+                    filteredScenarios.map((scenario) => (
+                      <Card
+                        key={scenario.id}
+                        className={cn(
+                          'transition-all hover:shadow-md cursor-pointer',
+                          'border hover:border-primary/50',
+                          'bg-card/50 hover:bg-card',
+                        )}
+                        onClick={() => handleScenarioClick(scenario)}
+                      >
+                        <CardHeader className="p-4">
+                          <div className="flex items-center justify-between">
+                            <div className="space-y-1">
+                              <CardTitle className="flex items-center gap-2 text-lg">
+                                <span className="font-medium text-primary">
+                                  {scenario.source_label}
+                                </span>
+                                <span className="text-muted-foreground">→</span>
+                                <span className="font-medium text-primary">
+                                  {scenario.target_label}
+                                </span>
+                              </CardTitle>
+                              <CardDescription className="flex items-center gap-2 text-xs">
+                                <code className="px-1 py-0.5 rounded bg-muted">
+                                  {scenario.source_lang}
+                                </code>
+                                <span className="text-muted-foreground">
+                                  to
+                                </span>
+                                <code className="px-1 py-0.5 rounded bg-muted">
+                                  {scenario.target_lang}
+                                </code>
+                              </CardDescription>
+                            </div>
+                            <div className="text-muted-foreground/50 hover:text-primary transition-colors">
+                              →
+                            </div>
                           </div>
-                          <div className="text-muted-foreground/50 hover:text-primary transition-colors">
-                            →
-                          </div>
-                        </div>
-                      </CardHeader>
-                    </Card>
-                  ))
-                )}
-              </div>
-            </ScrollArea>
-          </div>
-        </CardContent>
-      </Card>
-    </div>
+                        </CardHeader>
+                      </Card>
+                    ))
+                  )}
+                </div>
+              </ScrollArea>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    </>
   );
 };
 

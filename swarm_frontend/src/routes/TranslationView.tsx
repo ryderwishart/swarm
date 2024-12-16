@@ -18,6 +18,7 @@ import {
   PopoverTrigger,
 } from '../components/ui/popover';
 import { Command, CommandGroup } from '../components/ui/command';
+import { SEO } from '../components/SEO';
 
 interface Translation {
   source_lang: string;
@@ -487,199 +488,207 @@ const TranslationView = () => {
   }
 
   return (
-    <div className="container mx-auto p-3">
-      <div className="flex items-center gap-3 mb-4">
-        <Link to="/">
-          <Button variant="ghost" size="icon" className="h-8 w-8">
-            <ArrowLeft className="h-4 w-4 text-foreground" />
-          </Button>
-        </Link>
-        <h1 className="text-xl font-bold">
-          {scenario.source_label} → {scenario.target_label}
-        </h1>
-      </div>
+    <>
+      <SEO
+        title={`${scenario.source_label} → ${scenario.target_label}`}
+        description={`AI-First Bible Translations`}
+      />
+      <div className="container mx-auto p-3">
+        <div className="flex items-center gap-3 mb-4">
+          <Link to="/">
+            <Button variant="ghost" size="icon" className="h-8 w-8">
+              <ArrowLeft className="h-4 w-4 text-foreground" />
+            </Button>
+          </Link>
+          <h1 className="text-xl font-bold">
+            {scenario.source_label} → {scenario.target_label}
+          </h1>
+        </div>
 
-      {currentChapter && (
-        <div className="flex items-center justify-between mb-3">
-          <div className="flex items-center gap-3">
-            <Popover open={isOpen} onOpenChange={setIsOpen}>
-              <PopoverTrigger asChild>
-                <Button variant="outline" size="sm" className="h-7 gap-1">
-                  <LayoutGridIcon className="h-3 w-3 text-foreground" />
-                  <ChevronDown className="h-3 w-3 text-foreground" />
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent className="p-0 w-[300px]" align="start">
-                <Command>
-                  {!selectedBook ? (
-                    <>
-                      <div className="p-2">
-                        <input
-                          className="w-full px-2 py-1 text-sm border rounded"
-                          placeholder="Search books..."
-                          value={searchQuery}
-                          onChange={(e) => setSearchQuery(e.target.value)}
-                        />
-                      </div>
-                      <CommandGroup>
-                        <div className="max-h-[400px] overflow-y-auto">
-                          {Object.entries(BOOK_GROUPS).map(([group, books]) => {
-                            const availableBooks = books.filter(
-                              (book) =>
-                                navigation.books.includes(book) &&
-                                book
-                                  .toLowerCase()
-                                  .includes(searchQuery.toLowerCase()),
-                            );
+        {currentChapter && (
+          <div className="flex items-center justify-between mb-3">
+            <div className="flex items-center gap-3">
+              <Popover open={isOpen} onOpenChange={setIsOpen}>
+                <PopoverTrigger asChild>
+                  <Button variant="outline" size="sm" className="h-7 gap-1">
+                    <LayoutGridIcon className="h-3 w-3 text-foreground" />
+                    <ChevronDown className="h-3 w-3 text-foreground" />
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="p-0 w-[300px]" align="start">
+                  <Command>
+                    {!selectedBook ? (
+                      <>
+                        <div className="p-2">
+                          <input
+                            className="w-full px-2 py-1 text-sm border rounded"
+                            placeholder="Search books..."
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                          />
+                        </div>
+                        <CommandGroup>
+                          <div className="max-h-[400px] overflow-y-auto">
+                            {Object.entries(BOOK_GROUPS).map(
+                              ([group, books]) => {
+                                const availableBooks = books.filter(
+                                  (book) =>
+                                    navigation.books.includes(book) &&
+                                    book
+                                      .toLowerCase()
+                                      .includes(searchQuery.toLowerCase()),
+                                );
 
-                            if (availableBooks.length === 0) return null;
+                                if (availableBooks.length === 0) return null;
 
-                            return (
-                              <div key={group} className="px-2 py-1">
-                                <div className="text-xs font-medium text-muted-foreground mb-1">
-                                  {group}
-                                </div>
-                                <div className="grid grid-cols-2 gap-1">
-                                  {availableBooks.map((book) => (
-                                    <Button
-                                      key={book}
-                                      variant={
-                                        currentChapter?.book === book
-                                          ? 'default'
-                                          : 'ghost'
-                                      }
-                                      size="sm"
-                                      className="h-7 justify-start text-left text-sm"
-                                      onClick={() => setSelectedBook(book)}
-                                    >
-                                      {book}
-                                    </Button>
-                                  ))}
-                                </div>
-                              </div>
-                            );
-                          })}
+                                return (
+                                  <div key={group} className="px-2 py-1">
+                                    <div className="text-xs font-medium text-muted-foreground mb-1">
+                                      {group}
+                                    </div>
+                                    <div className="grid grid-cols-2 gap-1">
+                                      {availableBooks.map((book) => (
+                                        <Button
+                                          key={book}
+                                          variant={
+                                            currentChapter?.book === book
+                                              ? 'default'
+                                              : 'ghost'
+                                          }
+                                          size="sm"
+                                          className="h-7 justify-start text-left text-sm"
+                                          onClick={() => setSelectedBook(book)}
+                                        >
+                                          {book}
+                                        </Button>
+                                      ))}
+                                    </div>
+                                  </div>
+                                );
+                              },
+                            )}
+                          </div>
+                        </CommandGroup>
+                      </>
+                    ) : (
+                      <CommandGroup heading={selectedBook}>
+                        <div className="p-2">
+                          <div className="flex items-center gap-2 mb-2">
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              className="h-8"
+                              onClick={() => setSelectedBook(null)}
+                            >
+                              <ChevronLeft className="h-4 w-4 text-foreground" />
+                              Back to Books
+                            </Button>
+                          </div>
+                          <div className="grid grid-cols-8 gap-1">
+                            {navigation.bookChapters[selectedBook]?.map(
+                              (chapter) => (
+                                <Button
+                                  key={`${selectedBook}-${chapter}`}
+                                  variant={
+                                    currentChapter?.book === selectedBook &&
+                                    currentChapter?.chapterNum === chapter
+                                      ? 'default'
+                                      : 'ghost'
+                                  }
+                                  size="sm"
+                                  className="h-8"
+                                  onClick={() => {
+                                    jumpToChapter(selectedBook, chapter);
+                                    setIsOpen(false);
+                                    setSelectedBook(null);
+                                  }}
+                                >
+                                  {chapter}
+                                </Button>
+                              ),
+                            )}
+                          </div>
                         </div>
                       </CommandGroup>
-                    </>
-                  ) : (
-                    <CommandGroup heading={selectedBook}>
-                      <div className="p-2">
-                        <div className="flex items-center gap-2 mb-2">
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            className="h-8"
-                            onClick={() => setSelectedBook(null)}
-                          >
-                            <ChevronLeft className="h-4 w-4 text-foreground" />
-                            Back to Books
-                          </Button>
-                        </div>
-                        <div className="grid grid-cols-8 gap-1">
-                          {navigation.bookChapters[selectedBook]?.map(
-                            (chapter) => (
-                              <Button
-                                key={`${selectedBook}-${chapter}`}
-                                variant={
-                                  currentChapter?.book === selectedBook &&
-                                  currentChapter?.chapterNum === chapter
-                                    ? 'default'
-                                    : 'ghost'
-                                }
-                                size="sm"
-                                className="h-8"
-                                onClick={() => {
-                                  jumpToChapter(selectedBook, chapter);
-                                  setIsOpen(false);
-                                  setSelectedBook(null);
-                                }}
-                              >
-                                {chapter}
-                              </Button>
-                            ),
-                          )}
-                        </div>
-                      </div>
-                    </CommandGroup>
-                  )}
-                </Command>
-              </PopoverContent>
-            </Popover>
-          </div>
-          <div className="flex items-center gap-1">
-            <h2 className="text-lg font-semibold">
-              {currentChapter.book} {currentChapter.chapterNum}
-            </h2>
-          </div>
-          <div className="flex gap-1">
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() =>
-                jumpToChapter(
-                  currentChapter.book,
-                  currentChapter.chapterNum - 1,
-                )
-              }
-              disabled={currentChapter.chapterNum <= 1}
-              className="h-7"
-            >
-              <ChevronLeft className="h-4 w-4 text-foreground" />
-              Previous
-            </Button>
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={loadNextChapter}
-              disabled={loading}
-              className="h-7"
-            >
-              Next
-              <ChevronRight className="h-4 w-4 text-foreground" />
-            </Button>
-          </div>
-        </div>
-      )}
-
-      <ScrollArea className="h-[calc(100vh-8rem)]">
-        <div className="flex justify-end mb-2">
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={toggleAllSource}
-            className="text-muted-foreground h-7 text-xs"
-          >
-            {showAllSource ? 'Hide all' : 'Show all'} original text
-          </Button>
-        </div>
-        <div className="space-y-3 pr-3">
-          {currentChapter?.translations.map((item: VerseInstance) => (
-            <div
-              key={item.instanceId}
-              onClick={() => toggleVerse(item.id)}
-              className={cn(
-                'group relative py-1 px-2 -mx-2 rounded cursor-pointer',
-                'transition-colors duration-200',
-                'hover:bg-muted/50',
-              )}
-            >
-              {(showAllSource || expandedVerses.has(item.id)) && (
-                <p className="text-muted-foreground text-base mb-1">
-                  {item.original}
-                </p>
-              )}
-              <p className="text-base">
-                <sup className="text-xs font-medium text-muted-foreground mr-1">
-                  {getVerseNumber(item.id)}
-                </sup>
-                {item.translation}
-              </p>
+                    )}
+                  </Command>
+                </PopoverContent>
+              </Popover>
             </div>
-          ))}
-        </div>
-      </ScrollArea>
-    </div>
+            <div className="flex items-center gap-1">
+              <h2 className="text-lg font-semibold">
+                {currentChapter.book} {currentChapter.chapterNum}
+              </h2>
+            </div>
+            <div className="flex gap-1">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() =>
+                  jumpToChapter(
+                    currentChapter.book,
+                    currentChapter.chapterNum - 1,
+                  )
+                }
+                disabled={currentChapter.chapterNum <= 1}
+                className="h-7"
+              >
+                <ChevronLeft className="h-4 w-4 text-foreground" />
+                Previous
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={loadNextChapter}
+                disabled={loading}
+                className="h-7"
+              >
+                Next
+                <ChevronRight className="h-4 w-4 text-foreground" />
+              </Button>
+            </div>
+          </div>
+        )}
+
+        <ScrollArea className="h-[calc(100vh-8rem)]">
+          <div className="flex justify-end mb-2">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={toggleAllSource}
+              className="text-muted-foreground h-7 text-xs"
+            >
+              {showAllSource ? 'Hide all' : 'Show all'} original text
+            </Button>
+          </div>
+          <div className="space-y-3 pr-3">
+            {currentChapter?.translations.map((item: VerseInstance) => (
+              <div
+                key={item.instanceId}
+                onClick={() => toggleVerse(item.id)}
+                className={cn(
+                  'group relative py-1 px-2 -mx-2 rounded cursor-pointer',
+                  'transition-colors duration-200',
+                  'hover:bg-muted/50',
+                )}
+              >
+                {(showAllSource || expandedVerses.has(item.id)) && (
+                  <p className="text-muted-foreground text-base mb-1">
+                    {item.original}
+                  </p>
+                )}
+                <p className="text-base">
+                  <sup className="text-xs font-medium text-muted-foreground mr-1">
+                    {getVerseNumber(item.id)}
+                  </sup>
+                  {item.translation}
+                </p>
+              </div>
+            ))}
+          </div>
+        </ScrollArea>
+      </div>
+    </>
   );
 };
 

@@ -1,12 +1,21 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import { useParams, useLocation, Link } from 'react-router-dom';
 import { Button } from '../components/ui/button';
-import { ArrowLeft, ChevronLeft, ChevronRight } from 'lucide-react';
+import {
+  ArrowLeft,
+  ChevronLeft,
+  ChevronRight,
+  ChevronDown,
+} from 'lucide-react';
 import { ScrollArea } from '../components/ui/scroll-area';
-import { Card, CardContent } from '../components/ui/card';
 import type { Scenario } from '../types';
-import { Input } from '../components/ui/input';
 import { cn } from '../lib/utils';
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '../components/ui/popover';
+import { Command, CommandGroup } from '../components/ui/command';
 
 interface Translation {
   source_lang: string;
@@ -32,6 +41,23 @@ interface ChapterMap {
   };
 }
 
+interface BookChapters {
+  [book: string]: number[];
+}
+
+const organizeChaptersByBook = (
+  availableChapters: Array<{ book: string; chapter: number }>,
+): BookChapters => {
+  const books: BookChapters = {};
+  availableChapters.forEach(({ book, chapter }) => {
+    if (!books[book]) {
+      books[book] = [];
+    }
+    books[book].push(chapter);
+  });
+  return books;
+};
+
 const TranslationView = () => {
   const { id } = useParams<{ id: string }>();
   const location = useLocation();
@@ -51,6 +77,12 @@ const TranslationView = () => {
   const [showSource, setShowSource] = useState(false);
   const [showAllSource, setShowAllSource] = useState(false);
   const [expandedVerses, setExpandedVerses] = useState<Set<string>>(new Set());
+  const [isOpen, setIsOpen] = useState(false);
+
+  const books = useMemo(
+    () => organizeChaptersByBook(availableChapters),
+    [availableChapters],
+  );
 
   const getBookAndChapterFromId = (verseId: string) => {
     const match = verseId.match(/^(.*?)\s+(\d+):/);
@@ -351,24 +383,50 @@ const TranslationView = () => {
         <div className="flex items-center justify-between mb-3">
           <div className="flex items-center gap-3">
             <h2 className="text-lg font-semibold">{currentChapter.name}</h2>
-            <div className="flex items-center gap-1">
-              <Input
-                type="number"
-                value={chapterInput}
-                onChange={(e) => setChapterInput(e.target.value)}
-                className="w-16 h-7 text-sm"
-                min="1"
-              />
-              <Button
-                variant="secondary"
-                size="sm"
-                onClick={() => jumpToChapter(parseInt(chapterInput, 10))}
-                disabled={loading}
-                className="h-7"
-              >
-                Go
-              </Button>
-            </div>
+            <Popover open={isOpen} onOpenChange={setIsOpen}>
+              <PopoverTrigger asChild>
+                <Button variant="outline" size="sm" className="h-7 gap-1">
+                  Navigate
+                  <ChevronDown className="h-3 w-3" />
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="p-0" align="start">
+                <Command>
+                  <CommandGroup heading="Books">
+                    <div className="grid grid-cols-2 gap-1 p-2">
+                      {Object.entries(books).map(([book, chapters]) => (
+                        <div key={book} className="space-y-1">
+                          <div className="text-xs font-medium text-muted-foreground px-1">
+                            {book}
+                          </div>
+                          <div className="grid grid-cols-6 gap-1">
+                            {chapters.map((chapter) => (
+                              <Button
+                                key={`${book}-${chapter}`}
+                                variant={
+                                  currentBook === book &&
+                                  currentChapterNum === chapter
+                                    ? 'default'
+                                    : 'ghost'
+                                }
+                                size="sm"
+                                className="h-6 text-xs"
+                                onClick={() => {
+                                  jumpToChapter(chapter);
+                                  setIsOpen(false);
+                                }}
+                              >
+                                {chapter}
+                              </Button>
+                            ))}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </CommandGroup>
+                </Command>
+              </PopoverContent>
+            </Popover>
           </div>
           <div className="flex gap-1">
             <Button

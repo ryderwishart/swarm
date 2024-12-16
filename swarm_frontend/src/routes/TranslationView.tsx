@@ -177,27 +177,62 @@ const CANONICAL_BOOKS = [
 
 // Add book grouping
 const BOOK_GROUPS = {
-  'Law': ['Genesis', 'Exodus', 'Leviticus', 'Numbers', 'Deuteronomy'],
-  'History': [
-    'Joshua', 'Judges', 'Ruth', '1 Samuel', '2 Samuel',
-    '1 Kings', '2 Kings', '1 Chronicles', '2 Chronicles',
-    'Ezra', 'Nehemiah', 'Esther'
+  Law: ['Genesis', 'Exodus', 'Leviticus', 'Numbers', 'Deuteronomy'],
+  History: [
+    'Joshua',
+    'Judges',
+    'Ruth',
+    '1 Samuel',
+    '2 Samuel',
+    '1 Kings',
+    '2 Kings',
+    '1 Chronicles',
+    '2 Chronicles',
+    'Ezra',
+    'Nehemiah',
+    'Esther',
   ],
-  'Poetry': ['Job', 'Psalms', 'Proverbs', 'Ecclesiastes', 'Song of Solomon'],
+  Poetry: ['Job', 'Psalms', 'Proverbs', 'Ecclesiastes', 'Song of Solomon'],
   'Major Prophets': ['Isaiah', 'Jeremiah', 'Lamentations', 'Ezekiel', 'Daniel'],
   'Minor Prophets': [
-    'Hosea', 'Joel', 'Amos', 'Obadiah', 'Jonah', 'Micah',
-    'Nahum', 'Habakkuk', 'Zephaniah', 'Haggai', 'Zechariah', 'Malachi'
+    'Hosea',
+    'Joel',
+    'Amos',
+    'Obadiah',
+    'Jonah',
+    'Micah',
+    'Nahum',
+    'Habakkuk',
+    'Zephaniah',
+    'Haggai',
+    'Zechariah',
+    'Malachi',
   ],
   'Gospels & Acts': ['Matthew', 'Mark', 'Luke', 'John', 'Acts'],
-  'Letters': [
-    'Romans', '1 Corinthians', '2 Corinthians', 'Galatians',
-    'Ephesians', 'Philippians', 'Colossians', '1 Thessalonians',
-    '2 Thessalonians', '1 Timothy', '2 Timothy', 'Titus',
-    'Philemon', 'Hebrews', 'James', '1 Peter', '2 Peter',
-    '1 John', '2 John', '3 John', 'Jude'
+  Letters: [
+    'Romans',
+    '1 Corinthians',
+    '2 Corinthians',
+    'Galatians',
+    'Ephesians',
+    'Philippians',
+    'Colossians',
+    '1 Thessalonians',
+    '2 Thessalonians',
+    '1 Timothy',
+    '2 Timothy',
+    'Titus',
+    'Philemon',
+    'Hebrews',
+    'James',
+    '1 Peter',
+    '2 Peter',
+    '1 John',
+    '2 John',
+    '3 John',
+    'Jude',
   ],
-  'Apocalypse': ['Revelation']
+  Apocalypse: ['Revelation'],
 } as const;
 
 const TranslationView = () => {
@@ -414,7 +449,7 @@ const TranslationView = () => {
         <div className="flex items-center gap-4 mb-6">
           <Link to="/">
             <Button variant="ghost" size="icon">
-              <ArrowLeft className="h-4 w-4" />
+              <ArrowLeft className="h-4 w-4 text-foreground" />
             </Button>
           </Link>
           <h1 className="text-2xl font-bold">Loading translations...</h1>
@@ -429,7 +464,7 @@ const TranslationView = () => {
         <div className="flex items-center gap-4 mb-6">
           <Link to="/">
             <Button variant="ghost" size="icon">
-              <ArrowLeft className="h-4 w-4" />
+              <ArrowLeft className="h-4 w-4 text-foreground" />
             </Button>
           </Link>
           <h1 className="text-2xl font-bold text-destructive">{error}</h1>
@@ -443,7 +478,7 @@ const TranslationView = () => {
       <div className="flex items-center gap-3 mb-4">
         <Link to="/">
           <Button variant="ghost" size="icon" className="h-8 w-8">
-            <ArrowLeft className="h-4 w-4" />
+            <ArrowLeft className="h-4 w-4 text-foreground" />
           </Button>
         </Link>
         <h1 className="text-xl font-bold">
@@ -461,7 +496,7 @@ const TranslationView = () => {
               <PopoverTrigger asChild>
                 <Button variant="outline" size="sm" className="h-7 gap-1">
                   Navigate
-                  <ChevronDown className="h-3 w-3" />
+                  <ChevronDown className="h-3 w-3 text-foreground" />
                 </Button>
               </PopoverTrigger>
               <PopoverContent className="p-0 w-[300px]" align="start">
@@ -479,13 +514,16 @@ const TranslationView = () => {
                       <CommandGroup>
                         <div className="max-h-[400px] overflow-y-auto">
                           {Object.entries(BOOK_GROUPS).map(([group, books]) => {
-                            const availableBooks = books.filter(book => 
-                              navigation.books.includes(book) && 
-                              book.toLowerCase().includes(searchQuery.toLowerCase())
+                            const availableBooks = books.filter(
+                              (book) =>
+                                navigation.books.includes(book) &&
+                                book
+                                  .toLowerCase()
+                                  .includes(searchQuery.toLowerCase()),
                             );
-                            
+
                             if (availableBooks.length === 0) return null;
-                            
+
                             return (
                               <div key={group} className="px-2 py-1">
                                 <div className="text-xs font-medium text-muted-foreground mb-1">
@@ -495,7 +533,11 @@ const TranslationView = () => {
                                   {availableBooks.map((book) => (
                                     <Button
                                       key={book}
-                                      variant={currentChapter?.book === book ? 'default' : 'ghost'}
+                                      variant={
+                                        currentChapter?.book === book
+                                          ? 'default'
+                                          : 'ghost'
+                                      }
                                       size="sm"
                                       className="h-7 justify-start text-left text-sm"
                                       onClick={() => setSelectedBook(book)}
@@ -520,7 +562,7 @@ const TranslationView = () => {
                             className="h-8"
                             onClick={() => setSelectedBook(null)}
                           >
-                            <ChevronLeft className="h-4 w-4 mr-1" />
+                            <ChevronLeft className="h-4 w-4 text-foreground" />
                             Back to Books
                           </Button>
                         </div>
@@ -568,7 +610,7 @@ const TranslationView = () => {
               disabled={currentChapter.chapterNum <= 1}
               className="h-7"
             >
-              <ChevronLeft className="h-4 w-4" />
+              <ChevronLeft className="h-4 w-4 text-foreground" />
               Previous
             </Button>
             <Button
@@ -579,7 +621,7 @@ const TranslationView = () => {
               className="h-7"
             >
               Next
-              <ChevronRight className="h-4 w-4" />
+              <ChevronRight className="h-4 w-4 text-foreground" />
             </Button>
           </div>
         </div>

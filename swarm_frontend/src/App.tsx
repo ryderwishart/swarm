@@ -5,6 +5,7 @@ import {
   CardHeader,
   CardTitle,
   CardDescription,
+  CardContent,
 } from './components/ui/card';
 import { ScrollArea } from './components/ui/scroll-area';
 import { Separator } from './components/ui/separator';
@@ -64,56 +65,77 @@ const App = () => {
   };
 
   return (
-    <div className="container mx-auto p-4 max-w-7xl">
-      <h1 className="text-3xl font-bold mb-6">Bible Translation Projects</h1>
-
-      <div className="flex flex-col gap-4">
-        <Input
-          placeholder="Search by language code or name..."
-          value={searchQuery}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-            setSearchQuery(e.target.value)
-          }
-          className="max-w-md"
-        />
-        <Separator />
-      </div>
-
-      <ScrollArea className="h-[calc(100vh-16rem)] pr-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {filteredScenarios.length === 0 ? (
-            <p className="text-muted-foreground">
-              {scenarios.length === 0
-                ? 'No translation projects found'
-                : 'No matches found for your search'}
-            </p>
-          ) : (
-            filteredScenarios.map((scenario) => (
-              <Card
-                key={scenario.id}
-                className={cn(
-                  'transition-all hover:shadow-lg cursor-pointer',
-                  'border-2 hover:border-primary',
+    <div className="min-h-screen bg-muted/30 py-8">
+      <Card className="container mx-auto max-w-4xl shadow-lg">
+        <CardHeader className="space-y-1">
+          <CardTitle className="text-2xl">Bible Translation Projects</CardTitle>
+          <CardDescription>
+            Select a translation project to review and edit
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="flex flex-col gap-4">
+            <Input
+              placeholder="Search by language code or name..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="max-w-md"
+            />
+            <Separator className="my-2" />
+            <ScrollArea className="h-[calc(100vh-20rem)] pr-4">
+              <div className="grid grid-cols-1 gap-4">
+                {filteredScenarios.length === 0 ? (
+                  <p className="text-muted-foreground py-4">
+                    {scenarios.length === 0
+                      ? 'No translation projects found'
+                      : 'No matches found for your search'}
+                  </p>
+                ) : (
+                  filteredScenarios.map((scenario) => (
+                    <Card
+                      key={scenario.id}
+                      className={cn(
+                        'transition-all hover:shadow-md cursor-pointer',
+                        'border hover:border-primary/50',
+                        'bg-card/50 hover:bg-card'
+                      )}
+                      onClick={() => handleScenarioClick(scenario)}
+                    >
+                      <CardHeader className="p-4">
+                        <div className="flex items-center justify-between">
+                          <div className="space-y-1">
+                            <CardTitle className="flex items-center gap-2 text-lg">
+                              <span className="font-medium text-primary">
+                                {scenario.source_label}
+                              </span>
+                              <span className="text-muted-foreground">→</span>
+                              <span className="font-medium text-primary">
+                                {scenario.target_label}
+                              </span>
+                            </CardTitle>
+                            <CardDescription className="flex items-center gap-2 text-xs">
+                              <code className="px-1 py-0.5 rounded bg-muted">
+                                {scenario.source_lang}
+                              </code>
+                              <span className="text-muted-foreground">to</span>
+                              <code className="px-1 py-0.5 rounded bg-muted">
+                                {scenario.target_lang}
+                              </code>
+                            </CardDescription>
+                          </div>
+                          <div className="text-muted-foreground/50 hover:text-primary transition-colors">
+                            →
+                          </div>
+                        </div>
+                      </CardHeader>
+                    </Card>
+                  ))
                 )}
-                onClick={() => handleScenarioClick(scenario)}
-              >
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <span className="text-primary">{scenario.source_lang}</span>
-                    <span className="text-muted-foreground">→</span>
-                    <span className="text-primary">{scenario.target_lang}</span>
-                  </CardTitle>
-                  <CardDescription>
-                    <div className="font-medium">{scenario.source_label}</div>
-                    <div className="text-muted-foreground">to</div>
-                    <div className="font-medium">{scenario.target_label}</div>
-                  </CardDescription>
-                </CardHeader>
-              </Card>
-            ))
-          )}
-        </div>
-      </ScrollArea>
+              </div>
+            </ScrollArea>
+          </div>
+        </CardContent>
+      </Card>
     </div>
   );
 };

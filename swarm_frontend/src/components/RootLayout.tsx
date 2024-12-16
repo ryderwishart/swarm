@@ -1,11 +1,12 @@
 import { Outlet } from 'react-router-dom';
-import Layout from './Layout';
 
 const RootLayout = () => {
   return (
-    <Layout>
-      <Outlet />
-    </Layout>
+    <div className="min-h-screen bg-background">
+      <main className="container mx-auto py-8 px-4">
+        <Outlet />
+      </main>
+    </div>
   );
 };
 

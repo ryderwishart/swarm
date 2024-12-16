@@ -17,13 +17,20 @@ const router = createBrowserRouter([
         element: <App />,
       },
       {
-        path: 'translation/:id',
-        element: <TranslationView />,
-      },
-      {
-        path: 'translation/:id/:book/:chapter',
-        element: <TranslationView />,
-      },
+        path: 'translation',
+        children: [
+          {
+            path: ':id',
+            element: <TranslationView />,
+            children: [
+              {
+                path: ':book/:chapter',
+                element: <TranslationView />
+              }
+            ]
+          }
+        ]
+      }
     ],
   },
 ]);

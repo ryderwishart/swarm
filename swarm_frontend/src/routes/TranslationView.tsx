@@ -329,10 +329,14 @@ const TranslationView = () => {
   }, [scenario?.filename]); // Only reset when filename changes
 
   useEffect(() => {
+    const ENDPOINT =
+      process.env.NODE_ENV === 'production'
+        ? 'https://raw.githubusercontent.com/ryderwishart/swarm/refs/heads/master/swarm_translate/scenarios/consolidated'
+        : 'http://localhost:8000';
     const loadTranslations = async () => {
       try {
         setLoading(true);
-        const response = await fetch(`/${scenario.filename}`);
+        const response = await fetch(`${ENDPOINT}/${scenario.filename}`);
         if (!response.ok) {
           throw new Error('Failed to fetch translations');
         }

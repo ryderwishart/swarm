@@ -17,6 +17,14 @@
       "target_label": "Tok Pisin"
     },
     {
+      "id": "eng-eng",
+      "filename": "eng-eng_consolidated.jsonl",
+      "source_lang": "eng",
+      "source_label": "English (Berean Standard Bible)",
+      "target_lang": "eng",
+      "target_label": "English (Natural, Middle-School Level)"
+    },
+    {
       "id": "grc-eng",
       "filename": "grc-eng_consolidated.jsonl",
       "source_lang": "grc",

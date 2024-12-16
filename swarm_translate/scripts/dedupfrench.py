@@ -3,6 +3,12 @@ from pathlib import Path
 import glob
 import re
 from difflib import SequenceMatcher
+from openai import OpenAI
+import os
+from dotenv import load_dotenv
+
+# Load environment variables from parent directory
+load_dotenv(Path(__file__).parent.parent / '.env')
 
 def normalize_text(text: str) -> str:
     """Normalize text by removing extra spaces, standardizing quotes, and articles."""
@@ -12,73 +18,78 @@ def normalize_text(text: str) -> str:
     text = text.replace('" ', '"').replace(' "', '"')
     # Normalize articles and common variations
     text = re.sub(r'\b(la|le|les|un|une|des)\b', '', text)
-    
     return text.strip()
 
-def split_into_sentences(text: str) -> list[str]:
-    """Split text into sentences, handling French punctuation."""
-    # First normalize the text
-    text = normalize_text(text)
+def get_llm_deduped_translation(client: OpenAI, original: str, translation: str, prev_translations: list[str]) -> str:
+    """Use LLM to fix a translation that's too long."""
     
-    # Split on sentence endings but keep the delimiter
-    sentences = re.split(r'([.!?] )', text)
-    
-    # Recombine sentences with their delimiters and handle the last one
-    result = []
-    i = 0
-    while i < len(sentences):
-        if i + 1 < len(sentences) and sentences[i+1].strip() in ['. ', '! ', '? ']:
-            result.append(sentences[i] + sentences[i+1].strip())
-            i += 2
-        else:
-            if sentences[i].strip():
-                result.append(sentences[i].strip())
-            i += 1
-    
-    return result
+    response = client.chat.completions.create(
+        model="gpt-4o-mini",
+        messages=[{
+            "role": "system",
+            "content": "You are a French translation expert. Your task is to identify and remove any duplicated content from translations while preserving the actual content for the current verse."
+        }, {
+            "role": "user",
+            "content": f"""Please fix this French translation that seems to contain duplicated content from previous verses.
 
-def similarity_ratio(a: str, b: str) -> float:
-    """Calculate similarity ratio between two strings."""
-    return SequenceMatcher(None, normalize_text(a), normalize_text(b)).ratio()
+Original English text:
+{original}
+
+Current French translation (may contain duplicates):
+{translation}
+
+Previous verses' translations (for reference):
+{' '.join(prev_translations)}
+
+Return ONLY the corrected French translation with duplicates removed. Do not include any explanations."""
+        }],
+        temperature=0.3,
+    )
+    
+    return response.choices[0].message.content.strip()
 
 def clean_translations(file_path: Path):
     """Remove duplicated content from verses that are suspiciously long."""
+    
+    # Set up OpenAI client
+    api_key = os.getenv('OPENAI_API_KEY')
+    if not api_key:
+        raise ValueError("OPENAI_API_KEY not found in environment variables")
+    client = OpenAI(api_key=api_key)
     
     # Read all lines
     with open(file_path, 'r', encoding='utf-8') as f:
         lines = [json.loads(line) for line in f if line.strip()]
     
     cleaned_lines = []
-    window_size = 6  # Increased window size
+    window_size = 6
+    number_of_llm_calls = 0
     
     for i in range(0, len(lines)):
         current_line = lines[i].copy()
         
-        # Check if translation is more than 1.5x longer than original
-        if (len(current_line["translation"]) > 1.5 * len(current_line["original"]) 
-            and i >= 1):  # Only need 1 previous verse
-            # Get all sentences from previous verses
-            prev_sentences = []
-            for j in range(max(0, i - window_size), i):
-                prev_sentences.extend(split_into_sentences(lines[j]["translation"]))
+        # Check if translation is more than 2x longer than original
+        if (len(current_line["translation"]) > 2 * len(current_line["original"]) 
+            and i >= 1):
+            # Get previous translations for context
+            prev_translations = [
+                lines[j]["translation"] 
+                for j in range(max(0, i - window_size), i)
+            ]
             
-            # Split current translation into sentences
-            current_sentences = split_into_sentences(current_line["translation"])
-            
-            # Keep only unique sentences
-            unique_sentences = []
-            for current_sent in current_sentences:
-                is_duplicate = False
-                for prev_sent in prev_sentences:
-                    if similarity_ratio(current_sent, prev_sent) > 0.7:  # Lowered threshold
-                        is_duplicate = True
-                        break
-                
-                if not is_duplicate:
-                    unique_sentences.append(current_sent)
-            
-            # Rejoin unique sentences with proper spacing
-            current_line["translation"] = " ".join(unique_sentences)
+            # Use LLM to fix the translation
+            try:
+                fixed_translation = get_llm_deduped_translation(
+                    client,
+                    current_line["original"],
+                    current_line["translation"],
+                    prev_translations
+                )
+                current_line["translation"] = fixed_translation
+                print(f"Fixed translation for verse {current_line.get('id', i)}")
+                number_of_llm_calls += 1
+            except Exception as e:
+                print(f"Error fixing translation: {e}")
         
         cleaned_lines.append(current_line)
     
@@ -86,6 +97,8 @@ def clean_translations(file_path: Path):
     with open(file_path, 'w', encoding='utf-8') as f:
         for line in cleaned_lines:
             f.write(json.dumps(line, ensure_ascii=False) + '\n')
+    
+    print(f"Total LLM calls: {number_of_llm_calls}")
 
 if __name__ == "__main__":
     translations_dir = Path("scenarios/translations")

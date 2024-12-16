@@ -1,16 +1,14 @@
 import { useState, useEffect, useReducer, useRef } from 'react';
-import { useLocation, Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { Button } from '../components/ui/button';
 import {
   ArrowLeft,
   ChevronLeft,
   ChevronRight,
   ChevronDown,
-  Grid2X2,
   LayoutGridIcon,
 } from 'lucide-react';
 import { ScrollArea } from '../components/ui/scroll-area';
-import type { Scenario } from '../types';
 import { cn } from '../lib/utils';
 import {
   Popover,
@@ -19,6 +17,7 @@ import {
 } from '../components/ui/popover';
 import { Command, CommandGroup } from '../components/ui/command';
 import { SEO } from '../components/SEO';
+import { useScenario } from '../hooks/useScenario';
 
 interface Translation {
   source_lang: string;
@@ -237,8 +236,6 @@ const BOOK_GROUPS = {
 } as const;
 
 const TranslationView = () => {
-  const location = useLocation();
-  const scenario = location.state as Scenario;
   const [currentChapter, dispatch] = useReducer(chapterReducer, null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -256,6 +253,15 @@ const TranslationView = () => {
   const chapterMapRef = useRef<ChapterMap>({});
 
   const [searchQuery, setSearchQuery] = useState('');
+  const { id } = useParams<{ id: string }>();
+  const {
+    scenario,
+    loading: scenarioLoading,
+    error: scenarioError,
+    translations,
+  } = useScenario(id);
+
+  const combinedLoading = scenarioLoading || loading;
 
   const getBookAndChapterFromId = (verseId: string) => {
     const match = verseId.match(/^(.*?)\s+(\d+):/);
@@ -267,8 +273,6 @@ const TranslationView = () => {
   };
 
   const setChapter = (book: string, chapterNum: number) => {
-    console.log('setChapter called with:', { book, chapterNum });
-    console.log('chapterMap contents:', chapterMapRef.current);
     const translations = chapterMapRef.current[book]?.[chapterNum];
     if (translations) {
       dispatch({
@@ -330,90 +334,59 @@ const TranslationView = () => {
   }, [scenario?.filename]); // Only reset when filename changes
 
   useEffect(() => {
-    const ENDPOINT =
-      process.env.NODE_ENV === 'production'
-        ? 'https://raw.githubusercontent.com/ryderwishart/swarm/refs/heads/master/swarm_translate/scenarios/consolidated'
-        : 'http://localhost:8000';
-    const loadTranslations = async () => {
-      try {
-        setLoading(true);
-        const response = await fetch(`${ENDPOINT}/${scenario.filename}`);
-        if (!response.ok) {
-          throw new Error('Failed to fetch translations');
-        }
+    if (!translations.length) return;
 
-        const text = await response.text();
-        const lines = text.split('\n');
-        const chaptersMap: ChapterMap = {};
+    const chaptersMap: ChapterMap = {};
 
-        for (const line of lines) {
-          if (!line.trim()) continue;
-
-          try {
-            const translation = JSON.parse(line) as Translation;
-            const verseInfo = getBookAndChapterFromId(translation.id);
-
-            if (!verseInfo) {
-              console.log('Failed to parse verse ID:', translation.id);
-              continue;
-            }
-
-            const { book, chapter } = verseInfo;
-            const chapterNum = parseInt(chapter, 10);
-
-            if (!chaptersMap[book]) {
-              chaptersMap[book] = {};
-            }
-            if (!chaptersMap[book][chapterNum]) {
-              chaptersMap[book][chapterNum] = [];
-            }
-
-            // Add a unique instance ID to each verse
-            const verseInstance: VerseInstance = {
-              ...translation,
-              instanceId: `${translation.id}-${chaptersMap[book][chapterNum].length}`,
-            };
-
-            chaptersMap[book][chapterNum].push(verseInstance);
-          } catch (err) {
-            console.error('Error parsing line:', err);
-          }
-        }
-
-        // Create navigation data once
-        const nav = createChapterNavigation(chaptersMap);
-
-        chapterMapRef.current = chaptersMap;
-        setChapterMap(chaptersMap);
-        setNavigation(nav);
-
-        // Find the first available canonical book
-        const firstCanonicalBook = CANONICAL_BOOKS.find((book) =>
-          nav.books.includes(book),
-        );
-
-        // Set initial chapter to the first chapter of the first canonical book
-        if (firstCanonicalBook) {
-          const firstChapter = nav.bookChapters[firstCanonicalBook][0];
-          setChapter(firstCanonicalBook, firstChapter);
-        } else if (nav.chapterOrder.length > 0) {
-          // Fallback to first available chapter if no canonical books found
-          const first = nav.chapterOrder[0];
-          setChapter(first.book, first.chapter);
-        }
-
-        setLoading(false);
-      } catch (err) {
-        console.error('Error loading translations:', err);
-        setError('Failed to load translations');
-        setLoading(false);
+    for (const translation of translations) {
+      const verseInfo = getBookAndChapterFromId(translation.id);
+      if (!verseInfo) {
+        continue;
       }
-    };
 
-    if (scenario) {
-      loadTranslations();
+      const { book, chapter } = verseInfo;
+      const chapterNum = parseInt(chapter, 10);
+
+      if (!chaptersMap[book]) {
+        chaptersMap[book] = {};
+      }
+      if (!chaptersMap[book][chapterNum]) {
+        chaptersMap[book][chapterNum] = [];
+      }
+
+      // Add a unique instance ID to each verse
+      const verseInstance: VerseInstance = {
+        ...translation,
+        instanceId: `${translation.id}-${chaptersMap[book][chapterNum].length}`,
+      };
+
+      chaptersMap[book][chapterNum].push(verseInstance);
     }
-  }, [scenario]);
+
+    // Create navigation data once
+    const nav = createChapterNavigation(chaptersMap);
+
+    chapterMapRef.current = chaptersMap;
+    setChapterMap(chaptersMap);
+    setNavigation(nav);
+
+    // Find the first available canonical book
+    const firstCanonicalBook = CANONICAL_BOOKS.find((book) =>
+      nav.books.includes(book),
+    );
+
+    // Set initial chapter to the first chapter of the first canonical book
+    if (firstCanonicalBook) {
+      const firstChapter = nav.bookChapters[firstCanonicalBook][0];
+      setChapter(firstCanonicalBook, firstChapter);
+    } else if (nav.chapterOrder.length > 0) {
+      // Fallback to first available chapter if no canonical books found
+      const first = nav.chapterOrder[0];
+      setChapter(first.book, first.chapter);
+    }
+
+    setLoading(false);
+  }, [translations]);
 
   const getVerseNumber = (verseId: string): string => {
     const match = verseId.match(/:(\d+)$/);
@@ -446,6 +419,23 @@ const TranslationView = () => {
     }
   }, [isOpen]);
 
+  if (scenarioError) {
+    return (
+      <div className="container mx-auto p-4">
+        <div className="flex items-center gap-4 mb-6">
+          <Link to="/">
+            <Button variant="ghost" size="icon">
+              <ArrowLeft className="h-4 w-4 text-foreground" />
+            </Button>
+          </Link>
+          <h1 className="text-2xl font-bold text-destructive">
+            {scenarioError}
+          </h1>
+        </div>
+      </div>
+    );
+  }
+
   if (!scenario) {
     return (
       <div className="container mx-auto p-4">
@@ -457,7 +447,7 @@ const TranslationView = () => {
     );
   }
 
-  if (loading) {
+  if (combinedLoading) {
     return (
       <div className="container mx-auto p-4">
         <div className="flex items-center gap-4 mb-6">

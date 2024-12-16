@@ -68,7 +68,7 @@ const App = () => {
 
   const CopyrightStatement = () => {
     return (
-      <Card className="border-l-4 border-l-blue-500 bg-blue-50 dark:bg-blue-950/50">
+      <Card className="border-l-4 border-l-blue-500 bg-blue-50 dark:bg-blue-950/50 mb-4">
         <CardHeader className="pb-2">
           <CardTitle className="text-blue-700 dark:text-blue-300 flex items-center gap-2 text-sm font-medium">
             <InfoIcon className="h-4 w-4" />

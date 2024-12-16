@@ -210,7 +210,8 @@ def translate_with_agents(text: str, scenario: TranslationScenario,
             )
             final_translation = response.messages[-1]["content"]
         else:
-            # Use translator's output directly if skipping QA
+            # First try to parse as JSON, but don't raise warnings if it's plaintext
+            print(f"Translation content: {translations}")
             try:
                 trans_data = json.loads(translations)
                 if isinstance(trans_data, dict):
@@ -218,14 +219,9 @@ def translate_with_agents(text: str, scenario: TranslationScenario,
                     terms = trans_data.get("terms", [])
                     final_translation = " ".join(phrases + terms) if phrases or terms else translations
                 else:
-                    print(f"Warning: Unexpected translation format (not a dict): {translations}")
                     final_translation = translations
             except json.JSONDecodeError:
-                print(f"Warning: Could not parse translation as JSON: {translations}")
-                final_translation = translations
-            except Exception as e:
-                print(f"Warning: Error processing translation: {str(e)}")
-                print(f"Translation content: {translations}")
+                # If it's not JSON, assume it's a direct translation
                 final_translation = translations
         
         translation_time = time.time() - start_time
@@ -236,7 +232,7 @@ def translate_with_agents(text: str, scenario: TranslationScenario,
             "target_lang": scenario.target_code,
             "target_label": scenario.target_label,
             "original": text,
-            "translation": final_translation,
+            "translation": final_translation.strip(),  # Clean up any extra whitespace
             "translation_time": round(translation_time, 2),
             "model": translator_bot.model,
             "calver": datetime.now().strftime("%Y.%m.%d")

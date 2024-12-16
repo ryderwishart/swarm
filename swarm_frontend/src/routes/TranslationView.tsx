@@ -1,4 +1,11 @@
-import { useState, useEffect, useCallback, useMemo } from 'react';
+import {
+  useState,
+  useEffect,
+  useCallback,
+  useMemo,
+  useReducer,
+  useRef,
+} from 'react';
 import { useParams, useLocation, Link } from 'react-router-dom';
 import { Button } from '../components/ui/button';
 import {
@@ -30,59 +37,189 @@ interface Translation {
   id: string;
 }
 
-interface Chapter {
-  name: string;
-  translations: Translation[];
-}
-
 interface ChapterMap {
   [book: string]: {
-    [chapter: string]: Translation[];
+    [chapter: number]: VerseInstance[];
   };
 }
 
-interface BookChapters {
-  [book: string]: number[];
+interface ChapterInfo {
+  book: string;
+  chapter: number;
 }
 
-const organizeChaptersByBook = (
-  availableChapters: Array<{ book: string; chapter: number }>,
-): BookChapters => {
-  const books: BookChapters = {};
-  availableChapters.forEach(({ book, chapter }) => {
-    if (!books[book]) {
-      books[book] = [];
-    }
-    books[book].push(chapter);
+interface ChapterNavigation {
+  books: string[];
+  bookChapters: {
+    [book: string]: number[];
+  };
+  chapterOrder: ChapterInfo[];
+}
+
+interface ChapterState {
+  book: string;
+  chapterNum: number;
+  translations: VerseInstance[];
+}
+
+type ChapterAction =
+  | { type: 'SET_CHAPTER'; payload: ChapterState }
+  | { type: 'CLEAR' };
+
+const createChapterNavigation = (
+  chaptersMap: ChapterMap,
+): ChapterNavigation => {
+  const books = Object.keys(chaptersMap).sort();
+  const bookChapters: { [book: string]: number[] } = {};
+  const chapterOrder: ChapterInfo[] = [];
+
+  books.forEach((book) => {
+    const chapters = Object.keys(chaptersMap[book])
+      .map((ch) => parseInt(ch, 10))
+      .sort((a, b) => a - b);
+    bookChapters[book] = chapters;
+    chapters.forEach((chapter) => {
+      chapterOrder.push({ book, chapter });
+    });
   });
-  return books;
+
+  return { books, bookChapters, chapterOrder };
 };
 
+const chapterReducer = (
+  state: ChapterState | null,
+  action: ChapterAction,
+): ChapterState | null => {
+  switch (action.type) {
+    case 'SET_CHAPTER':
+      return action.payload;
+    case 'CLEAR':
+      return null;
+    default:
+      return state;
+  }
+};
+
+// Add this interface to track verse instances
+interface VerseInstance extends Translation {
+  instanceId: string; // Unique identifier for each verse instance
+}
+
+// Add canonical book order
+const CANONICAL_BOOKS = [
+  'Genesis',
+  'Exodus',
+  'Leviticus',
+  'Numbers',
+  'Deuteronomy',
+  'Joshua',
+  'Judges',
+  'Ruth',
+  '1 Samuel',
+  '2 Samuel',
+  '1 Kings',
+  '2 Kings',
+  '1 Chronicles',
+  '2 Chronicles',
+  'Ezra',
+  'Nehemiah',
+  'Esther',
+  'Job',
+  'Psalms',
+  'Proverbs',
+  'Ecclesiastes',
+  'Song of Solomon',
+  'Isaiah',
+  'Jeremiah',
+  'Lamentations',
+  'Ezekiel',
+  'Daniel',
+  'Hosea',
+  'Joel',
+  'Amos',
+  'Obadiah',
+  'Jonah',
+  'Micah',
+  'Nahum',
+  'Habakkuk',
+  'Zephaniah',
+  'Haggai',
+  'Zechariah',
+  'Malachi',
+  'Matthew',
+  'Mark',
+  'Luke',
+  'John',
+  'Acts',
+  'Romans',
+  '1 Corinthians',
+  '2 Corinthians',
+  'Galatians',
+  'Ephesians',
+  'Philippians',
+  'Colossians',
+  '1 Thessalonians',
+  '2 Thessalonians',
+  '1 Timothy',
+  '2 Timothy',
+  'Titus',
+  'Philemon',
+  'Hebrews',
+  'James',
+  '1 Peter',
+  '2 Peter',
+  '1 John',
+  '2 John',
+  '3 John',
+  'Jude',
+  'Revelation',
+];
+
+// Add book grouping
+const BOOK_GROUPS = {
+  'Law': ['Genesis', 'Exodus', 'Leviticus', 'Numbers', 'Deuteronomy'],
+  'History': [
+    'Joshua', 'Judges', 'Ruth', '1 Samuel', '2 Samuel',
+    '1 Kings', '2 Kings', '1 Chronicles', '2 Chronicles',
+    'Ezra', 'Nehemiah', 'Esther'
+  ],
+  'Poetry': ['Job', 'Psalms', 'Proverbs', 'Ecclesiastes', 'Song of Solomon'],
+  'Major Prophets': ['Isaiah', 'Jeremiah', 'Lamentations', 'Ezekiel', 'Daniel'],
+  'Minor Prophets': [
+    'Hosea', 'Joel', 'Amos', 'Obadiah', 'Jonah', 'Micah',
+    'Nahum', 'Habakkuk', 'Zephaniah', 'Haggai', 'Zechariah', 'Malachi'
+  ],
+  'Gospels & Acts': ['Matthew', 'Mark', 'Luke', 'John', 'Acts'],
+  'Letters': [
+    'Romans', '1 Corinthians', '2 Corinthians', 'Galatians',
+    'Ephesians', 'Philippians', 'Colossians', '1 Thessalonians',
+    '2 Thessalonians', '1 Timothy', '2 Timothy', 'Titus',
+    'Philemon', 'Hebrews', 'James', '1 Peter', '2 Peter',
+    '1 John', '2 John', '3 John', 'Jude'
+  ],
+  'Apocalypse': ['Revelation']
+} as const;
+
 const TranslationView = () => {
-  const { id } = useParams<{ id: string }>();
   const location = useLocation();
   const scenario = location.state as Scenario;
-  const [chapters, setChapters] = useState<Chapter[]>([]);
-  const [currentChapterIndex, setCurrentChapterIndex] = useState(0);
+  const [currentChapter, dispatch] = useReducer(chapterReducer, null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [readerPosition, setReaderPosition] = useState<number>(0);
-  const [chapterInput, setChapterInput] = useState('1');
-  const [currentBook, setCurrentBook] = useState<string>('');
-  const [currentChapterNum, setCurrentChapterNum] = useState(1);
   const [chapterMap, setChapterMap] = useState<ChapterMap>({});
-  const [availableChapters, setAvailableChapters] = useState<
-    Array<{ book: string; chapter: number }>
-  >([]);
-  const [showSource, setShowSource] = useState(false);
+  const [navigation, setNavigation] = useState<ChapterNavigation>({
+    books: [],
+    bookChapters: {},
+    chapterOrder: [],
+  });
   const [showAllSource, setShowAllSource] = useState(false);
   const [expandedVerses, setExpandedVerses] = useState<Set<string>>(new Set());
   const [isOpen, setIsOpen] = useState(false);
+  const [selectedBook, setSelectedBook] = useState<string | null>(null);
 
-  const books = useMemo(
-    () => organizeChaptersByBook(availableChapters),
-    [availableChapters],
-  );
+  const chapterMapRef = useRef<ChapterMap>({});
+
+  const [searchQuery, setSearchQuery] = useState('');
 
   const getBookAndChapterFromId = (verseId: string) => {
     const match = verseId.match(/^(.*?)\s+(\d+):/);
@@ -93,120 +230,68 @@ const TranslationView = () => {
     };
   };
 
-  const loadChapter = useCallback(
-    async (
-      response: Response,
-      startPosition: number = 0,
-    ): Promise<{ chapter: Chapter | null; endPosition: number }> => {
-      const reader = response.body!.getReader();
-      const decoder = new TextDecoder();
-      let buffer = '';
-      let currentChapter: Chapter | null = null;
-      let bytesRead = 0;
-      let currentChapterInfo = null;
-
-      // Skip to the start position if needed
-      while (bytesRead < startPosition) {
-        const { value } = await reader.read();
-        if (!value) break;
-        bytesRead += value.length;
-      }
-
-      while (true) {
-        const { done, value } = await reader.read();
-
-        if (done) {
-          break;
-        }
-
-        bytesRead += value.length;
-        buffer += decoder.decode(value, { stream: true });
-        const lines = buffer.split('\n');
-        buffer = lines.pop() || '';
-
-        for (const line of lines) {
-          if (!line.trim()) continue;
-
-          try {
-            const translation = JSON.parse(line) as Translation;
-            const verseInfo = getBookAndChapterFromId(translation.id);
-
-            if (!verseInfo) continue;
-
-            if (!currentChapter) {
-              currentChapterInfo = verseInfo;
-              currentChapter = {
-                name: `${verseInfo.book} ${verseInfo.chapter}`,
-                translations: [translation],
-              };
-            } else if (
-              verseInfo.book !== currentChapterInfo?.book ||
-              verseInfo.chapter !== currentChapterInfo?.chapter
-            ) {
-              // We've hit a new chapter
-              reader.releaseLock();
-              return {
-                chapter: currentChapter,
-                endPosition: bytesRead - buffer.length - line.length - 1,
-              };
-            } else {
-              currentChapter.translations.push(translation);
-            }
-          } catch (err) {
-            console.error('Error parsing line:', err);
-          }
-        }
-      }
-
-      reader.releaseLock();
-      return { chapter: currentChapter, endPosition: bytesRead };
-    },
-    [],
-  );
-
-  const parseChapterInfo = (chapterName: string) => {
-    // "Genesis 1" -> { book: "Genesis", chapter: 1 }
-    const match = chapterName.match(/^(.*?)\s*(\d+)$/);
-    if (match) {
-      return {
-        book: match[1].trim(),
-        chapter: parseInt(match[2], 10),
-      };
-    }
-    return null;
-  };
-
-  const jumpToChapter = (targetChapter: number) => {
-    if (!currentBook || targetChapter < 1) return;
-
-    if (chapterMap[currentBook]?.[targetChapter]) {
-      const chapterContent = chapterMap[currentBook][targetChapter];
-
-      // Check if we already have this chapter loaded
-      const existingIndex = chapters.findIndex((ch) => {
-        const info = getBookAndChapterFromId(ch.translations[0].id);
-        return (
-          info?.book === currentBook && parseInt(info.chapter) === targetChapter
-        );
+  const setChapter = (book: string, chapterNum: number) => {
+    console.log('setChapter called with:', { book, chapterNum });
+    console.log('chapterMap contents:', chapterMapRef.current);
+    const translations = chapterMapRef.current[book]?.[chapterNum];
+    if (translations) {
+      dispatch({
+        type: 'SET_CHAPTER',
+        payload: {
+          book,
+          chapterNum,
+          translations,
+        },
       });
-
-      if (existingIndex !== -1) {
-        setCurrentChapterIndex(existingIndex);
-      } else {
-        setChapters((prev) => [
-          ...prev,
-          {
-            name: `${currentBook} ${targetChapter}`,
-            translations: chapterContent,
-          },
-        ]);
-        setCurrentChapterIndex(chapters.length);
-      }
-      setCurrentChapterNum(targetChapter);
     } else {
-      setError(`Chapter ${targetChapter} not found in ${currentBook}`);
+      console.log('Debug chapter lookup:', {
+        book,
+        chapterNum,
+        bookExists: !!chapterMapRef.current[book],
+        availableChapters: chapterMapRef.current[book]
+          ? Object.keys(chapterMapRef.current[book])
+          : [],
+        chapterExists: chapterMapRef.current[book]?.[chapterNum] !== undefined,
+      });
+      setError(`Chapter ${chapterNum} not found in ${book}`);
     }
   };
+
+  const jumpToChapter = (targetBook: string, targetChapter: number) => {
+    if (targetChapter < 1) return;
+    setChapter(targetBook, targetChapter);
+  };
+
+  const loadNextChapter = () => {
+    if (!currentChapter) return;
+
+    const currentIndex = navigation.chapterOrder.findIndex(
+      (ch) =>
+        ch.book === currentChapter.book &&
+        ch.chapter === currentChapter.chapterNum,
+    );
+
+    if (currentIndex < navigation.chapterOrder.length - 1) {
+      const next = navigation.chapterOrder[currentIndex + 1];
+      setChapter(next.book, next.chapter);
+    }
+  };
+
+  // Reset everything when scenario changes
+  useEffect(() => {
+    // Clear all state and refs when scenario changes
+    setChapterMap({});
+    chapterMapRef.current = {};
+    setNavigation({
+      books: [],
+      bookChapters: {},
+      chapterOrder: [],
+    });
+    dispatch({ type: 'CLEAR' });
+    setExpandedVerses(new Set());
+    setShowAllSource(false);
+    setError(null);
+  }, [scenario?.filename]); // Only reset when filename changes
 
   useEffect(() => {
     const loadTranslations = async () => {
@@ -220,7 +305,6 @@ const TranslationView = () => {
         const text = await response.text();
         const lines = text.split('\n');
         const chaptersMap: ChapterMap = {};
-        const chapters: Array<{ book: string; chapter: number }> = [];
 
         for (const line of lines) {
           if (!line.trim()) continue;
@@ -229,39 +313,44 @@ const TranslationView = () => {
             const translation = JSON.parse(line) as Translation;
             const verseInfo = getBookAndChapterFromId(translation.id);
 
-            if (!verseInfo) continue;
+            if (!verseInfo) {
+              console.log('Failed to parse verse ID:', translation.id);
+              continue;
+            }
 
             const { book, chapter } = verseInfo;
+            const chapterNum = parseInt(chapter, 10);
 
             if (!chaptersMap[book]) {
               chaptersMap[book] = {};
             }
-            if (!chaptersMap[book][chapter]) {
-              chaptersMap[book][chapter] = [];
-              chapters.push({ book, chapter: parseInt(chapter) });
+            if (!chaptersMap[book][chapterNum]) {
+              chaptersMap[book][chapterNum] = [];
             }
 
-            chaptersMap[book][chapter].push(translation);
+            // Add a unique instance ID to each verse
+            const verseInstance: VerseInstance = {
+              ...translation,
+              instanceId: `${translation.id}-${chaptersMap[book][chapterNum].length}`,
+            };
+
+            chaptersMap[book][chapterNum].push(verseInstance);
           } catch (err) {
             console.error('Error parsing line:', err);
           }
         }
 
+        // Create navigation data once
+        const nav = createChapterNavigation(chaptersMap);
+
+        chapterMapRef.current = chaptersMap;
         setChapterMap(chaptersMap);
-        setAvailableChapters(chapters);
+        setNavigation(nav);
 
         // Set initial chapter
-        const firstChapter = chapters[0];
-        if (firstChapter) {
-          setCurrentBook(firstChapter.book);
-          setCurrentChapterNum(firstChapter.chapter);
-          setChapters([
-            {
-              name: `${firstChapter.book} ${firstChapter.chapter}`,
-              translations:
-                chaptersMap[firstChapter.book][firstChapter.chapter],
-            },
-          ]);
+        if (nav.chapterOrder.length > 0) {
+          const first = nav.chapterOrder[0];
+          setChapter(first.book, first.chapter);
         }
 
         setLoading(false);
@@ -276,28 +365,6 @@ const TranslationView = () => {
       loadTranslations();
     }
   }, [scenario]);
-
-  const loadNextChapter = () => {
-    const currentIndex = availableChapters.findIndex(
-      (ch) => ch.book === currentBook && ch.chapter === currentChapterNum,
-    );
-
-    if (currentIndex < availableChapters.length - 1) {
-      const nextChapter = availableChapters[currentIndex + 1];
-      const chapterContent = chapterMap[nextChapter.book][nextChapter.chapter];
-
-      setCurrentBook(nextChapter.book);
-      setCurrentChapterNum(nextChapter.chapter);
-      setChapters((prev) => [
-        ...prev,
-        {
-          name: `${nextChapter.book} ${nextChapter.chapter}`,
-          translations: chapterContent,
-        },
-      ]);
-      setCurrentChapterIndex((prev) => prev + 1);
-    }
-  };
 
   const getVerseNumber = (verseId: string): string => {
     const match = verseId.match(/:(\d+)$/);
@@ -322,6 +389,13 @@ const TranslationView = () => {
       setExpandedVerses(new Set());
     }
   };
+
+  // Add cleanup when popover closes
+  useEffect(() => {
+    if (!isOpen) {
+      setSelectedBook(null);
+    }
+  }, [isOpen]);
 
   if (!scenario) {
     return (
@@ -364,8 +438,6 @@ const TranslationView = () => {
     );
   }
 
-  const currentChapter = chapters[currentChapterIndex];
-
   return (
     <div className="container mx-auto p-3">
       <div className="flex items-center gap-3 mb-4">
@@ -382,7 +454,9 @@ const TranslationView = () => {
       {currentChapter && (
         <div className="flex items-center justify-between mb-3">
           <div className="flex items-center gap-3">
-            <h2 className="text-lg font-semibold">{currentChapter.name}</h2>
+            <h2 className="text-lg font-semibold">
+              {currentChapter.book} {currentChapter.chapterNum}
+            </h2>
             <Popover open={isOpen} onOpenChange={setIsOpen}>
               <PopoverTrigger asChild>
                 <Button variant="outline" size="sm" className="h-7 gap-1">
@@ -390,40 +464,93 @@ const TranslationView = () => {
                   <ChevronDown className="h-3 w-3" />
                 </Button>
               </PopoverTrigger>
-              <PopoverContent className="p-0" align="start">
+              <PopoverContent className="p-0 w-[300px]" align="start">
                 <Command>
-                  <CommandGroup heading="Books">
-                    <div className="grid grid-cols-2 gap-1 p-2">
-                      {Object.entries(books).map(([book, chapters]) => (
-                        <div key={book} className="space-y-1">
-                          <div className="text-xs font-medium text-muted-foreground px-1">
-                            {book}
-                          </div>
-                          <div className="grid grid-cols-6 gap-1">
-                            {chapters.map((chapter) => (
+                  {!selectedBook ? (
+                    <>
+                      <div className="p-2">
+                        <input
+                          className="w-full px-2 py-1 text-sm border rounded"
+                          placeholder="Search books..."
+                          value={searchQuery}
+                          onChange={(e) => setSearchQuery(e.target.value)}
+                        />
+                      </div>
+                      <CommandGroup>
+                        <div className="max-h-[400px] overflow-y-auto">
+                          {Object.entries(BOOK_GROUPS).map(([group, books]) => {
+                            const availableBooks = books.filter(book => 
+                              navigation.books.includes(book) && 
+                              book.toLowerCase().includes(searchQuery.toLowerCase())
+                            );
+                            
+                            if (availableBooks.length === 0) return null;
+                            
+                            return (
+                              <div key={group} className="px-2 py-1">
+                                <div className="text-xs font-medium text-muted-foreground mb-1">
+                                  {group}
+                                </div>
+                                <div className="grid grid-cols-2 gap-1">
+                                  {availableBooks.map((book) => (
+                                    <Button
+                                      key={book}
+                                      variant={currentChapter?.book === book ? 'default' : 'ghost'}
+                                      size="sm"
+                                      className="h-7 justify-start text-left text-sm"
+                                      onClick={() => setSelectedBook(book)}
+                                    >
+                                      {book}
+                                    </Button>
+                                  ))}
+                                </div>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </CommandGroup>
+                    </>
+                  ) : (
+                    <CommandGroup heading={selectedBook}>
+                      <div className="p-2">
+                        <div className="flex items-center gap-2 mb-2">
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            className="h-8"
+                            onClick={() => setSelectedBook(null)}
+                          >
+                            <ChevronLeft className="h-4 w-4 mr-1" />
+                            Back to Books
+                          </Button>
+                        </div>
+                        <div className="grid grid-cols-8 gap-1">
+                          {navigation.bookChapters[selectedBook]?.map(
+                            (chapter) => (
                               <Button
-                                key={`${book}-${chapter}`}
+                                key={`${selectedBook}-${chapter}`}
                                 variant={
-                                  currentBook === book &&
-                                  currentChapterNum === chapter
+                                  currentChapter?.book === selectedBook &&
+                                  currentChapter?.chapterNum === chapter
                                     ? 'default'
                                     : 'ghost'
                                 }
                                 size="sm"
-                                className="h-6 text-xs"
+                                className="h-8"
                                 onClick={() => {
-                                  jumpToChapter(chapter);
+                                  jumpToChapter(selectedBook, chapter);
                                   setIsOpen(false);
+                                  setSelectedBook(null);
                                 }}
                               >
                                 {chapter}
                               </Button>
-                            ))}
-                          </div>
+                            ),
+                          )}
                         </div>
-                      ))}
-                    </div>
-                  </CommandGroup>
+                      </div>
+                    </CommandGroup>
+                  )}
                 </Command>
               </PopoverContent>
             </Popover>
@@ -432,13 +559,13 @@ const TranslationView = () => {
             <Button
               variant="outline"
               size="sm"
-              onClick={() => {
-                const prevChapter = currentChapterNum - 1;
-                if (prevChapter >= 1) {
-                  jumpToChapter(prevChapter);
-                }
-              }}
-              disabled={currentChapterNum <= 1}
+              onClick={() =>
+                jumpToChapter(
+                  currentChapter.book,
+                  currentChapter.chapterNum - 1,
+                )
+              }
+              disabled={currentChapter.chapterNum <= 1}
               className="h-7"
             >
               <ChevronLeft className="h-4 w-4" />
@@ -470,9 +597,9 @@ const TranslationView = () => {
           </Button>
         </div>
         <div className="space-y-3 pr-3">
-          {currentChapter?.translations.map((item) => (
+          {currentChapter?.translations.map((item: VerseInstance) => (
             <div
-              key={item.id}
+              key={item.instanceId}
               onClick={() => toggleVerse(item.id)}
               className={cn(
                 'group relative py-1 px-2 -mx-2 rounded cursor-pointer',

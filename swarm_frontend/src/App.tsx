@@ -1,4 +1,5 @@
 import { useState, useEffect, useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   Card,
   CardHeader,
@@ -24,6 +25,7 @@ interface Manifest {
 }
 
 const App = () => {
+  const navigate = useNavigate();
   const [scenarios, setScenarios] = useState<Scenario[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
 
@@ -57,15 +59,21 @@ const App = () => {
     });
   }, [scenarios, searchQuery]);
 
+  const handleScenarioClick = (scenario: Scenario) => {
+    navigate(`/translation/${scenario.id}`, { state: scenario });
+  };
+
   return (
     <div className="container mx-auto p-4 max-w-7xl">
       <h1 className="text-3xl font-bold mb-6">Bible Translation Projects</h1>
-      
+
       <div className="flex flex-col gap-4">
         <Input
           placeholder="Search by language code or name..."
           value={searchQuery}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchQuery(e.target.value)}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            setSearchQuery(e.target.value)
+          }
           className="max-w-md"
         />
         <Separator />
@@ -87,6 +95,7 @@ const App = () => {
                   'transition-all hover:shadow-lg cursor-pointer',
                   'border-2 hover:border-primary',
                 )}
+                onClick={() => handleScenarioClick(scenario)}
               >
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">

@@ -335,28 +335,28 @@ const TranslationView = () => {
   const currentChapter = chapters[currentChapterIndex];
 
   return (
-    <div className="container mx-auto p-4">
-      <div className="flex items-center gap-4 mb-6">
+    <div className="container mx-auto p-3">
+      <div className="flex items-center gap-3 mb-4">
         <Link to="/">
-          <Button variant="ghost" size="icon">
+          <Button variant="ghost" size="icon" className="h-8 w-8">
             <ArrowLeft className="h-4 w-4" />
           </Button>
         </Link>
-        <h1 className="text-2xl font-bold">
+        <h1 className="text-xl font-bold">
           {scenario.source_label} → {scenario.target_label}
         </h1>
       </div>
 
       {currentChapter && (
-        <div className="flex items-center justify-between mb-4">
-          <div className="flex items-center gap-4">
-            <h2 className="text-xl font-semibold">{currentChapter.name}</h2>
-            <div className="flex items-center gap-2">
+        <div className="flex items-center justify-between mb-3">
+          <div className="flex items-center gap-3">
+            <h2 className="text-lg font-semibold">{currentChapter.name}</h2>
+            <div className="flex items-center gap-1">
               <Input
                 type="number"
                 value={chapterInput}
                 onChange={(e) => setChapterInput(e.target.value)}
-                className="w-20"
+                className="w-16 h-7 text-sm"
                 min="1"
               />
               <Button
@@ -364,12 +364,13 @@ const TranslationView = () => {
                 size="sm"
                 onClick={() => jumpToChapter(parseInt(chapterInput, 10))}
                 disabled={loading}
+                className="h-7"
               >
                 Go
               </Button>
             </div>
           </div>
-          <div className="flex gap-2">
+          <div className="flex gap-1">
             <Button
               variant="outline"
               size="sm"
@@ -380,6 +381,7 @@ const TranslationView = () => {
                 }
               }}
               disabled={currentChapterNum <= 1}
+              className="h-7"
             >
               <ChevronLeft className="h-4 w-4" />
               Previous
@@ -389,6 +391,7 @@ const TranslationView = () => {
               size="sm"
               onClick={loadNextChapter}
               disabled={loading}
+              className="h-7"
             >
               Next
               <ChevronRight className="h-4 w-4" />
@@ -397,35 +400,35 @@ const TranslationView = () => {
         </div>
       )}
 
-      <ScrollArea className="h-[calc(100vh-12rem)]">
-        <div className="flex justify-end mb-4">
+      <ScrollArea className="h-[calc(100vh-8rem)]">
+        <div className="flex justify-end mb-2">
           <Button
             variant="ghost"
             size="sm"
             onClick={toggleAllSource}
-            className="text-muted-foreground"
+            className="text-muted-foreground h-7 text-xs"
           >
             {showAllSource ? 'Hide all' : 'Show all'} original text
           </Button>
         </div>
-        <div className="space-y-6 pr-4">
+        <div className="space-y-3 pr-3">
           {currentChapter?.translations.map((item) => (
             <div
               key={item.id}
               onClick={() => toggleVerse(item.id)}
               className={cn(
-                'group relative space-y-2 py-2 px-3 -mx-3 rounded-lg cursor-pointer',
+                'group relative py-1 px-2 -mx-2 rounded cursor-pointer',
                 'transition-colors duration-200',
                 'hover:bg-muted/50',
               )}
             >
               {(showAllSource || expandedVerses.has(item.id)) && (
-                <p className="text-muted-foreground text-lg font-medium">
+                <p className="text-muted-foreground text-base mb-1">
                   {item.original}
                 </p>
               )}
-              <p className="text-lg">
-                <sup className="text-xs font-medium text-muted-foreground mr-2">
+              <p className="text-base">
+                <sup className="text-xs font-medium text-muted-foreground mr-1">
                   {getVerseNumber(item.id)}
                 </sup>
                 {item.translation}

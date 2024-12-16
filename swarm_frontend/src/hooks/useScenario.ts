@@ -34,12 +34,9 @@ interface UseScenarioReturn {
     error: string | null;
 }
 
-const ENDPOINT = (() => {
-    const endpoint = process.env.NODE_ENV === 'production'
-        ? 'https://raw.githubusercontent.com/ryderwishart/swarm/refs/heads/master/swarm_translate/scenarios/consolidated'
-        : 'http://localhost:5173';
-    return endpoint;
-})();
+const ENDPOINT = process.env.NODE_ENV === 'production'
+    ? 'https://raw.githubusercontent.com/ryderwishart/swarm/refs/heads/master/swarm_translate/scenarios/consolidated'
+    : 'http://localhost:5173';
 
 export function useScenario(id: string | undefined): UseScenarioReturn {
     const [scenario, setScenario] = useState<Scenario | null>(null);

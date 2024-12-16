@@ -4,20 +4,27 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import App from './App';
 import TranslationView from './routes/TranslationView';
+import RootLayout from './components/RootLayout';
 import './index.css';
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <App />,
-  },
-  {
-    path: '/translation/:id',
-    element: <TranslationView />,
-  },
-  {
-    path: '/translation/:id/:book/:chapter',
-    element: <TranslationView />,
+    element: <RootLayout />,
+    children: [
+      {
+        index: true,
+        element: <App />,
+      },
+      {
+        path: 'translation/:id',
+        element: <TranslationView />,
+      },
+      {
+        path: 'translation/:id/:book/:chapter',
+        element: <TranslationView />,
+      },
+    ],
   },
 ]);
 

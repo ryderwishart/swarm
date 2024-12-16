@@ -1,7 +1,5 @@
-'use client';
-
 import { useState, useEffect, useReducer, useRef } from 'react';
-import { Link, useParams, useNavigate } from 'react-router-dom';
+import { Link, useParams, useNavigate, useLocation } from 'react-router-dom';
 import { Button } from '../components/ui/button';
 import {
   ArrowLeft,
@@ -19,7 +17,7 @@ import {
 } from '../components/ui/popover';
 import { Command, CommandGroup } from '../components/ui/command';
 import { SEO } from '../components/SEO';
-import { useScenario } from '../hooks/useScenario';
+import { Scenario, useScenario } from '../hooks/useScenario';
 import Layout from '../components/Layout';
 import {
   Card,
@@ -245,6 +243,25 @@ const BOOK_GROUPS = {
 } as const;
 
 const TranslationView = () => {
+  const {
+    id,
+    book: initialBook,
+    chapter: initialChapter,
+  } = useParams<{
+    id: string;
+    book?: string;
+    chapter?: string;
+  }>();
+  const navigate = useNavigate();
+
+  // Use the hook to get scenario and translations data
+  const {
+    scenario,
+    translations,
+    loading: scenarioLoading,
+    error: scenarioError,
+  } = useScenario(id);
+
   const [currentChapter, dispatch] = useReducer(chapterReducer, null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -262,22 +279,6 @@ const TranslationView = () => {
   const chapterMapRef = useRef<ChapterMap>({});
 
   const [searchQuery, setSearchQuery] = useState('');
-  const {
-    id,
-    book: initialBook,
-    chapter: initialChapter,
-  } = useParams<{
-    id: string;
-    book?: string;
-    chapter?: string;
-  }>();
-  const navigate = useNavigate();
-  const {
-    scenario,
-    loading: scenarioLoading,
-    error: scenarioError,
-    translations,
-  } = useScenario(id);
 
   const combinedLoading = scenarioLoading || loading;
 
@@ -315,9 +316,31 @@ const TranslationView = () => {
     }
   };
 
-  const jumpToChapter = (targetBook: string, targetChapter: number) => {
-    if (targetChapter < 1) return;
-    setChapter(targetBook, targetChapter);
+  const jumpToChapter = (book: string, chapterNum: number) => {
+    const verseInstances = translations
+      .filter((translation) => {
+        const verseInfo = getBookAndChapterFromId(translation.id);
+        return (
+          verseInfo?.book === book &&
+          verseInfo.chapter === chapterNum.toString()
+        );
+      })
+      .map((translation) => ({
+        ...translation,
+        instanceId: `${translation.id}-${Math.random()}`,
+      }));
+
+    if (verseInstances.length > 0) {
+      dispatch({
+        type: 'SET_CHAPTER',
+        payload: {
+          book,
+          chapterNum,
+          translations: verseInstances,
+        },
+      });
+      // URL will be updated by the effect above
+    }
   };
 
   const loadNextChapter = () => {
@@ -440,23 +463,46 @@ const TranslationView = () => {
   // Update URL when chapter changes
   useEffect(() => {
     if (currentChapter) {
-      const newPath = `/translation/${id}/${encodeURIComponent(
-        currentChapter.book,
-      )}/${currentChapter.chapterNum}`;
-      navigate(newPath, { replace: true });
+      navigate(
+        `/translation/${id}/${encodeURIComponent(currentChapter.book)}/${
+          currentChapter.chapterNum
+        }`,
+        { replace: true },
+      );
     }
   }, [currentChapter, id, navigate]);
 
-  // Handle initial deep link
+  // Handle initial deep link navigation
   useEffect(() => {
-    if (initialBook && initialChapter && !loading) {
-      const decodedBook = decodeURIComponent(initialBook);
-      const chapterNum = parseInt(initialChapter, 10);
-      if (navigation.books.includes(decodedBook)) {
-        setChapter(decodedBook, chapterNum);
-      }
+    if (!translations.length || !initialBook || !initialChapter) return;
+
+    const decodedBook = decodeURIComponent(initialBook);
+    const chapterNum = parseInt(initialChapter, 10);
+
+    const verseInstances = translations
+      .filter((translation) => {
+        const verseInfo = getBookAndChapterFromId(translation.id);
+        return (
+          verseInfo?.book === decodedBook &&
+          verseInfo.chapter === chapterNum.toString()
+        );
+      })
+      .map((translation) => ({
+        ...translation,
+        instanceId: `${translation.id}-${Math.random()}`,
+      }));
+
+    if (verseInstances.length > 0) {
+      dispatch({
+        type: 'SET_CHAPTER',
+        payload: {
+          book: decodedBook,
+          chapterNum,
+          translations: verseInstances,
+        },
+      });
     }
-  }, [initialBook, initialChapter, loading, navigation.books]);
+  }, [translations, initialBook, initialChapter]);
 
   if (scenarioError) {
     return (

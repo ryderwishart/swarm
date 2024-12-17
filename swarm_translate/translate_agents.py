@@ -64,18 +64,21 @@ class TranslationScenario:
     def save_progress(self, progress: Dict):
         with open(self.get_progress_path(), 'w') as f:
             json.dump(progress, f)
+            
+def get_linguistic_directives(scenario: TranslationScenario) -> str:
+    return scenario.config.get("linguistic_directives", "")
 
 def setup_agents(scenario: TranslationScenario) -> tuple:
     """Set up the translation agents based on scenario configuration."""
     
     # Configure OpenAI clients
     decision_client = OpenAI(
-        base_url="http://localhost:1235/v1",
+        base_url="http://localhost:1234/v1",
         api_key="not-needed"
     )
 
     translation_client = OpenAI(
-        base_url="http://localhost:1235/v1",
+        base_url="http://localhost:1234/v1",
         api_key="not-needed"
     )
 
@@ -142,34 +145,64 @@ def translate_with_agents(text: str, scenario: TranslationScenario,
     start_time = time.time()
     
     # Step 1: Linguist bot analyzes the sentence
+    messages = [
+        {
+            "role": "user", 
+            "content": f"Analyze this {scenario.source_label} sentence for translation to {scenario.target_label}: '{text}'"
+        }
+    ]
+    
+    if hasattr(scenario, 'linguistic_directives'):
+        messages.insert(0, {
+            "role": "system",
+            "content": get_linguistic_directives(scenario)
+        })
+        
     response = swarm_client.run(
         agent=linguist_bot,
-        messages=[{
-            "role": "user",
-            "content": f"Analyze this {scenario.source_label} sentence for translation to {scenario.target_label}: '{text}'"
-        }]
+        messages=messages
     )
     analysis = response.messages[-1]["content"]
     
     # Step 2: Translator bot translates components
-    response = swarm_client.run(
-        agent=translator_bot,
-        messages=[{
+    messages = [
+        {
             "role": "user",
             "content": f"Translate these components from {scenario.source_label} to {scenario.target_label}: {analysis}"
-        }]
+        }
+    ]
+    
+    if hasattr(scenario, 'linguistic_directives'):
+        messages.insert(0, {
+            "role": "system",
+            "content": get_linguistic_directives(scenario)
+        })
+        
+    response = swarm_client.run(
+        agent=translator_bot,
+        messages=messages
     )
     translations = response.messages[-1]["content"]
     
     # Step 3: QA bot provides final translation
-    response = swarm_client.run(
-        agent=qa_bot,
-        messages=[{
+    messages = [
+        {
             "role": "user",
             "content": f"""Provide the final {scenario.target_label} translation:
-            Original ({scenario.source_label}): {text}
-            Component translations: {translations}"""
-        }]
+                Original ({scenario.source_label}): {text}
+                Component translations: {translations}"""
+        }
+    ]
+    
+    if hasattr(scenario, 'linguistic_directives'):
+        messages.insert(0, {
+            "role": "system",
+            "content": get_linguistic_directives(scenario)
+        })
+        
+    response = swarm_client.run(
+        agent=qa_bot,
+        messages=messages
     )
     
     translation_time = time.time() - start_time

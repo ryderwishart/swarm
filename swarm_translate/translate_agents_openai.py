@@ -9,9 +9,11 @@ from openai import OpenAI
 import os
 from dotenv import load_dotenv
 import re
+import multiprocessing as mp
+from functools import partial
 
-# Load environment variables from parent directory
-load_dotenv(Path(__file__).parent.parent / '.env')
+# Load environment variables
+load_dotenv()
 
 class TranslationScenario:
     def __init__(self, scenario_path: str):
@@ -260,17 +262,58 @@ def translate_with_agents(text: str, scenario: TranslationScenario,
             "calver": datetime.now().strftime("%Y.%m.%d")
         }
 
-def process_input_file(scenario: TranslationScenario):
-    """Process input file according to scenario configuration."""
-    # Set up agents
+def process_batch(batch_data: tuple, scenario: TranslationScenario, output_path: Path):
+    """Process a single batch of translations."""
+    batch_id, lines = batch_data
+    
+    # Set up agents for this process
     swarm_client, linguist_bot, translator_bot, qa_bot = setup_agents(scenario)
     
+    current_batch = []
+    
+    for item in lines:
+        try:
+            content = item[scenario.config["input"]["content_field"]]
+            text_id = item.get(scenario.config["input"]["id_field"])
+        except KeyError as e:
+            print(f"Error accessing fields in batch {batch_id}:")
+            print(f"Item content: {item}")
+            raise
+        
+        result = translate_with_agents(
+            content, scenario, swarm_client, 
+            linguist_bot, translator_bot, qa_bot, 
+            text_id, skip_qa=True
+        )
+        current_batch.append(result)
+    
+    # Process final batch
+    if current_batch:
+        combined_translation = batch_translations(
+            current_batch, 
+            scenario, 
+            qa_bot,
+            swarm_client
+        )
+        
+        # Write all translations except the last one as-is
+        for j, translation in enumerate(current_batch[:-1]):
+            with open(output_path, 'a', encoding='utf-8') as f:
+                f.write(json.dumps(translation, ensure_ascii=False) + '\n')
+        
+        # Update last translation with combined version
+        last_translation = current_batch[-1].copy()
+        last_translation["translation"] = combined_translation
+        with open(output_path, 'a', encoding='utf-8') as f:
+            f.write(json.dumps(last_translation, ensure_ascii=False) + '\n')
+
+def process_input_file(scenario: TranslationScenario):
+    """Process input file according to scenario configuration using parallel processing."""
     # Load progress if resuming
     progress = scenario.load_progress()
-    last_id = progress["last_processed_id"]
     processed_count = progress["processed_count"]
     
-    # Read input file with better error handling
+    # Read input file
     try:
         with open(scenario.input_path, 'r', encoding='utf-8') as f:
             if scenario.config["input"]["format"] == "jsonl":
@@ -285,88 +328,48 @@ def process_input_file(scenario: TranslationScenario):
                     except json.JSONDecodeError as e:
                         print(f"Error parsing line {i}:")
                         print(f"Line content: {line}")
-                        print(f"Error details: {str(e)}")
                         raise
                 
                 # Skip already processed items if resuming
-                if last_id is not None:
+                if processed_count > 0:
                     lines = lines[processed_count:]
             else:
                 lines = [{"content": line.strip(), "id": str(i)} 
                         for i, line in enumerate(f) if line.strip()]
     except FileNotFoundError:
         print(f"Input file not found: {scenario.input_path}")
-        print(f"Working directory: {Path.cwd()}")
-        print(f"Absolute path attempted: {scenario.input_path.absolute()}")
-        raise
-    except Exception as e:
-        print(f"Error reading input file: {str(e)}")
         raise
     
     if not lines:
         print("Warning: No lines were read from the input file")
         return
     
-    # Process in batches
-    output_path = scenario.get_output_path()
-    current_batch = []
-    batch_size = 5  # Start with groups of 5
+    # Split lines into batches for parallel processing
+    num_processes = min(mp.cpu_count(), len(lines))  # Don't create more processes than lines
+    batch_size = max(1, len(lines) // num_processes)  # Ensure at least 1 item per batch
+    batches = []
     
-    for i, item in enumerate(lines):
-        try:
-            content = item[scenario.config["input"]["content_field"]]
-            text_id = item.get(scenario.config["input"]["id_field"])
-        except KeyError as e:
-            print(f"Error accessing fields in item {i}:")
-            print(f"Item content: {item}")
-            print(f"Expected fields: {scenario.config['input']['content_field']} and {scenario.config['input']['id_field']}")
-            raise
+    for i in range(0, len(lines), batch_size):
+        batch = lines[i:i + batch_size]
+        batches.append((i // batch_size, batch))  # Include batch ID
+    
+    # Set up multiprocessing pool
+    output_path = scenario.get_output_path()
+    with mp.Pool(num_processes) as pool:
+        # Use partial to fix scenario and output_path arguments
+        process_batch_partial = partial(process_batch, 
+                                     scenario=scenario,
+                                     output_path=output_path)
         
-        # Translate individual sentence
-        result = translate_with_agents(
-            content, scenario, swarm_client, 
-            linguist_bot, translator_bot, qa_bot, 
-            text_id, skip_qa=True  # Skip individual QA
-        )
-        current_batch.append(result)
+        # Process batches in parallel
+        pool.map(process_batch_partial, batches)
         
-        # Check if we should process the batch
-        should_process = (
-            len(current_batch) >= batch_size and 
-            is_complete_thought(result["translation"])
-        )
-        
-        if should_process or i == len(lines) - 1:  # Process if batch full or last item
-            # Synthesize the batch
-            combined_translation = batch_translations(
-                current_batch, 
-                scenario, 
-                qa_bot,
-                swarm_client
-            )
-            
-            # Write all translations except the last one as-is
-            for j, translation in enumerate(current_batch[:-1]):
-                with open(output_path, 'a', encoding='utf-8') as f:
-                    f.write(json.dumps(translation, ensure_ascii=False) + '\n')
-            
-            # Update only the last translation with the combined version
-            if current_batch:
-                last_translation = current_batch[-1].copy()
-                last_translation["translation"] = combined_translation
-                with open(output_path, 'a', encoding='utf-8') as f:
-                    f.write(json.dumps(last_translation, ensure_ascii=False) + '\n')
-            
-            # Clear the batch
-            current_batch = []
-            
-            # Update and save progress
-            if (i + 1) % scenario.save_frequency == 0:
-                progress = {
-                    "last_processed_id": text_id,
-                    "processed_count": processed_count + i + 1
-                }
-                scenario.save_progress(progress)
+        # Update progress after all batches complete
+        progress = {
+            "last_processed_id": lines[-1].get(scenario.config["input"]["id_field"]) if lines else None,
+            "processed_count": processed_count + len(lines)
+        }
+        scenario.save_progress(progress)
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Translate text using agent swarm')

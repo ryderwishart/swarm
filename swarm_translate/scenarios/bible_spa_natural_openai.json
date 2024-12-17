@@ -1,0 +1,37 @@
+{
+    "name": "Vox Populi Translation - Spanish (Natural Clarity)",
+    "description": "Dynamic, periphrastic translation of Biblical texts from English (Berean Standard Bible) to Spanish",
+    "input": {
+        "file": "data/bsb-test-song.jsonl",
+        "format": "jsonl",
+        "content_field": "content",
+        "id_field": "id"
+    },
+    "output": {
+        "directory": "translations",
+        "format": "jsonl",
+        "filename_template": "bible_spa_natural_openai"
+    },
+    "source": {
+        "code": "eng",
+        "label": "English (Berean Standard Bible)"
+    },
+    "target": {
+        "code": "spa",
+        "label": "Spanish (Natural)"
+    },
+    "style": {
+        "formality": "natural",
+        "register": "informal",
+        "notes": "Aim for a natural, idiomatic translation, avoiding overly formal language. Emphasize simplicity, clarity, and readability. Don't go with the conventional English wordings just because they are traditional. Use the most natural and idiomatic translation. Aim for a reading level of a fourth grader. Use words known even in secular contexts. Instead of 'the Word', use 'Reason' or 'the message'. Instead of 'sanctify', use 'make holy'. Use these sorts of circumlocutions for the sake of clarity and readability."
+    },
+    "models": {
+        "routing": "gpt-4o-mini",
+        "translation": "gpt-4o-mini"
+    },
+    "batch_settings": {
+        "batch_size": 10,
+        "save_frequency": 5,
+        "resume_from_last": true
+    }
+}

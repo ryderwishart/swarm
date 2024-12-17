@@ -31,6 +31,14 @@
       "source_label": "1904 Patriarchal Greek New Testament with 20 correcctions from later editions",
       "target_lang": "eng",
       "target_label": "English"
+    },
+    {
+      "id": "eng-spa",
+      "filename": "eng-spa_consolidated.jsonl",
+      "source_lang": "eng",
+      "source_label": "English (Berean Standard Bible)",
+      "target_lang": "spa",
+      "target_label": "Spanish (Natural)"
     }
   ]
 }

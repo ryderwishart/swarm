@@ -1,0 +1,38 @@
+{
+    "name": "Vox Populi Translation - Nepali (Natural)",
+    "description": "Natural translation of Biblical texts from English (Berean Standard Bible) to Nepali",
+    "input": {
+        "file": "data/bsb-test.jsonl",
+        "format": "jsonl",
+        "content_field": "content",
+        "id_field": "id"
+    },
+    "output": {
+        "directory": "translations",
+        "format": "jsonl",
+        "filename_template": "{source_code}-{target_code}_bible_{date}"
+    },
+    "source": {
+        "code": "eng",
+        "label": "English (Berean Standard Bible)"
+    },
+    "target": {
+        "code": "npi",
+        "label": "Nepali (Natural)"
+    },
+    "linguistic_directives": "When translating from English to Nepali, key syntactic adjustments include: 1) Word order: Nepali typically follows Subject-Object-Verb (SOV), while English uses Subject-Verb-Object (SVO) (e.g., “She eats an apple” → “उनी एक स्याउ खान्छिन्”). 2) Tense and aspect: Nepali often omits auxiliary verbs (e.g., “She is eating” → “उनी स्याउ खान्दैछिन्”). 3) Pronouns: Nepali distinguishes between formal and informal pronouns based on respect (e.g., “you” → “तिमी” for informal, “तपाईं” for formal). 4) Postpositions: Nepali uses postpositions instead of prepositions (e.g., “in the house” → “घरमा”). 5) Noun-adjective agreement: Adjectives follow nouns and must match in gender and number (e.g., “A red car” → “एउटा रातो गाडी”). 6) Definiteness: Nepali often conveys definiteness through context or specific words like “त्यो” (that) or “यो” (this) rather than articles (e.g., “the book” → “त्यो किताब”). 7) Honorifics: Nepali uses honorifics to show formality and respect, affecting verbs and pronouns (e.g., “You are good” → “तपाईं राम्रो हुनुहुन्छ”).",
+    "style": {
+        "formality": "natural",
+        "register": "informal",
+        "notes": "Aim for a natural, idiomatic translation, avoiding overly formal language. Emphasize simplicity, clarity, and readability. Don't go with the conventional English wordings just because they are traditional. Use the most natural and idiomatic translation. Instead of 'the Word', use 'Reason' or 'the message'. Instead of 'sanctify', use 'make holy'. Use these sorts of circumlocutions for the sake of clarity and readability."
+    },
+    "models": {
+        "routing": "llama-3.2-3b-instruct_nepali_gguf",
+        "translation": "llama-3.2-3b-instruct_nepali_gguf"
+    },
+    "batch_settings": {
+        "batch_size": 10,
+        "save_frequency": 5,
+        "resume_from_last": true
+    }
+}

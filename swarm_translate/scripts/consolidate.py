@@ -13,7 +13,7 @@ def parse_reference(id: str) -> tuple:
         'genesis': 1, 'exodus': 2, 'leviticus': 3, 'numbers': 4, 'deuteronomy': 5,
         'joshua': 6, 'judges': 7, 'ruth': 8, '1 samuel': 9, '2 samuel': 10,
         '1 kings': 11, '2 kings': 12, '1 chronicles': 13, '2 chronicles': 14,
-        'ezra': 15, 'nehemiah': 16, 'esther': 17, 'job': 18, 'psalms': 19,
+        'ezra': 15, 'nehemiah': 16, 'esther': 17, 'job': 18, 'psalm': 19,
         'proverbs': 20, 'ecclesiastes': 21, 'song of solomon': 22, 'isaiah': 23,
         'jeremiah': 24, 'lamentations': 25, 'ezekiel': 26, 'daniel': 27,
         'hosea': 28, 'joel': 29, 'amos': 30, 'obadiah': 31, 'jonah': 32,

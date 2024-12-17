@@ -2,7 +2,7 @@
   "scenarios": [
     {
       "id": "eng-fra",
-      "filename": "eng-fra_consolidated_20241216064458.jsonl",
+      "filename": "eng-fra_consolidated.jsonl",
       "source_lang": "eng",
       "source_label": "English (Berean Standard Bible)",
       "target_lang": "fra",
@@ -10,15 +10,23 @@
     },
     {
       "id": "eng-tpi",
-      "filename": "eng-tpi_consolidated_20241216064458.jsonl",
+      "filename": "eng-tpi_consolidated.jsonl",
       "source_lang": "eng",
       "source_label": "English (Berean Standard Bible)",
       "target_lang": "tpi",
       "target_label": "Tok Pisin"
     },
     {
+      "id": "eng-eng",
+      "filename": "eng-eng_consolidated.jsonl",
+      "source_lang": "eng",
+      "source_label": "English (Berean Standard Bible)",
+      "target_lang": "eng",
+      "target_label": "English (Natural, Middle-School Level)"
+    },
+    {
       "id": "grc-eng",
-      "filename": "grc-eng_consolidated_20241216064458.jsonl",
+      "filename": "grc-eng_consolidated.jsonl",
       "source_lang": "grc",
       "source_label": "1904 Patriarchal Greek New Testament with 20 correcctions from later editions",
       "target_lang": "eng",

@@ -11,6 +11,8 @@ import { ScrollArea } from './components/ui/scroll-area';
 import { Separator } from './components/ui/separator';
 import { Input } from './components/ui/input';
 import { cn } from './lib/utils';
+import { InfoIcon } from 'lucide-react';
+import { SEO } from './components/SEO';
 
 interface Scenario {
   id: string;
@@ -64,16 +66,48 @@ const App = () => {
     navigate(`/translation/${scenario.id}`, { state: scenario });
   };
 
+  const CopyrightStatement = () => {
+    return (
+      <Card className="border-l-4 border-l-blue-500 bg-blue-50 dark:bg-blue-950/50 mb-4">
+        <CardHeader className="pb-2">
+          <CardTitle className="text-blue-700 dark:text-blue-300 flex items-center gap-2 text-sm font-medium">
+            <InfoIcon className="h-4 w-4" />
+            Copyright Statement
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="text-sm text-blue-700 dark:text-blue-300">
+          <p>
+            Our goal is to release all of these translations into the public
+            domain. All rights reserved until novelty verified (coming soon!).
+          </p>
+          <p>
+            Please check our{' '}
+            <a
+              href="https://frontierrnd.com/policy"
+              target="_blank"
+              className="underline hover:text-blue-900 dark:hover:text-blue-100"
+            >
+              copyright policy
+            </a>
+            .
+          </p>
+        </CardContent>
+      </Card>
+    );
+  };
+
   return (
-    <div className="min-h-screen bg-muted/30 py-8">
+    <>
+      <SEO />
       <Card className="container mx-auto max-w-4xl shadow-lg">
         <CardHeader className="space-y-1">
           <CardTitle className="text-2xl">Bible Translation Projects</CardTitle>
           <CardDescription>
-            Select a translation project to review and edit
+            Select a translation project to review and read
           </CardDescription>
         </CardHeader>
         <CardContent>
+          <CopyrightStatement />
           <div className="flex flex-col gap-4">
             <Input
               placeholder="Search by language code or name..."
@@ -97,7 +131,7 @@ const App = () => {
                       className={cn(
                         'transition-all hover:shadow-md cursor-pointer',
                         'border hover:border-primary/50',
-                        'bg-card/50 hover:bg-card'
+                        'bg-card/50 hover:bg-card',
                       )}
                       onClick={() => handleScenarioClick(scenario)}
                     >
@@ -136,7 +170,7 @@ const App = () => {
           </div>
         </CardContent>
       </Card>
-    </div>
+    </>
   );
 };
 

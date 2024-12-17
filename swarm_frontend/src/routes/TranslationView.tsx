@@ -1,16 +1,14 @@
 import { useState, useEffect, useReducer, useRef } from 'react';
-import { useLocation, Link } from 'react-router-dom';
+import { Link, useParams, useNavigate, useLocation } from 'react-router-dom';
 import { Button } from '../components/ui/button';
 import {
   ArrowLeft,
   ChevronLeft,
   ChevronRight,
   ChevronDown,
-  Grid2X2,
   LayoutGridIcon,
 } from 'lucide-react';
 import { ScrollArea } from '../components/ui/scroll-area';
-import type { Scenario } from '../types';
 import { cn } from '../lib/utils';
 import {
   Popover,
@@ -18,6 +16,14 @@ import {
   PopoverTrigger,
 } from '../components/ui/popover';
 import { Command, CommandGroup } from '../components/ui/command';
+import { SEO } from '../components/SEO';
+import { Scenario, useScenario } from '../hooks/useScenario';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardTitle,
+} from '../components/ui/card';
 
 interface Translation {
   source_lang: string;
@@ -236,8 +242,26 @@ const BOOK_GROUPS = {
 } as const;
 
 const TranslationView = () => {
+  const {
+    id,
+    book: initialBook,
+    chapter: initialChapter,
+  } = useParams<{
+    id: string;
+    book?: string;
+    chapter?: string;
+  }>();
+  const navigate = useNavigate();
   const location = useLocation();
-  const scenario = location.state as Scenario;
+
+  // Use the hook to get scenario and translations data
+  const {
+    scenario,
+    translations,
+    loading: scenarioLoading,
+    error: scenarioError,
+  } = useScenario(id);
+
   const [currentChapter, dispatch] = useReducer(chapterReducer, null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -256,6 +280,8 @@ const TranslationView = () => {
 
   const [searchQuery, setSearchQuery] = useState('');
 
+  const combinedLoading = scenarioLoading || loading;
+
   const getBookAndChapterFromId = (verseId: string) => {
     const match = verseId.match(/^(.*?)\s+(\d+):/);
     if (!match) return null;
@@ -266,8 +292,6 @@ const TranslationView = () => {
   };
 
   const setChapter = (book: string, chapterNum: number) => {
-    console.log('setChapter called with:', { book, chapterNum });
-    console.log('chapterMap contents:', chapterMapRef.current);
     const translations = chapterMapRef.current[book]?.[chapterNum];
     if (translations) {
       dispatch({
@@ -292,9 +316,31 @@ const TranslationView = () => {
     }
   };
 
-  const jumpToChapter = (targetBook: string, targetChapter: number) => {
-    if (targetChapter < 1) return;
-    setChapter(targetBook, targetChapter);
+  const jumpToChapter = (book: string, chapterNum: number) => {
+    const verseInstances = translations
+      .filter((translation) => {
+        const verseInfo = getBookAndChapterFromId(translation.id);
+        return (
+          verseInfo?.book === book &&
+          verseInfo.chapter === chapterNum.toString()
+        );
+      })
+      .map((translation) => ({
+        ...translation,
+        instanceId: `${translation.id}-${Math.random()}`,
+      }));
+
+    if (verseInstances.length > 0) {
+      dispatch({
+        type: 'SET_CHAPTER',
+        payload: {
+          book,
+          chapterNum,
+          translations: verseInstances,
+        },
+      });
+      // URL will be updated by the effect above
+    }
   };
 
   const loadNextChapter = () => {
@@ -329,86 +375,59 @@ const TranslationView = () => {
   }, [scenario?.filename]); // Only reset when filename changes
 
   useEffect(() => {
-    const loadTranslations = async () => {
-      try {
-        setLoading(true);
-        const response = await fetch(`/${scenario.filename}`);
-        if (!response.ok) {
-          throw new Error('Failed to fetch translations');
-        }
+    if (!translations.length) return;
 
-        const text = await response.text();
-        const lines = text.split('\n');
-        const chaptersMap: ChapterMap = {};
+    const chaptersMap: ChapterMap = {};
 
-        for (const line of lines) {
-          if (!line.trim()) continue;
-
-          try {
-            const translation = JSON.parse(line) as Translation;
-            const verseInfo = getBookAndChapterFromId(translation.id);
-
-            if (!verseInfo) {
-              console.log('Failed to parse verse ID:', translation.id);
-              continue;
-            }
-
-            const { book, chapter } = verseInfo;
-            const chapterNum = parseInt(chapter, 10);
-
-            if (!chaptersMap[book]) {
-              chaptersMap[book] = {};
-            }
-            if (!chaptersMap[book][chapterNum]) {
-              chaptersMap[book][chapterNum] = [];
-            }
-
-            // Add a unique instance ID to each verse
-            const verseInstance: VerseInstance = {
-              ...translation,
-              instanceId: `${translation.id}-${chaptersMap[book][chapterNum].length}`,
-            };
-
-            chaptersMap[book][chapterNum].push(verseInstance);
-          } catch (err) {
-            console.error('Error parsing line:', err);
-          }
-        }
-
-        // Create navigation data once
-        const nav = createChapterNavigation(chaptersMap);
-
-        chapterMapRef.current = chaptersMap;
-        setChapterMap(chaptersMap);
-        setNavigation(nav);
-
-        // Find the first available canonical book
-        const firstCanonicalBook = CANONICAL_BOOKS.find((book) =>
-          nav.books.includes(book),
-        );
-
-        // Set initial chapter to the first chapter of the first canonical book
-        if (firstCanonicalBook) {
-          const firstChapter = nav.bookChapters[firstCanonicalBook][0];
-          setChapter(firstCanonicalBook, firstChapter);
-        } else if (nav.chapterOrder.length > 0) {
-          // Fallback to first available chapter if no canonical books found
-          const first = nav.chapterOrder[0];
-          setChapter(first.book, first.chapter);
-        }
-
-        setLoading(false);
-      } catch (err) {
-        console.error('Error loading translations:', err);
-        setError('Failed to load translations');
-        setLoading(false);
+    for (const translation of translations) {
+      const verseInfo = getBookAndChapterFromId(translation.id);
+      if (!verseInfo) {
+        continue;
       }
-    };
 
-    if (scenario) {
-      loadTranslations();
+      const { book, chapter } = verseInfo;
+      const chapterNum = parseInt(chapter, 10);
+
+      if (!chaptersMap[book]) {
+        chaptersMap[book] = {};
+      }
+      if (!chaptersMap[book][chapterNum]) {
+        chaptersMap[book][chapterNum] = [];
+      }
+
+      // Add a unique instance ID to each verse
+      const verseInstance: VerseInstance = {
+        ...translation,
+        instanceId: `${translation.id}-${chaptersMap[book][chapterNum].length}`,
+      };
+
+      chaptersMap[book][chapterNum].push(verseInstance);
     }
-  }, [scenario]);
+
+    // Create navigation data once
+    const nav = createChapterNavigation(chaptersMap);
+
+    chapterMapRef.current = chaptersMap;
+    setChapterMap(chaptersMap);
+    setNavigation(nav);
+
+    // Find the first available canonical book
+    const firstCanonicalBook = CANONICAL_BOOKS.find((book) =>
+      nav.books.includes(book),
+    );
+
+    // Set initial chapter to the first chapter of the first canonical book
+    if (firstCanonicalBook) {
+      const firstChapter = nav.bookChapters[firstCanonicalBook][0];
+      setChapter(firstCanonicalBook, firstChapter);
+    } else if (nav.chapterOrder.length > 0) {
+      // Fallback to first available chapter if no canonical books found
+      const first = nav.chapterOrder[0];
+      setChapter(first.book, first.chapter);
+    }
+
+    setLoading(false);
+  }, [translations]);
 
   const getVerseNumber = (verseId: string): string => {
     const match = verseId.match(/:(\d+)$/);
@@ -441,9 +460,66 @@ const TranslationView = () => {
     }
   }, [isOpen]);
 
+  // Update URL when chapter changes
+  useEffect(() => {
+    if (currentChapter && !location.pathname.includes(currentChapter.book)) {
+      navigate(
+        `/translation/${id}/${encodeURIComponent(currentChapter.book)}/${
+          currentChapter.chapterNum
+        }`,
+        { replace: true },
+      );
+    }
+  }, [currentChapter, id, navigate, location]);
+
+  // Handle initial deep link navigation
+  useEffect(() => {
+    if (!translations.length || !initialBook || !initialChapter) return;
+
+    const decodedBook = decodeURIComponent(initialBook);
+    const chapterNum = parseInt(initialChapter, 10);
+
+    const verseInstances = translations
+      .filter((translation) => {
+        const verseInfo = getBookAndChapterFromId(translation.id);
+        return (
+          verseInfo?.book === decodedBook &&
+          verseInfo.chapter === chapterNum.toString()
+        );
+      })
+      .map((translation) => ({
+        ...translation,
+        instanceId: `${translation.id}-${Math.random()}`,
+      }));
+
+    if (verseInstances.length > 0) {
+      dispatch({
+        type: 'SET_CHAPTER',
+        payload: {
+          book: decodedBook,
+          chapterNum,
+          translations: verseInstances,
+        },
+      });
+    }
+  }, [translations, initialBook, initialChapter]);
+
+  if (scenarioError) {
+    return (
+      <div className="flex items-center gap-4 mb-6">
+        <Link to="/">
+          <Button variant="ghost" size="icon">
+            <ArrowLeft className="h-4 w-4 text-foreground" />
+          </Button>
+        </Link>
+        <h1 className="text-2xl font-bold text-destructive">{scenarioError}</h1>
+      </div>
+    );
+  }
+
   if (!scenario) {
     return (
-      <div className="container mx-auto p-4">
+      <div className="flex items-center gap-4 mb-6">
         <p>Translation project not found</p>
         <Link to="/">
           <Button variant="link">Return to projects list</Button>
@@ -452,52 +528,57 @@ const TranslationView = () => {
     );
   }
 
-  if (loading) {
+  if (combinedLoading) {
     return (
-      <div className="container mx-auto p-4">
-        <div className="flex items-center gap-4 mb-6">
-          <Link to="/">
-            <Button variant="ghost" size="icon">
-              <ArrowLeft className="h-4 w-4 text-foreground" />
-            </Button>
-          </Link>
-          <h1 className="text-2xl font-bold">Loading translations...</h1>
-        </div>
+      <div className="flex items-center gap-4 mb-6">
+        <Link to="/">
+          <Button variant="ghost" size="icon">
+            <ArrowLeft className="h-4 w-4 text-foreground" />
+          </Button>
+        </Link>
+        <h1 className="text-2xl font-bold">Loading translations...</h1>
       </div>
     );
   }
 
   if (error) {
     return (
-      <div className="container mx-auto p-4">
-        <div className="flex items-center gap-4 mb-6">
-          <Link to="/">
-            <Button variant="ghost" size="icon">
-              <ArrowLeft className="h-4 w-4 text-foreground" />
-            </Button>
-          </Link>
-          <h1 className="text-2xl font-bold text-destructive">{error}</h1>
-        </div>
+      <div className="flex items-center gap-4 mb-6">
+        <Link to="/">
+          <Button variant="ghost" size="icon">
+            <ArrowLeft className="h-4 w-4 text-foreground" />
+          </Button>
+        </Link>
+        <h1 className="text-2xl font-bold text-destructive">{error}</h1>
       </div>
     );
   }
 
   return (
-    <div className="container mx-auto p-3">
-      <div className="flex items-center gap-3 mb-4">
+    <>
+      <SEO
+        title={`${scenario.source_label} → ${scenario.target_label}`}
+        description={`AI-First Bible Translations`}
+      />
+      <Card className="flex items-center gap-4 w-full p-4 mb-4">
         <Link to="/">
           <Button variant="ghost" size="icon" className="h-8 w-8">
             <ArrowLeft className="h-4 w-4 text-foreground" />
           </Button>
         </Link>
-        <h1 className="text-xl font-bold">
-          {scenario.source_label} → {scenario.target_label}
-        </h1>
-      </div>
+        <CardContent className="p-0">
+          <CardTitle className="sm:text-md md:text-lg bg-gradient-to-r from-blue-500/80 to-green-500/80 bg-clip-text text-transparent animate-shimmer">
+            Blank Slate Bible Translation
+          </CardTitle>
+          <CardDescription>
+            {scenario.source_label} to {scenario.target_label}
+          </CardDescription>
+        </CardContent>
+      </Card>
 
       {currentChapter && (
-        <div className="flex items-center justify-between mb-3">
-          <div className="flex items-center gap-3">
+        <div className="flex items-center justify-between mb-6 w-full">
+          <div className="flex items-center gap-4 justify-between">
             <Popover open={isOpen} onOpenChange={setIsOpen}>
               <PopoverTrigger asChild>
                 <Button variant="outline" size="sm" className="h-7 gap-1">
@@ -603,8 +684,8 @@ const TranslationView = () => {
               </PopoverContent>
             </Popover>
           </div>
-          <div className="flex items-center gap-1">
-            <h2 className="text-lg font-semibold">
+          <div className="flex flex-col sm:flex-row items-center gap-1">
+            <h2 className="text-sm sm:text-xs md:text-sm font-semibold">
               {currentChapter.book} {currentChapter.chapterNum}
             </h2>
           </div>
@@ -622,7 +703,7 @@ const TranslationView = () => {
               className="h-7"
             >
               <ChevronLeft className="h-4 w-4 text-foreground" />
-              Previous
+              <span className="hidden md:block">Previous</span>
             </Button>
             <Button
               variant="outline"
@@ -631,7 +712,7 @@ const TranslationView = () => {
               disabled={loading}
               className="h-7"
             >
-              Next
+              <span className="hidden md:block">Next</span>
               <ChevronRight className="h-4 w-4 text-foreground" />
             </Button>
           </div>
@@ -675,7 +756,7 @@ const TranslationView = () => {
           ))}
         </div>
       </ScrollArea>
-    </div>
+    </>
   );
 };
 

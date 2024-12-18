@@ -88,8 +88,8 @@ def consolidate_files(source_dir: str, target_dir: str, frontend_dir: str = "../
         print(f'Consolidated file created: {consolidated_file_path}')
 
         # Copy to frontend public directory
-        shutil.copy2(consolidated_file_path, frontend_file_path)
-        print(f'Copied to frontend: {frontend_file_path}')
+        # shutil.copy2(consolidated_file_path, frontend_file_path)
+        # print(f'Copied to frontend: {frontend_file_path}')
 
         # Add to scenarios list
         first_line = json.loads(sorted_data[0])

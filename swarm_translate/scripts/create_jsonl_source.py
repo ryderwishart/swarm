@@ -88,7 +88,7 @@ def convert_usfm_reference(ref: str) -> str:
 def create_jsonl(id_file: str, content_file: str, output_file: str | None = None):
     """
     Create a JSONL file from separate id and content files.
-    Will use contents until they run out, and filter out empty content entries.
+    Preserves alignment between references and content lines.
     
     Args:
         id_file: Path to file containing USFM references
@@ -96,12 +96,12 @@ def create_jsonl(id_file: str, content_file: str, output_file: str | None = None
         output_file: Path to output JSONL file. If None, uses content_file path with .jsonl extension
     """
     try:
-        # Read both files
+        # Read both files, preserving ALL lines
         with open(id_file, 'r', encoding='utf-8') as f:
-            refs = [line.strip() for line in f if line.strip()]
+            refs = [line.rstrip('\n') for line in f]  # Keep all references, even empty ones
         
         with open(content_file, 'r', encoding='utf-8') as f:
-            contents = [line.strip() for line in f if line.strip()]
+            contents = [line.rstrip('\n') for line in f]
         
         # Log the file lengths
         print(f"Found {len(refs)} references and {len(contents)} content lines")
@@ -110,22 +110,45 @@ def create_jsonl(id_file: str, content_file: str, output_file: str | None = None
         if output_file is None:
             output_file = content_file.rsplit('.', 1)[0] + '.jsonl'
         
-        # Create JSONL entries, only for non-empty content
+        # Create JSONL entries
         entries_written = 0
+        empty_entries = 0
+        empty_refs = 0
+        
         with open(output_file, 'w', encoding='utf-8') as f:
-            for ref, content in zip(refs, contents):  # zip will stop at shorter length
-                if content:  # Only write entries with non-empty content
-                    full_ref = convert_usfm_reference(ref)
-                    entry = {
-                        "id": full_ref,
-                        "content": content
-                    }
-                    f.write(json.dumps(entry, ensure_ascii=False) + '\n')
-                    entries_written += 1
+            for i, (ref, content) in enumerate(zip(refs, contents)):
+                if not ref.strip():
+                    empty_refs += 1
+                    continue
+                    
+                if not content.strip():
+                    empty_entries += 1
+                    continue
+                
+                full_ref = convert_usfm_reference(ref)
+                entry = {
+                    "id": full_ref,
+                    "content": content
+                }
+                f.write(json.dumps(entry, ensure_ascii=False) + '\n')
+                entries_written += 1
         
         print(f"Successfully created {output_file} with {entries_written} entries")
-        print(f"Skipped {len(contents) - entries_written} empty content entries")
-        print(f"Note: {len(refs) - len(contents)} references were unused (likely deuterocanonical books)")
+        print(f"Skipped {empty_entries} empty content entries")
+        print(f"Skipped {empty_refs} empty reference entries")
+        
+        # More detailed reporting
+        if len(refs) != len(contents):
+            print(f"Warning: Reference count ({len(refs)}) does not match content count ({len(contents)})")
+            if len(refs) > len(contents):
+                print(f"Missing {len(refs) - len(contents)} content lines")
+            else:
+                print(f"Extra {len(contents) - len(refs)} content lines")
+            
+        # Report the last few entries to verify alignment
+        print("\nLast few entries processed:")
+        for i in range(max(-5, -len(refs)), 0):
+            print(f"Ref: {refs[i]} -> Content: {contents[i][:50]}...")
         
     except Exception as e:
         print(f"Error creating JSONL file: {str(e)}")

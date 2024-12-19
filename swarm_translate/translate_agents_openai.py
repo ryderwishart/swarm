@@ -72,6 +72,87 @@ class TranslationScenario:
     def save_progress(self, progress: Dict):
         with open(self.get_progress_path(), 'w') as f:
             json.dump(progress, f)
+    
+    def find_existing_translations(self) -> Dict[str, Dict]:
+        """Find all existing translations and validate them against source."""
+        translated_items = {}
+        invalid_translations = []
+        
+        # First, build a map of source content by ID
+        source_items = {}
+        try:
+            with open(self.input_path, 'r', encoding='utf-8') as f:
+                if self.config["input"]["format"] == "jsonl":
+                    for line in f:
+                        if not line.strip():
+                            continue
+                        item = json.loads(line)
+                        item_id = item.get(self.config["input"]["id_field"])
+                        content = item.get(self.config["input"]["content_field"])
+                        if item_id and content:
+                            source_items[item_id] = content
+                else:
+                    for i, line in enumerate(f):
+                        if line.strip():
+                            source_items[str(i)] = line.strip()
+        except Exception as e:
+            print(f"Warning: Error reading source file: {e}")
+            return {}
+        
+        # Create pattern for matching output files (ignoring date)
+        base_pattern = self.config["output"]["filename_template"].format(
+            source_code=self.source_code,
+            target_code=self.target_code,
+            date="*"
+        ) + ".jsonl"
+        
+        # Find and validate all matching files
+        for file_path in self.output_dir.glob(base_pattern):
+            print(f"Validating existing translations in: {file_path}")
+            try:
+                with open(file_path, 'r', encoding='utf-8') as f:
+                    translations = []
+                    for line_num, line in enumerate(f, 1):
+                        try:
+                            translation = json.loads(line)
+                            if "id" in translation and "original" in translation:
+                                item_id = translation["id"]
+                                # Validate against source
+                                if (item_id in source_items and 
+                                    source_items[item_id] == translation["original"]):
+                                    translated_items[item_id] = translation
+                                else:
+                                    invalid_translations.append((file_path, line_num))
+                        except json.JSONDecodeError:
+                            print(f"Warning: Invalid JSON at {file_path}:{line_num}")
+                            continue
+                
+                # If we found invalid translations, create a new file without them
+                if invalid_translations:
+                    print(f"Found {len(invalid_translations)} invalid translations in {file_path}")
+                    # Create new file without invalid translations
+                    new_content = []
+                    with open(file_path, 'r', encoding='utf-8') as f:
+                        for line_num, line in enumerate(f, 1):
+                            if not any(inv[0] == file_path and inv[1] == line_num 
+                                     for inv in invalid_translations):
+                                new_content.append(line.strip())
+                    
+                    # Write back valid translations only
+                    with open(file_path, 'w', encoding='utf-8') as f:
+                        for line in new_content:
+                            f.write(line + '\n')
+                    
+                    print(f"Cleaned {file_path} - removed {len(invalid_translations)} invalid translations")
+            
+            except Exception as e:
+                print(f"Warning: Error processing {file_path}: {e}")
+                continue
+        
+        if translated_items:
+            print(f"Found {len(translated_items)} valid existing translations")
+        
+        return translated_items
 
 def is_complete_thought(text: str) -> bool:
     """Check if text ends with terminal punctuation."""
@@ -292,9 +373,9 @@ def process_input_file(scenario: TranslationScenario):
     """Process input file according to scenario configuration using parallel processing."""
     try:
         start_time = time.time()
-        # Load progress if resuming
-        progress = scenario.load_progress()
-        processed_count = progress["processed_count"]
+        
+        # Find and validate existing translations
+        existing_translations = scenario.find_existing_translations()
         
         # Read input file
         with open(scenario.input_path, 'r', encoding='utf-8') as f:
@@ -306,25 +387,30 @@ def process_input_file(scenario: TranslationScenario):
                         continue
                     try:
                         item = json.loads(line)
+                        # Skip if we already have a valid translation
+                        item_id = item.get(scenario.config["input"]["id_field"])
+                        if item_id and item_id in existing_translations:
+                            continue
                         lines.append(item)
                     except json.JSONDecodeError as e:
                         print(f"Error parsing line {i}:")
                         print(f"Line content: {line}")
                         raise
-                
-                # Skip already processed items if resuming
-                if processed_count > 0:
-                    lines = lines[processed_count:]
             else:
-                lines = [{"content": line.strip(), "id": str(i)} 
-                        for i, line in enumerate(f) if line.strip()]
+                lines = []
+                for i, line in enumerate(f):
+                    if not line.strip():
+                        continue
+                    item_id = str(i)
+                    if item_id not in existing_translations:
+                        lines.append({"content": line.strip(), "id": item_id})
         
         if not lines:
-            print("Warning: No lines were read from the input file")
+            print("No new lines to process")
             return
         
         total_lines = len(lines)
-        print(f"Processing {total_lines} lines...")
+        print(f"Processing {total_lines} new lines...")
         
         # Split lines into batches for parallel processing
         num_processes = min(mp.cpu_count(), len(lines))
@@ -366,7 +452,7 @@ def process_input_file(scenario: TranslationScenario):
         # Update progress after successful completion
         progress = {
             "last_processed_id": lines[-1].get(scenario.config["input"]["id_field"]) if lines else None,
-            "processed_count": processed_count + len(lines)
+            "processed_count": len(lines)
         }
         scenario.save_progress(progress)
         

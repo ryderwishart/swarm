@@ -139,8 +139,8 @@ def setup_agents(scenario: TranslationScenario) -> tuple:
             "cultural": [cultural references]
         }}""",
         functions=[transfer_to_translator],
-        client=translation_client,
-        model=scenario.translation_model
+        client=decision_client, # NOTE: we're using the weaker model because it's faster, and the source language is usually English or another language of wider communication
+        model=scenario.routing_model 
     )
 
     translator_bot = Agent(
@@ -176,8 +176,7 @@ def setup_agents(scenario: TranslationScenario) -> tuple:
 def translate_with_agents(text: str, scenario: TranslationScenario, 
                         swarm_client: Swarm, linguist_bot: Agent, 
                         translator_bot: Agent, qa_bot: Agent,
-                        text_id: Optional[str] = None, 
-                        skip_qa: bool = False) -> Dict:
+                        text_id: Optional[str] = None) -> Dict:
     """Main function to coordinate the translation process between agents."""
     start_time = time.time()
     
@@ -202,32 +201,17 @@ def translate_with_agents(text: str, scenario: TranslationScenario,
         )
         translations = response.messages[-1]["content"]
         
-        # Step 3: QA bot provides final translation (optional)
-        if not skip_qa:
-            response = swarm_client.run(
-                agent=qa_bot,
-                messages=[{
-                    "role": "user",
-                    "content": f"""Provide the final {scenario.target_label} translation:
-                    Original ({scenario.source_label}): {text}
-                    Component translations: {translations}"""
-                }]
-            )
-            final_translation = response.messages[-1]["content"]
-        else:
-            # First try to parse as JSON, but don't raise warnings if it's plaintext
-            print(f"Translation content: {translations}")
-            try:
-                trans_data = json.loads(translations)
-                if isinstance(trans_data, dict):
-                    phrases = trans_data.get("phrases", [])
-                    terms = trans_data.get("terms", [])
-                    final_translation = " ".join(phrases + terms) if phrases or terms else translations
-                else:
-                    final_translation = translations
-            except json.JSONDecodeError:
-                # If it's not JSON, assume it's a direct translation
-                final_translation = translations
+        # Step 3: QA bot always provides final translation
+        response = swarm_client.run(
+            agent=qa_bot,
+            messages=[{
+                "role": "user",
+                "content": f"""Provide the final {scenario.target_label} translation:
+                Original ({scenario.source_label}): {text}
+                Component translations: {translations}"""
+            }]
+        )
+        final_translation = response.messages[-1]["content"]
         
         translation_time = time.time() - start_time
         
@@ -266,10 +250,10 @@ def process_batch(batch_data: tuple, scenario: TranslationScenario, output_path:
     """Process a single batch of translations."""
     batch_id, lines = batch_data
     
+    print(f"Starting batch {batch_id} with {len(lines)} items")
+    
     # Set up agents for this process
     swarm_client, linguist_bot, translator_bot, qa_bot = setup_agents(scenario)
-    
-    current_batch = []
     
     for item in lines:
         try:
@@ -280,41 +264,39 @@ def process_batch(batch_data: tuple, scenario: TranslationScenario, output_path:
             print(f"Item content: {item}")
             raise
         
-        result = translate_with_agents(
-            content, scenario, swarm_client, 
-            linguist_bot, translator_bot, qa_bot, 
-            text_id, skip_qa=True
-        )
-        current_batch.append(result)
-    
-    # Process final batch
-    if current_batch:
-        combined_translation = batch_translations(
-            current_batch, 
-            scenario, 
-            qa_bot,
-            swarm_client
-        )
+        while True:
+            try:
+                result = translate_with_agents(
+                    content, scenario, swarm_client, 
+                    linguist_bot, translator_bot, qa_bot, 
+                    text_id
+                )
+                break
+            except Exception as e:
+                if "rate_limit" in str(e).lower():
+                    print(f"Rate limit hit, waiting 60 seconds...")
+                    time.sleep(60)
+                    continue
+                raise
         
-        # Write all translations except the last one as-is
-        for j, translation in enumerate(current_batch[:-1]):
+        # Save individual translation immediately
+        try:
             with open(output_path, 'a', encoding='utf-8') as f:
-                f.write(json.dumps(translation, ensure_ascii=False) + '\n')
-        
-        # Update last translation with combined version
-        last_translation = current_batch[-1].copy()
-        last_translation["translation"] = combined_translation
-        with open(output_path, 'a', encoding='utf-8') as f:
-            f.write(json.dumps(last_translation, ensure_ascii=False) + '\n')
+                f.write(json.dumps(result, ensure_ascii=False) + '\n')
+            print(f"✓ Translated: {text_id or 'unknown'}")
+        except Exception as e:
+            print(f"Error saving translation to {output_path}: {str(e)}")
+            raise
 
 def process_input_file(scenario: TranslationScenario):
     """Process input file according to scenario configuration using parallel processing."""
-    # Load progress if resuming
-    progress = scenario.load_progress()
-    processed_count = progress["processed_count"]
-    
-    # Read input file
     try:
+        start_time = time.time()
+        # Load progress if resuming
+        progress = scenario.load_progress()
+        processed_count = progress["processed_count"]
+        
+        # Read input file
         with open(scenario.input_path, 'r', encoding='utf-8') as f:
             if scenario.config["input"]["format"] == "jsonl":
                 lines = []
@@ -336,40 +318,64 @@ def process_input_file(scenario: TranslationScenario):
             else:
                 lines = [{"content": line.strip(), "id": str(i)} 
                         for i, line in enumerate(f) if line.strip()]
-    except FileNotFoundError:
-        print(f"Input file not found: {scenario.input_path}")
-        raise
-    
-    if not lines:
-        print("Warning: No lines were read from the input file")
-        return
-    
-    # Split lines into batches for parallel processing
-    num_processes = min(mp.cpu_count(), len(lines))  # Don't create more processes than lines
-    batch_size = max(1, len(lines) // num_processes)  # Ensure at least 1 item per batch
-    batches = []
-    
-    for i in range(0, len(lines), batch_size):
-        batch = lines[i:i + batch_size]
-        batches.append((i // batch_size, batch))  # Include batch ID
-    
-    # Set up multiprocessing pool
-    output_path = scenario.get_output_path()
-    with mp.Pool(num_processes) as pool:
-        # Use partial to fix scenario and output_path arguments
-        process_batch_partial = partial(process_batch, 
-                                     scenario=scenario,
-                                     output_path=output_path)
         
-        # Process batches in parallel
-        pool.map(process_batch_partial, batches)
+        if not lines:
+            print("Warning: No lines were read from the input file")
+            return
         
-        # Update progress after all batches complete
+        total_lines = len(lines)
+        print(f"Processing {total_lines} lines...")
+        
+        # Split lines into batches for parallel processing
+        num_processes = min(mp.cpu_count(), len(lines))
+        batch_size = max(1, len(lines) // num_processes)
+        batches = []
+        
+        for i in range(0, len(lines), batch_size):
+            batch = lines[i:i + batch_size]
+            batches.append((i // batch_size, batch))
+        
+        # Set up multiprocessing pool
+        output_path = scenario.get_output_path()
+        with mp.Pool(num_processes) as pool:
+            try:
+                process_batch_partial = partial(process_batch, 
+                                             scenario=scenario,
+                                             output_path=output_path)
+                
+                pool.map(process_batch_partial, batches)
+            except KeyboardInterrupt:
+                print("\nGracefully shutting down workers...")
+                pool.terminate()
+                pool.join()
+                print("Workers shut down successfully")
+                return
+            finally:
+                pool.close()
+                pool.join()
+        
+        total_time = time.time() - start_time
+        # Count actual translations completed by counting lines in output file
+        with open(output_path, 'r') as f:
+            completed_count = sum(1 for _ in f)
+        
+        print(f"\nCompleted {completed_count}/{total_lines} translations")
+        print(f"Total time: {total_time/60:.1f} minutes")
+        print(f"Average time per translation: {total_time/completed_count:.1f} seconds")
+        
+        # Update progress after successful completion
         progress = {
             "last_processed_id": lines[-1].get(scenario.config["input"]["id_field"]) if lines else None,
             "processed_count": processed_count + len(lines)
         }
         scenario.save_progress(progress)
+        
+    except KeyboardInterrupt:
+        print("\nProcess interrupted by user. Exiting...")
+        return
+    except Exception as e:
+        print(f"Error processing input file: {str(e)}")
+        raise
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Translate text using agent swarm')

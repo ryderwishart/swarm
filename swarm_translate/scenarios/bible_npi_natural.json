@@ -1,8 +1,8 @@
 {
     "name": "Vox Populi Translation - Nepali (Natural)",
-    "description": "Natural translation of Biblical texts from English (Berean Standard Bible) to Nepali",
+    "description": "Natural translation of Biblical texts from English (Bible in Basic English) to Nepali",
     "input": {
-        "file": "data/bsb-test.jsonl",
+        "file": "data/eng-engBBE.jsonl",
         "format": "jsonl",
         "content_field": "content",
         "id_field": "id"
@@ -14,7 +14,7 @@
     },
     "source": {
         "code": "eng",
-        "label": "English (Berean Standard Bible)"
+        "label": "English (Bible in Basic English)"
     },
     "target": {
         "code": "npi",
@@ -24,11 +24,11 @@
     "style": {
         "formality": "natural",
         "register": "informal",
-        "notes": "Aim for a natural, idiomatic translation, avoiding overly formal language. Emphasize simplicity, clarity, and readability. Don't go with the conventional English wordings just because they are traditional. Use the most natural and idiomatic translation. Instead of 'the Word', use 'Reason' or 'the message'. Instead of 'sanctify', use 'make holy'. Use these sorts of circumlocutions for the sake of clarity and readability."
+        "notes": "Aim for a natural, idiomatic translation, avoiding overly formal language. Emphasize simplicity, clarity, and readability. Don't go with the conventional English wordings just because they are traditional. Use the most natural and idiomatic translation. Instead of 'the Word', use 'Reason' or 'the message'. Instead of 'sanctify', use 'make holy'. Use these sorts of circumlocutions for the sake of clarity and readability. Always be sure to use Christian terminology and avoid using Hindu terminology or concepts such as multiple gods, goddesses, or other heretical concepts from a Christian value perspective. This is important for accessibility in a cross-cultural context so that we properly respect both the source and target cultures."
     },
     "models": {
-        "routing": "llama-3.2-3b-instruct_nepali_gguf",
-        "translation": "llama-3.2-3b-instruct_nepali_gguf"
+        "routing": "gpt-4o-mini",
+        "translation": "gpt-4o"
     },
     "batch_settings": {
         "batch_size": 10,

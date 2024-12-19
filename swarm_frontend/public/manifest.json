@@ -33,6 +33,14 @@
       "target_label": "English (Natural, Middle-School Level)"
     },
     {
+      "id": "eng-npi",
+      "filename": "eng-npi_consolidated.jsonl",
+      "source_lang": "eng",
+      "source_label": "English (Bible in Basic English)",
+      "target_lang": "npi",
+      "target_label": "Nepali (Natural)"
+    },
+    {
       "id": "grc-eng",
       "filename": "grc-eng_consolidated.jsonl",
       "source_lang": "grc",

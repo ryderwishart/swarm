@@ -73,12 +73,12 @@ def setup_agents(scenario: TranslationScenario) -> tuple:
     
     # Configure OpenAI clients
     decision_client = OpenAI(
-        base_url="http://localhost:1234/v1",
+        base_url="http://localhost:1235/v1",
         api_key="not-needed"
     )
 
     translation_client = OpenAI(
-        base_url="http://localhost:1234/v1",
+        base_url="http://localhost:1235/v1",
         api_key="not-needed"
     )
 

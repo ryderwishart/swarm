@@ -1,14 +1,6 @@
 {
   "scenarios": [
     {
-      "id": "bible",
-      "filename": "bible_consolidated.jsonl",
-      "source_lang": "eng",
-      "source_label": "English (Berean Standard Bible)",
-      "target_lang": "spa",
-      "target_label": "Spanish (Natural)"
-    },
-    {
       "id": "eng-fra",
       "filename": "eng-fra_consolidated.jsonl",
       "source_lang": "eng",
@@ -39,6 +31,14 @@
       "source_label": "English (Bible in Basic English)",
       "target_lang": "npi",
       "target_label": "Nepali (Natural)"
+    },
+    {
+      "id": "bible",
+      "filename": "bible_consolidated.jsonl",
+      "source_lang": "eng",
+      "source_label": "English (Berean Standard Bible)",
+      "target_lang": "spa",
+      "target_label": "Spanish (Natural)"
     },
     {
       "id": "grc-eng",

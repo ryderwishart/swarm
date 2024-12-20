@@ -1,0 +1,44 @@
+{
+    "name": "Vox Populi Translation - Afrikaans (Natural Clarity)",
+    "description": "Dynamic, periphrastic translation of Biblical texts from English (Berean Standard Bible) to Afrikaans",
+    
+    "input": {
+        "file": "data/bsb-utf8.jsonl",
+        "format": "jsonl",
+        "content_field": "content",
+        "id_field": "id"
+    },
+    
+    "output": {
+        "directory": "translations",
+        "format": "jsonl",
+        "filename_template": "{source_code}-{target_code}_bible"
+    },
+    
+    "source": {
+        "code": "eng",
+        "label": "English (Berean Standard Bible)"
+    },
+    
+    "target": {
+        "code": "afr",
+        "label": "Afrikaans (Natural, Middle-School Level)"
+    },
+    
+    "style": {
+        "formality": "natural",
+        "register": "informal",
+        "notes": "Aim for a natural, idiomatic translation, avoiding overly formal language. Emphasize simplicity, clarity, and readability. Don't go with the conventional English wordings just because they are traditional. Use the most natural and idiomatic translation. Aim for a reading level of a middle schooler. Use words known even in secular contexts. Instead of 'the Word', use 'Reason' or 'the message'. Instead of 'sanctify', use 'make holy'. Use these sorts of circumlocutions for the sake of clarity and readability."
+    },
+    
+    "models": {
+        "routing": "phi-4",
+        "translation": "phi-4"
+    },
+    
+    "batch_settings": {
+        "batch_size": 10,
+        "save_frequency": 5,
+        "resume_from_last": true
+    }
+} 

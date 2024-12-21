@@ -1,0 +1,38 @@
+{
+    "name": "Vox Populi Translation - Indonesian (Natural)",
+    "description": "Natural translation of Biblical texts from English (Bible in Basic English) to Indonesian",
+    "input": {
+        "file": "data/eng-engBBE.jsonl",
+        "format": "jsonl",
+        "content_field": "content",
+        "id_field": "id"
+    },
+    "output": {
+        "directory": "translations",
+        "format": "jsonl",
+        "filename_template": "{source_code}-{target_code}_bible_{date}"
+    },
+    "source": {
+        "code": "eng",
+        "label": "English (Bible in Basic English)"
+    },
+    "target": {
+        "code": "idn",
+        "label": "Indonesian (Natural)"
+    },
+    "linguistic_directives": "When translating from English to Indonesian (Bahasa Indonesia), key syntactic adjustments include: 1) Word order: Indonesian primarily follows Subject-Verb-Object (SVO) like English, but with important modifications for emphasis and in certain constructions. 2) Tense and aspect: Indonesian does not conjugate verbs for tense; instead, time markers like 'sudah' (already), 'sedang' (currently), and 'akan' (will) are used (e.g., 'He ate' → 'Dia sudah makan'). 3) Pronouns: Indonesian has formal and informal pronouns (e.g., 'you' → 'kamu' informal, 'Anda' formal), and often omits pronouns when clear from context. 4) Affixes: Indonesian extensively uses prefixes and suffixes to modify meaning (e.g., 'me-', 'ber-', '-kan', '-i') rather than using separate words. 5) Plurals: Indonesian typically doesn't mark plurals with suffixes; reduplication (e.g., 'buku-buku' for 'books') or quantity words are used instead. 6) Articles: Indonesian doesn't use articles ('the', 'a', 'an'); context determines definiteness, though 'itu' (that) or 'ini' (this) can be used for specificity. 7) Active/Passive voice: Indonesian frequently uses passive voice ('di-' prefix) where English would use active voice, especially in formal contexts.",
+    "style": {
+        "formality": "natural",
+        "register": "informal",
+        "notes": "Aim for a natural, idiomatic translation, avoiding overly formal language. Emphasize simplicity, clarity, and readability. Don't go with the conventional English wordings just because they are traditional. Use the most natural and idiomatic translation. Instead of 'the Word', use 'Firman' or 'pesan'. Instead of 'sanctify', use 'menyucikan' or 'membuat kudus'. Use these sorts of circumlocutions for the sake of clarity and readability. Be mindful to use established Christian terminology in Indonesian while avoiding terms that might have strong Islamic, Buddhist, or other religious connotations. For example, use 'Allah' or 'Tuhan' for God (which are accepted in Indonesian Christian contexts), but avoid terms like 'Sang Hyang' (associated with Hindu-Buddhist traditions) or Islamic-specific terms like 'rasul' (use 'rasul Kristus' or 'utusan' instead). This careful terminology choice helps maintain theological clarity while respecting Indonesia's multi-religious context."
+    },
+    "models": {
+        "routing": "llama3-8b-8192",
+        "translation": "llama-3.3-70b-versatile"
+    },
+    "batch_settings": {
+        "batch_size": 10,
+        "save_frequency": 5,
+        "resume_from_last": true
+    }
+}

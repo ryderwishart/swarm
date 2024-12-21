@@ -54,6 +54,7 @@ class TranslationScenario:
     
     def get_output_path(self) -> Path:
         template = self.config["output"]["filename_template"]
+        date = datetime.now().strftime("%Y%m%d")
         filename = template.format(
             source_code=self.source_code,
             target_code=self.target_code,

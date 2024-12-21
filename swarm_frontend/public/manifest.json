@@ -17,6 +17,14 @@
       "target_label": "Tok Pisin"
     },
     {
+      "id": "eng-mal",
+      "filename": "eng-mal_consolidated.jsonl",
+      "source_lang": "eng",
+      "source_label": "English (Bible in Basic English)",
+      "target_lang": "mal",
+      "target_label": "Malayalam (Natural)"
+    },
+    {
       "id": "eng-eng",
       "filename": "eng-eng_consolidated.jsonl",
       "source_lang": "eng",
@@ -55,6 +63,14 @@
       "source_label": "1904 Patriarchal Greek New Testament with 20 correcctions from later editions",
       "target_lang": "eng",
       "target_label": "English"
+    },
+    {
+      "id": "eng-ara",
+      "filename": "eng-ara_consolidated.jsonl",
+      "source_lang": "eng",
+      "source_label": "English (Bible in Basic English)",
+      "target_lang": "ara",
+      "target_label": "Arabic (Natural)"
     },
     {
       "id": "eng-spa",

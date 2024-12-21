@@ -1,0 +1,38 @@
+{
+    "name": "Vox Populi Translation - German (Natural)",
+    "description": "Natural translation of Biblical texts from English (Bible in Basic English) to modern colloquial German",
+    "input": {
+        "file": "data/eng-engBBE.jsonl",
+        "format": "jsonl",
+        "content_field": "content",
+        "id_field": "id"
+    },
+    "output": {
+        "directory": "translations",
+        "format": "jsonl",
+        "filename_template": "{source_code}-{target_code}_bible_{date}"
+    },
+    "source": {
+        "code": "eng",
+        "label": "English (Bible in Basic English)"
+    },
+    "target": {
+        "code": "deu",
+        "label": "German (Natural)"
+    },
+    "linguistic_directives": "When translating from English to German, key syntactic adjustments include: 1) Word order: German uses V2 word order in main clauses (verb second) and verb-final in subordinate clauses. 2) Case system: German uses four cases (nominative, accusative, dative, genitive) affecting articles, adjectives and nouns. 3) Gender: Three grammatical genders (masculine, feminine, neuter) affecting articles and pronouns. 4) Compound words: German frequently combines words into longer compounds. 5) Separable verbs: Many verbs have separable prefixes that move to the end of main clauses. 6) Modal particles: Use of particles like 'ja', 'doch', 'mal' to convey tone and attitude. 7) Tense system: Pay attention to the distinction between perfect and simple past tenses, and the use of subjunctive for reported speech and hypotheticals.",
+    "style": {
+        "formality": "natural",
+        "register": "informal",
+        "notes": "Aim for a fresh, contemporary German translation that speaks to modern readers while maintaining theological accuracy. Use natural, everyday German rather than traditional church language where possible, but ensure key theological concepts remain clear and orthodox. Feel free to be creative with phrasing and metaphors that will resonate with contemporary German speakers, while avoiding both overly casual slang and archaic religious terminology. When encountering traditional religious concepts, prefer clear modern explanations over traditional but obscure terms (e.g., prefer 'Vergebung' over 'Absolution'). The goal is to sound like someone explaining these concepts naturally to a friend, while maintaining the gravity and meaning of the original text. Consider how concepts might be expressed in modern German Christian discourse rather than defaulting to traditional translation patterns."
+    },
+    "models": {
+        "routing": "gpt-4o-mini",
+        "translation": "gpt-4o-mini"
+    },
+    "batch_settings": {
+        "batch_size": 10,
+        "save_frequency": 5,
+        "resume_from_last": true
+    }
+}

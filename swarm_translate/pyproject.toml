@@ -13,4 +13,5 @@ dependencies = [
     "safetensors",
     "python-dotenv>=1.0.1",
     "aiohttp>=3.11.10",
+    "groq>=0.13.1",
 ]

@@ -1,0 +1,38 @@
+{
+    "name": "Vox Populi Translation - Arabic (Natural)",
+    "description": "Natural translation of Biblical texts from English (Bible in Basic English) to Arabic",
+    "input": {
+        "file": "data/eng-engBBE.jsonl",
+        "format": "jsonl",
+        "content_field": "content",
+        "id_field": "id"
+    },
+    "output": {
+        "directory": "translations",
+        "format": "jsonl",
+        "filename_template": "{source_code}-{target_code}_bible_{date}"
+    },
+    "source": {
+        "code": "eng",
+        "label": "English (Bible in Basic English)"
+    },
+    "target": {
+        "code": "ara",
+        "label": "Arabic (Natural)"
+    },
+    "linguistic_directives": "When translating from English to Arabic, key considerations include: 1) Word order: While Modern Standard Arabic (MSA) follows VSO order, contemporary spoken Arabic often uses SVO like English, so both are acceptable. 2) Dialectal considerations: Use MSA as a base but prefer common spoken forms when they're widely understood (e.g., 'شو' instead of 'ماذا' for 'what'). 3) Simplification: Contemporary Arabic often drops complex case endings (إعراب) in favor of simpler forms. 4) Gender system: Arabic distinguishes between masculine and feminine in pronouns, verbs, and adjectives - maintain this but use natural contemporary forms. 5) Number system: While MSA has singular, dual, and plural, spoken Arabic often drops the dual form except in common expressions. 6) Verb forms: Focus on high-frequency verb forms (Forms I, II, V) over literary ones. Use present continuous with عم/بـ prefixes when natural. 7) Pronouns: Prefer connected pronouns (ـي، ـك، ـه) over separate ones when possible. 8) Demonstratives: Use simplified forms like هاد/هاي over formal هذا/هذه when appropriate. 9) Negation: Employ common spoken negation patterns (e.g., مش، ما) rather than formal لا/لم/لن. 10) Relative pronouns: Prefer simplified اللي over الذي/التي. 11) Vocabulary: Choose widely understood terms over classical Arabic equivalents (e.g., كتير over كثير).",
+    "style": {
+        "formality": "natural",
+        "register": "informal",
+        "notes": "Aim for a natural, conversational Arabic that reflects how people actually speak today. Use clear, everyday language while maintaining appropriate reverence for religious concepts. Prefer commonly understood Christian Arabic terminology that has become standard across Arabic-speaking Christian communities (e.g., الرب for Lord, الله for God) rather than borrowing terms from other faiths. For complex theological concepts, use simple explanatory phrases that clarify the meaning rather than relying on classical religious vocabulary. The translation should sound like someone explaining these concepts to a friend in contemporary spoken Arabic, maintaining the gravity of the original text while using natural expressions. When possible, use simplified grammatical forms common in spoken Arabic (like using اللي instead of الذي/التي, or مش instead of ليس). For passages of praise or spiritual significance, use heartfelt language that reflects how Arabic-speaking Christians naturally express their faith in everyday conversation. The goal is to make the text feel immediate and accessible while preserving its sacred meaning - as if explaining it to a friend over coffee. Prefer widely understood vocabulary over classical terms (e.g., كتير over كثير) when the meaning is clear. Do not shy away from Christian theological concepts like 'son of God' or 'the Holy Spirit' - they are part of the Christian faith and should be translated as such."
+    },
+    "models": {
+        "routing": "gpt-4o-mini",
+        "translation": "gpt-4o-mini"
+    },
+    "batch_settings": {
+        "batch_size": 10,
+        "save_frequency": 5,
+        "resume_from_last": true
+    }
+}

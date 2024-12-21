@@ -1,0 +1,38 @@
+{
+    "name": "Vox Populi Translation - Malayalam (Natural)",
+    "description": "Natural translation of Biblical texts from English (Bible in Basic English) to Malayalam",
+    "input": {
+        "file": "data/eng-engBBE.jsonl",
+        "format": "jsonl",
+        "content_field": "content",
+        "id_field": "id"
+    },
+    "output": {
+        "directory": "translations",
+        "format": "jsonl",
+        "filename_template": "{source_code}-{target_code}_bible_{date}"
+    },
+    "source": {
+        "code": "eng",
+        "label": "English (Bible in Basic English)"
+    },
+    "target": {
+        "code": "mal",
+        "label": "Malayalam (Natural)"
+    },
+    "linguistic_directives": "When translating from English to Malayalam, key syntactic adjustments include: 1) Word order: Malayalam follows Subject-Object-Verb (SOV) order, unlike English's SVO. The verb always comes at the end of the clause. 2) Agglutination: Malayalam is highly agglutinative, with complex words formed by adding multiple suffixes to roots (e.g., 'വീട്ടിലേക്ക്' = house-to). 3) Gender system: Malayalam has three genders (masculine, feminine, neuter) affecting pronouns and verb agreements. 4) Case system: Uses extensive case marking with suffixes (-il for locative, -nte for possessive, etc). 5) Honorifics: Multiple levels of respect encoded in pronouns and verbs (e.g., നീ vs താങ്കൾ for 'you'). 6) Tense: Three basic tenses (past, present, future) marked by verb suffixes, plus aspect markers. 7) Participles: Heavy use of verbal participles to combine clauses. 8) Sandhi rules: Complex phonological changes at word boundaries. 9) Copula omission: Present tense copula ('is/are') often omitted.",
+    "style": {
+        "formality": "natural",
+        "register": "informal",
+        "notes": "Aim for a natural, conversational Malayalam that would be easily understood by modern speakers. Use clear, everyday language while maintaining appropriate reverence for religious concepts. Prefer commonly understood Christian Malayalam terminology that has become standard in the community (e.g., കർത്താവ് for Lord, ദൈവം for God) rather than borrowing terms from other faiths. For complex theological concepts, use simple explanatory phrases that clarify the meaning rather than relying on technical religious vocabulary. The translation should sound like someone explaining these concepts to a friend in contemporary Malayalam, while maintaining the gravity and meaning of the original text. Focus on clarity and natural expression over formal or archaic religious language. When handling passages of praise or spiritual significance, use straightforward, heartfelt language that reflects how Malayalam Christians naturally express their faith today."
+    },
+    "models": {
+        "routing": "gpt-4o-mini",
+        "translation": "gpt-4o-mini"
+    },
+    "batch_settings": {
+        "batch_size": 10,
+        "save_frequency": 5,
+        "resume_from_last": true
+    }
+}

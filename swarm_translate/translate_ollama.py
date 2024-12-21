@@ -57,6 +57,7 @@ class TranslationScenario:
         filename = template.format(
             source_code=self.source_code,
             target_code=self.target_code,
+            date=date
         )
         if self.book is not None:
             filename += "-" + self.book

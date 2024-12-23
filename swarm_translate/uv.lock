@@ -378,6 +378,23 @@ wheels = [
 ]
 
 [[package]]
+name = "groq"
+version = "0.13.1"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "anyio" },
+    { name = "distro" },
+    { name = "httpx" },
+    { name = "pydantic" },
+    { name = "sniffio" },
+    { name = "typing-extensions" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/90/75/3b3e6b9495ca8e2e7f08373412f2f3c5fd0d8cbe987905d7caebc84abba2/groq-0.13.1.tar.gz", hash = "sha256:588fd5bee984f4eb46ec89552778d5698b9e9614435defef868645c19463cbcc", size = 109709 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/f0/ad/2bf9b91085b1d67e432bc3071378570e7fd0326c5c648376e6230d3fed99/groq-0.13.1-py3-none-any.whl", hash = "sha256:0c5d1d6df93de55de705fe73729b79baaa0c871f7575d6aa64b2962b56101b3e", size = 109114 },
+]
+
+[[package]]
 name = "h11"
 version = "0.14.0"
 source = { registry = "https://pypi.org/simple" }
@@ -1450,6 +1467,7 @@ version = "0.1.0"
 source = { virtual = "." }
 dependencies = [
     { name = "aiohttp" },
+    { name = "groq" },
     { name = "openai" },
     { name = "python-dotenv" },
     { name = "safetensors" },
@@ -1462,6 +1480,7 @@ dependencies = [
 [package.metadata]
 requires-dist = [
     { name = "aiohttp", specifier = ">=3.11.10" },
+    { name = "groq", specifier = ">=0.13.1" },
     { name = "openai" },
     { name = "python-dotenv", specifier = ">=1.0.1" },
     { name = "safetensors" },

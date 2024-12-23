@@ -17,12 +17,28 @@
       "target_label": "Tok Pisin"
     },
     {
+      "id": "eng-mal",
+      "filename": "eng-mal_consolidated.jsonl",
+      "source_lang": "eng",
+      "source_label": "English (Bible in Basic English)",
+      "target_lang": "mal",
+      "target_label": "Malayalam (Natural)"
+    },
+    {
       "id": "eng-eng",
       "filename": "eng-eng_consolidated.jsonl",
       "source_lang": "eng",
       "source_label": "English (Berean Standard Bible)",
       "target_lang": "eng",
       "target_label": "English (Natural, Middle-School Level)"
+    },
+    {
+      "id": "eng-idn",
+      "filename": "eng-idn_consolidated.jsonl",
+      "source_lang": "eng",
+      "source_label": "English (Bible in Basic English)",
+      "target_lang": "idn",
+      "target_label": "Indonesian (Natural)"
     },
     {
       "id": "eng-npi",
@@ -49,12 +65,36 @@
       "target_label": "English"
     },
     {
+      "id": "eng-ara",
+      "filename": "eng-ara_consolidated.jsonl",
+      "source_lang": "eng",
+      "source_label": "English (Bible in Basic English)",
+      "target_lang": "ara",
+      "target_label": "Arabic (Natural)"
+    },
+    {
       "id": "eng-spa",
       "filename": "eng-spa_consolidated.jsonl",
       "source_lang": "eng",
       "source_label": "English (Berean Standard Bible)",
       "target_lang": "spa",
       "target_label": "Spanish (Natural)"
+    },
+    {
+      "id": "eng-afr",
+      "filename": "eng-afr_consolidated.jsonl",
+      "source_lang": "eng",
+      "source_label": "English (Bible in Basic English)",
+      "target_lang": "afr",
+      "target_label": "Afrikaans (Natural, Middle-School Level)"
+    },
+    {
+      "id": "eng-deu",
+      "filename": "eng-deu_consolidated.jsonl",
+      "source_lang": "eng",
+      "source_label": "English (Bible in Basic English)",
+      "target_lang": "deu",
+      "target_label": "German (Natural)"
     }
   ]
 }

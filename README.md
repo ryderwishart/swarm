@@ -39,7 +39,7 @@ Languages with at least 50 million first-language speakers[7]
 | [ ]    | Arabic | N/A | Afroasiatic | Semitic | [eng-ara_consolidated.jsonl](./scenarios/consolidated/eng-ara_consolidated.jsonl) | 100% | 0% |
 | [ ]    | Tok Pisin | N/A | Creole | English-based | [eng-tpi_consolidated.jsonl](./scenarios/consolidated/eng-tpi_consolidated.jsonl) | 100% | 0% |
 | [ ]    | Nepali | N/A | Indo-European | Indo-Aryan | [eng-npi_consolidated.jsonl](./scenarios/consolidated/eng-npi_consolidated.jsonl) | 100% | 0% |
-| [ ]    | Malay | N/A | Austronesian | Malayo-Polynesian | [eng-mal_consolidated.jsonl](./scenarios/consolidated/eng-mal_consolidated.jsonl) | 100% | 0% |
+| [ ]    | Malayalam | N/A | Dravidian | South-Central | [eng-mal_consolidated.jsonl](./scenarios/consolidated/eng-mal_consolidated.jsonl) | 100% | 0% |
 | [ ]    | Greek | N/A | Indo-European | Hellenic | [grc-eng_consolidated.jsonl](./scenarios/consolidated/grc-eng_consolidated.jsonl) | 25.57% | 0% |
 | [ ]    | Mandarin Chinese | 941 | Sino-Tibetan | Sinitic | [cmn.json](./scenarios/cmn.json) | 0% | 0% |
 | [ ]    | Hindi | 345 | Indo-European | Indo-Aryan | [hin.json](./scenarios/hin.json) | 0% | 0% |

@@ -1,6 +1,7 @@
 import re
 import math
 import zlib
+import json
 import random
 import numpy as np
 from collections import defaultdict, Counter
@@ -9,6 +10,10 @@ from typing import List, Dict, Tuple, Set, Optional
 from rich.console import Console
 from rich.table import Table
 from rich.progress import Progress
+import os
+import threading
+import concurrent.futures
+from concurrent.futures import ThreadPoolExecutor
 
 @dataclass
 class TranslationPair:
@@ -25,7 +30,7 @@ class AlignmentResult:
     composite_score: float
 
 class IntegratedAnalyzer:
-    def __init__(self, stop_word_threshold: float = 0.1):
+    def __init__(self, stop_word_threshold: float = 0.01):
         # Alignment-related attributes
         self.stop_word_threshold = stop_word_threshold
         self.co_occurrences = defaultdict(lambda: defaultdict(int))
@@ -33,12 +38,40 @@ class IntegratedAnalyzer:
         self.target_counts = defaultdict(int)
         self.doc_freq = defaultdict(int)
         self.total_docs = 0
-        self.stop_words = set()
+        
+        # Predefined stop words for Greek and English
+        self.base_stop_words = {
+            # English stop words
+            'the', 'and', 'of', 'to', 'in', 'that', 'for', 'is', 'on', 'with',
+            'be', 'as', 'by', 'at', 'this', 'was', 'were', 'are', 'from', 'have',
+            'has', 'had', 'will', 'would', 'could', 'should', 'may', 'might', 'must',
+            # Greek stop words
+            'καὶ', 'τὸν', 'τῆς', 'τὸ', 'τοῦ', 'τῶν', 'ἐν', 'δὲ', 'ὁ', 'αὐτοῦ',
+            'αὐτῶν', 'αὐτῷ', 'εἰς', 'ἐπὶ', 'πρὸς', 'μὲν', 'οὖν', 'γὰρ', 'δέ',
+            'τε', 'οὐ', 'μὴ', 'ἀλλά', 'ἀλλ'
+        }
+        self.stop_words = self.base_stop_words.copy()
         
         # Anomaly detection attributes
         self.noise_len = 50
         self.trials = 5
         self.std_multiplier = 2.0
+        
+        # Cache for TF-IDF scores and frequencies
+        self.tfidf_cache = {}
+        self.word_freq_cache = {}
+        
+        # Cache for compressed string lengths
+        self.compressed_length_cache = {}
+        
+        # Additional caches for score calculation
+        self.src_count_cache = {}
+        self.tgt_count_cache = {}
+        self.idf_cache = {}
+        
+        # Logging control
+        self.log_frequency = 1000  # Log every nth pair
+        self.pairs_processed = 0
 
     def analyze_translation_pair(self, pair: TranslationPair) -> Dict:
         """Comprehensive analysis of a translation pair."""
@@ -61,16 +94,31 @@ class IntegratedAnalyzer:
             'combined_score': combined_score,
             'unigram_alignments': alignment_result.unigram_alignments,
             'trigram_alignments': alignment_result.trigram_alignments,
-            'alignment_features': alignment_features
+            'alignment_features': alignment_features,
+            'original': pair.source,  # Add source text
+            'translation': pair.target  # Add target text
         }
 
     def train(self, pairs: List[TranslationPair]):
         """Train the alignment model."""
-        # Reset statistics
+        # Reset statistics and caches
         self.co_occurrences.clear()
         self.source_counts.clear()
         self.target_counts.clear()
         self.doc_freq.clear()
+        self.tfidf_cache.clear()
+        self.word_freq_cache.clear()
+        self.compressed_length_cache.clear()
+        self.src_count_cache.clear()
+        self.tgt_count_cache.clear()
+        self.idf_cache.clear()
+        
+        # Pre-compute compressed lengths for all source and target texts
+        for pair in pairs:
+            if pair.source not in self.compressed_length_cache:
+                self.compressed_length_cache[pair.source] = len(zlib.compress(pair.source.encode()))
+            if pair.target not in self.compressed_length_cache:
+                self.compressed_length_cache[pair.target] = len(zlib.compress(pair.target.encode()))
         
         # Calculate stop words
         all_text = [p.source + " " + p.target for p in pairs]
@@ -79,28 +127,59 @@ class IntegratedAnalyzer:
         
         # Collect statistics
         for pair in pairs:
+            # Tokenize and generate trigrams once
             src_tokens = self.tokenize(pair.source)
             tgt_tokens = self.tokenize(pair.target)
-            
             src_trigrams = self.get_trigrams(src_tokens)
             tgt_trigrams = self.get_trigrams(tgt_tokens)
             
-            self._update_counts(src_tokens, tgt_tokens)
-            self._update_counts(src_trigrams, tgt_trigrams)
+            # Update counts with pre-computed tokens and trigrams
+            self._update_counts(src_tokens, tgt_tokens, src_trigrams, tgt_trigrams)
             
+            # Update document frequency with pre-computed tokens and trigrams
             for token in set(src_tokens + src_trigrams):
                 self.doc_freq[token] += 1
 
     def align_pair(self, source: str, target: str) -> AlignmentResult:
-        """Align source and target text using unified n-gram approach."""
-        # Get initial alignments
-        unigram_alignments = self.get_unigram_alignments(source, target)
-        trigram_alignments = self.get_trigram_alignments(source, target)
+        """Align source and target text using trigram-guided unigram alignment."""
+        self.pairs_processed += 1
+        should_log = self.pairs_processed % self.log_frequency == 0
         
-        # Calculate composite score
+        if should_log:
+            print(f"\n=== Processing pair {self.pairs_processed} ===")
+            print(f"Source text: {source[:100]}..." if len(source) > 100 else source)
+            print(f"Target text: {target[:100]}..." if len(target) > 100 else target)
+        
+        # Step 1: Tokenize and generate trigrams once
+        src_tokens = self.tokenize(source)
+        tgt_tokens = self.tokenize(target)
+        src_trigrams = self.get_trigrams(src_tokens)
+        tgt_trigrams = self.get_trigrams(tgt_tokens)
+        
+        if should_log:
+            print(f"Tokens - Source: {len(src_tokens)}, Target: {len(tgt_tokens)}")
+            print(f"Trigrams - Source: {len(src_trigrams)}, Target: {len(tgt_trigrams)}")
+        
+        # Step 2: Get trigram alignments using pre-computed trigrams
+        trigram_alignments = self.get_trigram_alignments(
+            src_tokens, tgt_tokens, src_trigrams, tgt_trigrams
+        )
+        
+        # Step 3: Use trigram alignments to narrow down unigram alignments
+        unigram_alignments = self.get_unigram_alignments_guided_by_trigrams(
+            src_tokens, tgt_tokens, trigram_alignments
+        )
+        
+        if should_log:
+            print(f"Alignments found - Trigrams: {len(trigram_alignments)}, Unigrams: {len(unigram_alignments)}")
+        
+        # Step 4: Calculate composite score
         unigram_score = sum(score for _, _, score in unigram_alignments) / (len(unigram_alignments) or 1)
         trigram_score = sum(score for _, _, score in trigram_alignments) / (len(trigram_alignments) or 1)
         composite_score = (unigram_score + trigram_score) / 2
+        
+        if should_log:
+            print(f"Scores - Unigram: {unigram_score:.4f}, Trigram: {trigram_score:.4f}, Composite: {composite_score:.4f}")
         
         return AlignmentResult(
             unigram_alignments=unigram_alignments,
@@ -108,27 +187,140 @@ class IntegratedAnalyzer:
             composite_score=composite_score
         )
 
+    def get_unigram_alignments_guided_by_trigrams(
+        self, 
+        src_tokens: List[str], 
+        tgt_tokens: List[str], 
+        trigram_alignments: List[Tuple[str, str, float]]
+    ) -> List[Tuple[str, str, float]]:
+        """Get unigram alignments guided by trigram alignments with optimized mapping."""
+        # Filter stop words from already tokenized text
+        src_tokens_filtered = np.array([t for t in src_tokens if t not in self.stop_words])
+        tgt_tokens_filtered = np.array([t for t in tgt_tokens if t not in self.stop_words])
+        
+        # Create optimized mappings for quick lookups
+        src_unigram_to_trigrams = defaultdict(list)  # unigram -> [(trigram, score)]
+        tgt_unigram_to_trigrams = defaultdict(list)  # unigram -> [(trigram, score)]
+        
+        # Build the mappings in a single pass through trigram alignments
+        for s_tri, t_tri, score in trigram_alignments:
+            s_tri_tokens = s_tri.split()
+            t_tri_tokens = t_tri.split()
+            
+            # Map source unigrams to their trigrams
+            for s_token in s_tri_tokens:
+                if s_token not in self.stop_words:
+                    src_unigram_to_trigrams[s_token].append((s_tri, score))
+            
+            # Map target unigrams to their trigrams
+            for t_token in t_tri_tokens:
+                if t_token not in self.stop_words:
+                    tgt_unigram_to_trigrams[t_token].append((t_tri, score))
+        
+        # Pre-compute average trigram scores using vectorized operations
+        src_unigram_scores = {
+            token: np.mean(np.array([score for _, score in trigrams], dtype=np.float32))
+            for token, trigrams in src_unigram_to_trigrams.items()
+        }
+        tgt_unigram_scores = {
+            token: np.mean(np.array([score for _, score in trigrams], dtype=np.float32))
+            for token, trigrams in tgt_unigram_to_trigrams.items()
+        }
+        
+        alignments = []
+        # Process each source token
+        for s_idx, s_token in enumerate(src_tokens_filtered):
+            s_trigram_score = src_unigram_scores.get(s_token, 0)
+            
+            # Only consider target tokens that appear in aligned trigrams
+            potential_targets = np.array([
+                t_token for t_token in tgt_tokens_filtered
+                if t_token in tgt_unigram_scores
+            ])
+            
+            if len(potential_targets) > 0:
+                # Vectorized computation of trigram scores
+                t_trigram_scores = np.array([tgt_unigram_scores.get(t, 0) for t in potential_targets], dtype=np.float32)
+                trigram_scores = (s_trigram_score + t_trigram_scores) / 2
+                
+                # Calculate unigram scores only for promising candidates
+                promising_indices = np.where(trigram_scores > 0)[0]
+                if len(promising_indices) > 0:
+                    promising_targets = potential_targets[promising_indices]
+                    promising_trigram_scores = trigram_scores[promising_indices]
+                    
+                    # Calculate unigram scores for promising candidates
+                    unigram_scores = np.array([
+                        self._calculate_score(
+                            s_token,
+                            t_token,
+                            s_idx,
+                            np.where(tgt_tokens_filtered == t_token)[0][0],
+                            len(src_tokens_filtered),
+                            len(tgt_tokens_filtered)
+                        )
+                        for t_token in promising_targets
+                    ], dtype=np.float32)
+                    
+                    # Combine scores and find the best match
+                    combined_scores = (promising_trigram_scores + unigram_scores) / 2
+                    if len(combined_scores) > 0:
+                        best_idx = np.argmax(combined_scores)
+                        best_score = combined_scores[best_idx]
+                        if best_score > 0:
+                            alignments.append((s_token, promising_targets[best_idx], float(best_score)))
+        
+        # Sort alignments using numpy
+        if alignments:
+            scores = np.array([score for _, _, score in alignments], dtype=np.float32)
+            sorted_indices = np.argsort(scores)[::-1]
+            alignments = [alignments[i] for i in sorted_indices]
+        
+        return alignments
+
     def calculate_anomaly_score(self, pair: TranslationPair) -> float:
-        """Calculate anomaly score for a translation pair."""
+        """Calculate anomaly score for a translation pair using cached compression."""
+        # Cache compressed lengths if not already cached
+        if pair.source not in self.compressed_length_cache:
+            self.compressed_length_cache[pair.source] = len(zlib.compress(pair.source.encode()))
+        if pair.target not in self.compressed_length_cache:
+            self.compressed_length_cache[pair.target] = len(zlib.compress(pair.target.encode()))
+        
+        # Calculate base distance using cached values
         base = self.dist_metric(pair.source, pair.target)
         shift_sum = 0
         
-        for _ in range(self.trials):
-            noise = ''.join(random.choices('abcdefghijklmnopqrstuvwxyz', k=self.noise_len))
-            shift = abs(self.dist_metric(pair.source + noise, pair.target + noise) - base)
+        # Pre-generate all noise strings to avoid repeated generation
+        noise_strings = [''.join(random.choices('abcdefghijklmnopqrstuvwxyz', k=self.noise_len)) 
+                        for _ in range(self.trials)]
+        
+        # Pre-compute compressed lengths for noise combinations
+        for noise in noise_strings:
+            src_with_noise = pair.source + noise
+            tgt_with_noise = pair.target + noise
+            if src_with_noise not in self.compressed_length_cache:
+                self.compressed_length_cache[src_with_noise] = len(zlib.compress(src_with_noise.encode()))
+            if tgt_with_noise not in self.compressed_length_cache:
+                self.compressed_length_cache[tgt_with_noise] = len(zlib.compress(tgt_with_noise.encode()))
+            
+            shift = abs(self.dist_metric(src_with_noise, tgt_with_noise) - base)
             shift_sum += shift
         
         return shift_sum / self.trials
 
     def extract_alignment_features(self, alignment_result: AlignmentResult) -> Dict:
-        """Extract features from alignment results."""
+        """Extract features from alignment results using vectorized operations."""
+        # Convert alignment scores to numpy arrays for efficient computation
+        unigram_scores = np.array([score for _, _, score in alignment_result.unigram_alignments], dtype=np.float32) if alignment_result.unigram_alignments else np.array([], dtype=np.float32)
+        trigram_scores = np.array([score for _, _, score in alignment_result.trigram_alignments], dtype=np.float32) if alignment_result.trigram_alignments else np.array([], dtype=np.float32)
+        
         return {
-            'unigram_coverage': len(alignment_result.unigram_alignments),
-            'trigram_coverage': len(alignment_result.trigram_alignments),
-            'avg_unigram_score': np.mean([score for _, _, score in alignment_result.unigram_alignments]) if alignment_result.unigram_alignments else 0,
-            'avg_trigram_score': np.mean([score for _, _, score in alignment_result.trigram_alignments]) if alignment_result.trigram_alignments else 0,
-            'max_unigram_score': max([score for _, _, score in alignment_result.unigram_alignments]) if alignment_result.unigram_alignments else 0,
-            'max_trigram_score': max([score for _, _, score in alignment_result.trigram_alignments]) if alignment_result.trigram_alignments else 0
+            'unigram_coverage': len(unigram_scores),
+            'trigram_coverage': len(trigram_scores),
+            'avg_unigram_score': np.mean(unigram_scores) if len(unigram_scores) > 0 else 0,
+            'avg_trigram_score': np.mean(trigram_scores) if len(trigram_scores) > 0 else 0,
+            'max_unigram_score': np.max(unigram_scores) if len(unigram_scores) > 0 else 0,
+            'max_trigram_score': np.max(trigram_scores) if len(trigram_scores) > 0 else 0
         }
 
     def combine_scores(self, anomaly_score: float, alignment_features: Dict) -> float:
@@ -144,56 +336,108 @@ class IntegratedAnalyzer:
         combined = normalized_anomaly * (1 - normalized_alignment)
         return combined
 
-    # Helper methods from the alignment code
     def calculate_stop_words(self, sentences: List[str]) -> Set[str]:
-        """Calculate stop words using Zipfian distribution."""
+        """Calculate stop words dynamically using vectorized TF-IDF calculations."""
+        if self.pairs_processed % self.log_frequency == 0:
+            print("\n=== Calculating stop words ===")
+        
+        # Start with base stop words
+        stop_words = self.base_stop_words.copy()
+        
+        # Tokenize all sentences and calculate word frequencies once
         words = [w for s in sentences for w in self.tokenize(s)]
-        freq = Counter(words)
-        total = len(sentences)
-        return {word for word, count in freq.items() 
-               if count / total > self.stop_word_threshold}
-
-    def _update_counts(self, source_tokens: List[str], target_tokens: List[str]):
-        """Update co-occurrence and count statistics."""
-        for s in source_tokens:
-            if s not in self.stop_words:
-                self.source_counts[s] += 1
-                for t in target_tokens:
-                    if t not in self.stop_words:
-                        self.co_occurrences[s][t] += 1
+        total_words = len(words)
+        self.word_freq_cache = Counter(words)
+        total_docs = len(sentences)
         
-        for t in target_tokens:
-            if t not in self.stop_words:
-                self.target_counts[t] += 1
-
-    def get_unigram_alignments(self, source: str, target: str) -> List[Tuple[str, str, float]]:
-        """Get unigram alignments between source and target."""
-        src_tokens = [t for t in self.tokenize(source) if t not in self.stop_words]
-        tgt_tokens = [t for t in self.tokenize(target) if t not in self.stop_words]
+        if self.pairs_processed % self.log_frequency == 0:
+            print(f"Total words: {total_words:,}, Total docs: {total_docs:,}")
+            print(f"Top 5 most frequent words: {dict(list(Counter(words).most_common(5)))}")
         
-        alignments = []
-        for i, s_token in enumerate(src_tokens):
-            best_score = 0
-            best_target = None
+        # Only consider words that appear frequently enough
+        min_freq = total_words * self.stop_word_threshold
+        frequent_words = {word for word, freq in self.word_freq_cache.items() 
+                         if freq > min_freq and word not in self.base_stop_words}
+        
+        # Vectorized TF-IDF calculation for frequent words
+        if frequent_words:
+            unique_words = np.array(list(frequent_words))
+            frequencies = np.array([self.word_freq_cache[word] for word in unique_words], dtype=np.float32)
+            doc_freqs = np.array([self.doc_freq.get(word, 0) for word in unique_words], dtype=np.float32)
             
-            for j, t_token in enumerate(tgt_tokens):
-                score = self._calculate_score(s_token, t_token, i, j, len(src_tokens), len(tgt_tokens))
-                if score > best_score:
-                    best_score = score
-                    best_target = t_token
+            # Calculate TF-IDF scores in a vectorized way
+            tf = frequencies / total_words
+            idf = np.log((total_docs + 1) / (doc_freqs + 1))
+            tfidf_scores = tf * idf
             
-            if best_target and best_score > 0:
-                alignments.append((s_token, best_target, best_score))
+            # Find words with very low TF-IDF scores (likely stop words)
+            threshold = np.percentile(tfidf_scores, 10)  # Bottom 10%
+            additional_stops = set(unique_words[tfidf_scores < threshold])
+            stop_words.update(additional_stops)
         
-        return sorted(alignments, key=lambda x: x[2], reverse=True)
+        if self.pairs_processed % self.log_frequency == 0:
+            print(f"Found {len(stop_words):,} stop words")
+            print(f"Sample stop words (first 5): {list(stop_words)[:5]}")
+        
+        return stop_words
 
-    def get_trigram_alignments(self, source: str, target: str) -> List[Tuple[str, str, float]]:
-        """Get trigram alignments between source and target."""
-        src_tokens = self.tokenize(source)
-        tgt_tokens = self.tokenize(target)
+    def _find_elbow(self, values: np.ndarray) -> int:
+        """Find the elbow point in a numpy array using vectorized operations."""
+        if len(values) == 0:
+            return 0
         
-        src_trigrams = self.get_trigrams(src_tokens)
-        tgt_trigrams = self.get_trigrams(tgt_tokens)
+        # Calculate differences using numpy
+        diffs = np.diff(values)
+        
+        # Find the point where the difference starts to decrease significantly
+        change_points = np.where(np.diff(diffs) < 0)[0]
+        return change_points[0] + 1 if len(change_points) > 0 else len(values) - 1
+
+    def _update_counts(
+        self, 
+        source_tokens: List[str], 
+        target_tokens: List[str],
+        source_trigrams: List[str],
+        target_trigrams: List[str]
+    ):
+        """Update co-occurrence and count statistics efficiently in a single pass."""
+        # Pre-filter stop words to avoid repeated checks
+        filtered_src_tokens = [s for s in source_tokens if s not in self.stop_words]
+        filtered_tgt_tokens = [t for t in target_tokens if t not in self.stop_words]
+        filtered_src_trigrams = [s for s in source_trigrams if s not in self.stop_words]
+        filtered_tgt_trigrams = [t for t in target_trigrams if t not in self.stop_words]
+        
+        # Update target counts in a single pass (both unigrams and trigrams)
+        for t in filtered_tgt_tokens:
+            self.target_counts[t] += 1
+        for t in filtered_tgt_trigrams:
+            self.target_counts[t] += 1
+        
+        # Update source counts and co-occurrences for unigrams
+        for s in filtered_src_tokens:
+            self.source_counts[s] += 1
+            for t in filtered_tgt_tokens:
+                self.co_occurrences[s][t] += 1
+        
+        # Update source counts and co-occurrences for trigrams
+        for s in filtered_src_trigrams:
+            self.source_counts[s] += 1
+            for t in filtered_tgt_trigrams:
+                self.co_occurrences[s][t] += 1
+
+    def get_trigram_alignments(
+        self, 
+        src_tokens: List[str], 
+        tgt_tokens: List[str],
+        src_trigrams: Optional[List[str]] = None,
+        tgt_trigrams: Optional[List[str]] = None
+    ) -> List[Tuple[str, str, float]]:
+        """Get trigram alignments between source and target using pre-computed trigrams if available."""
+        # Use pre-computed trigrams if provided, otherwise generate them
+        if src_trigrams is None:
+            src_trigrams = self.get_trigrams(src_tokens)
+        if tgt_trigrams is None:
+            tgt_trigrams = self.get_trigrams(tgt_tokens)
         
         alignments = []
         for i, s_tri in enumerate(src_trigrams):
@@ -213,7 +457,7 @@ class IntegratedAnalyzer:
 
     def _calculate_score(self, source: str, target: str, src_pos: int, tgt_pos: int,
                         src_len: int, tgt_len: int) -> float:
-        """Calculate alignment score using TF-IDF and position."""
+        """Calculate alignment score using cached values for improved performance."""
         if source in self.stop_words or target in self.stop_words:
             return 0
         
@@ -221,96 +465,248 @@ class IntegratedAnalyzer:
         if co_occur == 0:
             return 0
         
-        src_count = max(1, self.source_counts[source])
-        tgt_count = max(1, self.target_counts[target])
-        idf = math.log((self.total_docs + 1) / (self.doc_freq[source] + 1))
+        # Use cached source count or calculate and cache it
+        if source not in self.src_count_cache:
+            self.src_count_cache[source] = max(1, self.source_counts[source])
+        src_count = self.src_count_cache[source]
         
-        tf_idf = (co_occur / src_count) * (co_occur / tgt_count) * idf
+        # Use cached target count or calculate and cache it
+        if target not in self.tgt_count_cache:
+            self.tgt_count_cache[target] = max(1, self.target_counts[target])
+        tgt_count = self.tgt_count_cache[target]
+        
+        # Use cached IDF score or calculate and cache it
+        if source not in self.idf_cache:
+            self.idf_cache[source] = math.log((self.total_docs + 1) / (self.doc_freq[source] + 1))
+        
+        # Calculate final scores using cached values
+        tf_idf = (co_occur / src_count) * (co_occur / tgt_count) * self.idf_cache[source]
         pos_score = 1 - abs((src_pos / max(1, src_len)) - (tgt_pos / max(1, tgt_len)))
         
-        return tf_idf * pos_score
+        final_score = tf_idf * pos_score
+        
+        # Log high scores and debugging info when needed
+        if final_score > 0.5 and self.pairs_processed % self.log_frequency == 0:
+            print(f"High score: '{source}' -> '{target}': {final_score:.4f} "
+                  f"(co_occur={co_occur}, tf_idf={tf_idf:.4f}, pos={pos_score:.4f})")
+        
+        return final_score
+
+    def _precompute_counts(self, tokens: List[str], is_source: bool = True):
+        """Precompute counts for a set of tokens to optimize score calculation."""
+        for token in tokens:
+            if token not in self.stop_words:
+                if is_source:
+                    if token not in self.src_count_cache:
+                        self.src_count_cache[token] = max(1, self.source_counts[token])
+                    if token not in self.idf_cache:
+                        self.idf_cache[token] = math.log((self.total_docs + 1) / (self.doc_freq[token] + 1))
+                else:
+                    if token not in self.tgt_count_cache:
+                        self.tgt_count_cache[token] = max(1, self.target_counts[token])
 
     @staticmethod
     def tokenize(text: str) -> List[str]:
-        """Simple word tokenization."""
-        return re.findall(r'\w+', text.lower())
+        """Tokenize text, handling both Greek and English text properly."""
+        # Convert to lowercase while preserving Greek diacritics
+        text = text.lower()
+        
+        # Pattern for matching both English and Greek words
+        # \w includes Unicode word characters for Greek
+        # \u0370-\u03FF is the Greek and Coptic Unicode block
+        # \u1F00-\u1FFF is the Greek Extended block for polytonic Greek
+        pattern = r'\b\w+\b'
+        
+        tokens = re.findall(pattern, text)
+        
+        # Filter out tokens that are too short or just numbers
+        tokens = [t for t in tokens if len(t) > 1 and not t.isdigit()]
+        
+        return tokens
 
     @staticmethod
     def get_trigrams(tokens: List[str]) -> List[str]:
         """Generate trigrams from token list."""
         return [' '.join(tokens[i:i+3]) for i in range(len(tokens)-2)]
 
-    @staticmethod
-    def dist_metric(s1: str, s2: str) -> float:
-        """Calculate distance metric between two strings."""
-        return abs(len(s1) - len(s2)) + abs(len(zlib.compress(s1.encode())) - len(zlib.compress(s2.encode())))
+    def dist_metric(self, s1: str, s2: str) -> float:
+        """Calculate distance metric between two strings using cached compression."""
+        # Use cached compressed lengths
+        if s1 not in self.compressed_length_cache:
+            self.compressed_length_cache[s1] = len(zlib.compress(s1.encode()))
+        if s2 not in self.compressed_length_cache:
+            self.compressed_length_cache[s2] = len(zlib.compress(s2.encode()))
+        
+        return abs(len(s1) - len(s2)) + abs(self.compressed_length_cache[s1] - self.compressed_length_cache[s2])
 
-def analyze_translations(pairs: List[TranslationPair]) -> List[Dict]:
-    """Analyze a list of translation pairs."""
+    def display_results(self, results: List[Dict], pairs: List[TranslationPair], top_n: int = 10):
+        """Display analysis results with detailed trigram and unigram alignments."""
+        console = Console()
+        print("\n=== Analysis Summary ===")
+        print(f"Total pairs processed: {self.pairs_processed:,}")
+        print(f"Total results: {len(results):,}")
+        
+        # Convert to numpy array for efficient sorting
+        results_array = np.array([(r['combined_score'], i) for i, r in enumerate(results)], dtype=[('score', 'f4'), ('index', 'i4')])
+        top_indices = np.argsort(results_array['score'])[-top_n:][::-1]
+        top_results = [results[i] for i in top_indices]
+        print(f"Selected top {len(top_results)} results for display")
+        
+        # Create efficient lookup for pairs
+        pairs_dict = {p.id: p for p in pairs}
+        
+        # Define a set of colors for unigram alignments
+        colors = ["red", "green", "blue", "magenta", "cyan", "yellow"]
+        
+        for result in top_results:
+            print(f"\nProcessing result ID: {result['id']}")
+            print(f"Number of trigram alignments: {len(result['trigram_alignments'])}")
+            print(f"Number of unigram alignments: {len(result['unigram_alignments'])}")
+            
+            pair = pairs_dict[result['id']]
+            
+            # Create a table for the verse
+            verse_table = Table(title=f"Verse ID: {pair.id}", show_header=True, header_style="bold magenta")
+            verse_table.add_column("Trigram Alignment", style="white")
+            verse_table.add_column("Unigram Alignments", style="white")
+            
+            # Create optimized mapping of unigrams to trigrams
+            trigram_to_unigrams = defaultdict(list)
+            unigram_to_trigrams = defaultdict(set)
+            
+            # Pre-process trigrams for efficient lookup
+            trigram_tokens = {
+                (s_tri, t_tri): (set(s_tri.split()), set(t_tri.split()))
+                for s_tri, t_tri, _ in result['trigram_alignments']
+            }
+            
+            # Build the mapping in a single pass
+            for s, t, uni_score in result['unigram_alignments']:
+                # Find matching trigrams efficiently
+                matching_trigrams = [
+                    (s_tri, t_tri) for (s_tri, t_tri), (s_tokens, t_tokens) in trigram_tokens.items()
+                    if s in s_tokens and t in t_tokens
+                ]
+                
+                # Update mappings
+                for s_tri, t_tri in matching_trigrams:
+                    trigram_to_unigrams[(s_tri, t_tri)].append((s, t, uni_score))
+                    unigram_to_trigrams[(s, t)].add((s_tri, t_tri))
+            
+            # Sort trigram alignments by score for better visualization
+            sorted_trigrams = sorted(
+                trigram_to_unigrams.items(),
+                key=lambda x: np.mean([score for _, _, score in x[1]]),
+                reverse=True
+            )
+            
+            # Add rows for each trigram alignment
+            for (s_tri, t_tri), unigrams in sorted_trigrams:
+                # Format trigram alignment
+                trigram_alignment = f"[bold]{s_tri}[/bold] -> [bold]{t_tri}[/bold]"
+                
+                # Sort unigrams by score for consistent display
+                sorted_unigrams = sorted(unigrams, key=lambda x: x[2], reverse=True)
+                
+                # Format unigram alignments with colors
+                unigram_alignment_strs = [
+                    f"[{colors[i % len(colors)]}]{s_uni}[/{colors[i % len(colors)]}] -> "
+                    f"[{colors[i % len(colors)]}]{t_uni}[/{colors[i % len(colors)]}] "
+                    f"({score:.2f})"
+                    for i, (s_uni, t_uni, score) in enumerate(sorted_unigrams)
+                ]
+                unigram_alignments = "\n".join(unigram_alignment_strs)
+                
+                # Add row to the table
+                verse_table.add_row(trigram_alignment, unigram_alignments)
+            
+            # Print the verse table and text
+            console.print(verse_table)
+            console.print(f"[bold]Source:[/bold] {pair.source}", style="white")
+            console.print(f"[bold]Target:[/bold] {pair.target}", style="white")
+            console.print("\n" + "=" * 80 + "\n")
+
+def load_jsonl(file_path: str) -> List[TranslationPair]:
+    """Load translation pairs from JSONL file."""
+    pairs = []
+    with open(file_path, 'r', encoding='utf-8') as f:
+        for line in f:
+            data = json.loads(line)
+            pair = TranslationPair(
+                source=data['original'],
+                target=data['translation'],
+                id=data['id'],
+                translation_time=data['translation_time'],
+                model=data['model']
+            )
+            pairs.append(pair)
+    return pairs
+
+def analyze_translations(pairs: List[TranslationPair], progress: Progress, task_id: int) -> List[Dict]:
+    """Analyze a list of translation pairs with parallel processing and progress reporting."""
     analyzer = IntegratedAnalyzer()
     
-    # Train the alignment model
+    # Train the alignment model (this needs to be done before parallelization)
     analyzer.train(pairs)
     
-    # Analyze each pair
-    results = []
-    for pair in pairs:
+    # Create a wrapper function to update progress
+    processed_count = 0
+    lock = threading.Lock()
+    
+    def analyze_with_progress(pair: TranslationPair) -> Dict:
+        nonlocal processed_count
         result = analyzer.analyze_translation_pair(pair)
-        results.append(result)
-    
-    return results
-
-def display_results(results: List[Dict], pairs: List[TranslationPair], top_n: int = 10):
-    """Display analysis results."""
-    console = Console()
-    
-    # Sort by combined score
-    sorted_results = sorted(results, key=lambda x: x['combined_score'], reverse=True)
-    top_results = sorted_results[:top_n]
-    
-    # Create results table
-    table = Table(title=f"Top {top_n} Anomalous Translations with Alignments")
-    table.add_column("ID", style="cyan")
-    table.add_column("Combined Score", style="red")
-    table.add_column("Alignment Score", style="yellow")
-    table.add_column("Top Alignments", style="green")
-    table.add_column("Source", style="white", overflow="fold")
-    table.add_column("Target", style="white", overflow="fold")
-    
-    for result in top_results:
-        pair = next(p for p in pairs if p.id == result['id'])
-        top_alignments = sorted(
-            result['unigram_alignments'] + result['trigram_alignments'],
-            key=lambda x: x[2],
-            reverse=True
-        )[:3]
         
-        alignment_str = '\n'.join(f"{s}->{t} ({score:.2f})" for s, t, score in top_alignments)
+        # Thread-safe progress update
+        with lock:
+            nonlocal processed_count
+            processed_count += 1
+            progress.update(task_id, advance=1, 
+                          description=f"Analyzing translations... ({processed_count}/{len(pairs)})")
         
-        table.add_row(
-            result['id'],
-            f"{result['combined_score']:.3f}",
-            f"{result['alignment_score']:.3f}",
-            alignment_str,
-            pair.source[:100] + ('...' if len(pair.source) > 100 else ''),
-            pair.target[:100] + ('...' if len(pair.target) > 100 else '')
-        )
+        return result
     
-    console.print(table)
+    # Use ThreadPoolExecutor for parallel processing
+    # Number of workers is set to CPU count or pairs length, whichever is smaller
+    n_workers = min(len(pairs), os.cpu_count() or 4)
+    
+    with ThreadPoolExecutor(max_workers=n_workers) as executor:
+        # Submit all pairs for analysis
+        future_to_pair = {executor.submit(analyze_with_progress, pair): pair for pair in pairs}
+        
+        # Collect results while maintaining order
+        results = []
+        for future in concurrent.futures.as_completed(future_to_pair):
+            try:
+                result = future.result()
+                # Store result with original pair index to maintain order
+                pair = future_to_pair[future]
+                pair_index = pairs.index(pair)
+                results.append((pair_index, result))
+            except Exception as e:
+                print(f"Error processing pair: {e}")
+    
+    # Sort results by original index to maintain order
+    results.sort(key=lambda x: x[0])
+    return [r[1] for r in results]
 
 def main(jsonl_path: str):
-    """Main function to process JSONL file."""
+    """Main function to process JSONL file with progress reporting."""
     console = Console()
+    analyzer = IntegratedAnalyzer()  # Create analyzer instance
+    
     with Progress() as progress:
+        # Task for loading pairs
         task1 = progress.add_task("[cyan]Loading pairs...", total=1)
         pairs = load_jsonl(jsonl_path)
         progress.update(task1, completed=1)
         
-        task2 = progress.add_task("[green]Analyzing translations...", total=1)
-        results = analyze_translations(pairs)
-        progress.update(task2, completed=1)
+        # Task for analyzing translations
+        task2 = progress.add_task("[green]Analyzing translations...", total=len(pairs))
+        results = analyze_translations(pairs, progress, task2)
     
-    display_results(results, pairs)
+    # Call display_results as a method of the analyzer instance
+    analyzer.display_results(results, pairs)
 
 if __name__ == "__main__":
     import argparse

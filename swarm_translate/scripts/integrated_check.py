@@ -142,6 +142,40 @@ class IntegratedAnalyzer:
             for token in set(src_tokens + src_trigrams):
                 self.doc_freq[token] += 1
 
+    def get_unigram_alignments(
+    self, 
+    src_tokens: List[str], 
+    tgt_tokens: List[str]
+) -> List[Tuple[str, str, float]]:
+        """Align unigrams between source and target tokens."""
+        alignments = []
+        
+        # Filter out stop words
+        src_tokens_filtered = [t for t in src_tokens if t not in self.stop_words]
+        tgt_tokens_filtered = [t for t in tgt_tokens if t not in self.stop_words]
+        
+        # Align each source token to the best target token
+        for s_idx, s_token in enumerate(src_tokens_filtered):
+            best_score = 0
+            best_target = None
+            
+            for t_idx, t_token in enumerate(tgt_tokens_filtered):
+                # Calculate the alignment score
+                score = self._calculate_score(
+                    s_token, t_token, s_idx, t_idx, len(src_tokens_filtered), len(tgt_tokens_filtered)
+                )
+                
+                # Update the best alignment for this source token
+                if score > best_score:
+                    best_score = score
+                    best_target = t_token
+            
+            # Add the best alignment to the results
+            if best_target and best_score > 0:
+                alignments.append((s_token, best_target, best_score))
+        
+        return alignments
+
     def align_pair(self, source: str, target: str) -> AlignmentResult:
         """Align source and target text using trigram-guided unigram alignment and predict glosses."""
         self.pairs_processed += 1
@@ -623,6 +657,7 @@ class IntegratedAnalyzer:
             verse_table = Table(title=f"Verse ID: {pair.id}", show_header=True, header_style="bold magenta")
             verse_table.add_column("Trigram Alignment", style="white")
             verse_table.add_column("Unigram Alignments", style="white")
+            verse_table.add_column("Gloss Predictions", style="white")  # Add new column for glosses
             
             # Consolidate unigram alignments
             consolidated_unigrams = self.consolidate_unigram_alignments(result['unigram_alignments'])
@@ -674,8 +709,30 @@ class IntegratedAnalyzer:
                 ]
                 unigram_alignments = "\n".join(unigram_alignment_strs)
                 
+                # Format gloss predictions for the tokens in this trigram
+                gloss_strs = []
+                for s_token in s_tri.split():
+                    if s_token in result['gloss_predictions']:
+                        gloss_strs.append(f"{s_token} → {result['gloss_predictions'][s_token]}")
+                gloss_text = "\n".join(gloss_strs) if gloss_strs else ""
+                
                 # Add row to the table
-                verse_table.add_row(trigram_alignment, unigram_alignments)
+                verse_table.add_row(trigram_alignment, unigram_alignments, gloss_text)
+            
+            # If there are no trigram alignments but we have unigram alignments, add them
+            if not sorted_trigrams and consolidated_unigrams:
+                unigram_strs = [
+                    f"[{colors[i % len(colors)]}]{s}[/{colors[i % len(colors)]}] -> "
+                    f"[{colors[i % len(colors)]}]{t}[/{colors[i % len(colors)]}] "
+                    f"({score:.2f})"
+                    for i, (s, t, score) in enumerate(consolidated_unigrams)
+                ]
+                # Format gloss predictions
+                gloss_strs = [
+                    f"{s_token} → {gloss}"
+                    for s_token, gloss in result['gloss_predictions'].items()
+                ]
+                verse_table.add_row("", "\n".join(unigram_strs), "\n".join(gloss_strs))
             
             # Print the verse table and text
             console.print(verse_table)
@@ -687,6 +744,12 @@ class IntegratedAnalyzer:
                 console.print("\n[bold]Best Unigram Alignments:[/bold]")
                 for src, tgt, score in consolidated_unigrams:
                     console.print(f"[{colors[0]}]{src}[/{colors[0]}] -> [{colors[0]}]{tgt}[/{colors[0]}] ({score:.2f})")
+            
+            # Display all gloss predictions
+            if result['gloss_predictions']:
+                console.print("\n[bold]All Gloss Predictions:[/bold]")
+                for src, gloss in result['gloss_predictions'].items():
+                    console.print(f"{src} → {gloss}")
             
             console.print("\n" + "=" * 80 + "\n")
 

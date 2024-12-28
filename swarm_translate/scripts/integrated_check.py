@@ -402,7 +402,7 @@ class IntegratedAnalyzer:
         return combined
 
     def calculate_stop_words(self, sentences: List[str]) -> Set[str]:
-        """Calculate stop words dynamically using vectorized TF-IDF calculations."""
+        """Calculate stop words dynamically based on word frequency."""
         if self.pairs_processed % self.log_frequency == 0:
             print("\n=== Calculating stop words ===")
         
@@ -412,33 +412,20 @@ class IntegratedAnalyzer:
         # Tokenize all sentences and calculate word frequencies once
         words = [w for s in sentences for w in self.tokenize(s)]
         total_words = len(words)
-        self.word_freq_cache = Counter(words)
-        total_docs = len(sentences)
+        word_freq = Counter(words)
         
         if self.pairs_processed % self.log_frequency == 0:
-            print(f"Total words: {total_words:,}, Total docs: {total_docs:,}")
-            print(f"Top 5 most frequent words: {dict(list(Counter(words).most_common(5)))}")
+            print(f"Total words: {total_words:,}, Total docs: {len(sentences):,}")
+            print(f"Top 5 most frequent words: {dict(word_freq.most_common(5))}")
         
-        # Only consider words that appear frequently enough
-        min_freq = total_words * self.stop_word_threshold
-        frequent_words = {word for word, freq in self.word_freq_cache.items() 
-                         if freq > min_freq and word not in self.base_stop_words}
+        # Calculate frequency threshold (e.g., words that appear in more than 1% of the total words)
+        freq_threshold = total_words * self.stop_word_threshold
         
-        # Vectorized TF-IDF calculation for frequent words
-        if frequent_words:
-            unique_words = np.array(list(frequent_words))
-            frequencies = np.array([self.word_freq_cache[word] for word in unique_words], dtype=np.float32)
-            doc_freqs = np.array([self.doc_freq.get(word, 0) for word in unique_words], dtype=np.float32)
-            
-            # Calculate TF-IDF scores in a vectorized way
-            tf = frequencies / total_words
-            idf = np.log((total_docs + 1) / (doc_freqs + 1))
-            tfidf_scores = tf * idf
-            
-            # Find words with very low TF-IDF scores (likely stop words)
-            threshold = np.percentile(tfidf_scores, 10)  # Bottom 10%
-            additional_stops = set(unique_words[tfidf_scores < threshold])
-            stop_words.update(additional_stops)
+        # Identify words that exceed the frequency threshold
+        additional_stops = {word for word, freq in word_freq.items() if freq > freq_threshold}
+        
+        # Add to stop words
+        stop_words.update(additional_stops)
         
         if self.pairs_processed % self.log_frequency == 0:
             print(f"Found {len(stop_words):,} stop words")
@@ -753,21 +740,33 @@ class IntegratedAnalyzer:
             
             console.print("\n" + "=" * 80 + "\n")
 
-def load_jsonl(file_path: str) -> List[TranslationPair]:
-    """Load translation pairs from JSONL file."""
+def load_jsonl(file_path: str) -> Tuple[List[TranslationPair], List[Dict[str, str]]]:
+    """Load translation pairs from JSONL file and track any missing data."""
     pairs = []
+    missing_data = []
+    
     with open(file_path, 'r', encoding='utf-8') as f:
-        for line in f:
+        for line_num, line in enumerate(f, 1):
             data = json.loads(line)
+            
+            # Check for missing or empty data
+            if not data.get('original') or not data.get('translation'):
+                missing_data.append({
+                    'id': data.get('id', f'Line {line_num}'),
+                    'missing': 'original' if not data.get('original') else 'translation'
+                })
+                continue
+            
             pair = TranslationPair(
                 source=data['original'],
                 target=data['translation'],
                 id=data['id'],
-                translation_time=data['translation_time'],
-                model=data['model']
+                translation_time=data.get('translation_time', 0.0),
+                model=data.get('model', 'unknown')
             )
             pairs.append(pair)
-    return pairs
+    
+    return pairs, missing_data
 
 def analyze_translations(pairs: List[TranslationPair], progress: Progress, task_id: int) -> List[Dict]:
     """Analyze a list of translation pairs with parallel processing and progress reporting."""
@@ -794,11 +793,9 @@ def analyze_translations(pairs: List[TranslationPair], progress: Progress, task_
         return result
     
     # Use ThreadPoolExecutor for parallel processing
-    # Number of workers is set to CPU count or pairs length, whichever is smaller
     n_workers = min(len(pairs), os.cpu_count() or 4)
     
     with ThreadPoolExecutor(max_workers=n_workers) as executor:
-        # Submit all pairs for analysis
         future_to_pair = {executor.submit(analyze_with_progress, pair): pair for pair in pairs}
         
         # Collect results while maintaining order
@@ -806,7 +803,6 @@ def analyze_translations(pairs: List[TranslationPair], progress: Progress, task_
         for future in concurrent.futures.as_completed(future_to_pair):
             try:
                 result = future.result()
-                # Store result with original pair index to maintain order
                 pair = future_to_pair[future]
                 pair_index = pairs.index(pair)
                 results.append((pair_index, result))
@@ -820,19 +816,30 @@ def analyze_translations(pairs: List[TranslationPair], progress: Progress, task_
 def main(jsonl_path: str):
     """Main function to process JSONL file with progress reporting."""
     console = Console()
-    analyzer = IntegratedAnalyzer()  # Create analyzer instance
+    analyzer = IntegratedAnalyzer()
     
     with Progress() as progress:
         # Task for loading pairs
         task1 = progress.add_task("[cyan]Loading pairs...", total=1)
-        pairs = load_jsonl(jsonl_path)
+        pairs, missing_data = load_jsonl(jsonl_path)
         progress.update(task1, completed=1)
+        
+        # Report missing data if any
+        if missing_data:
+            console.print("\n[yellow]Warning: Some entries had missing data:[/yellow]")
+            missing_table = Table(show_header=True, header_style="bold yellow")
+            missing_table.add_column("ID")
+            missing_table.add_column("Missing Field")
+            for entry in missing_data:
+                missing_table.add_row(entry['id'], entry['missing'])
+            console.print(missing_table)
+            console.print(f"\n[yellow]Total entries with missing data: {len(missing_data)}[/yellow]\n")
         
         # Task for analyzing translations
         task2 = progress.add_task("[green]Analyzing translations...", total=len(pairs))
         results = analyze_translations(pairs, progress, task2)
     
-    # Call display_results as a method of the analyzer instance
+    # Display results
     analyzer.display_results(results, pairs)
 
 if __name__ == "__main__":

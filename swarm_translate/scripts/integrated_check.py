@@ -28,6 +28,7 @@ class AlignmentResult:
     unigram_alignments: List[Tuple[str, str, float]]
     trigram_alignments: List[Tuple[str, str, float]]
     composite_score: float
+    gloss_predictions: Dict[str, str]  # Add gloss predictions
 
 class IntegratedAnalyzer:
     def __init__(self, stop_word_threshold: float = 0.01):
@@ -94,6 +95,7 @@ class IntegratedAnalyzer:
             'combined_score': combined_score,
             'unigram_alignments': alignment_result.unigram_alignments,
             'trigram_alignments': alignment_result.trigram_alignments,
+            'gloss_predictions': alignment_result.gloss_predictions,  # Add gloss predictions
             'alignment_features': alignment_features,
             'original': pair.source,  # Add source text
             'translation': pair.target  # Add target text
@@ -141,7 +143,7 @@ class IntegratedAnalyzer:
                 self.doc_freq[token] += 1
 
     def align_pair(self, source: str, target: str) -> AlignmentResult:
-        """Align source and target text using trigram-guided unigram alignment."""
+        """Align source and target text using trigram-guided unigram alignment and predict glosses."""
         self.pairs_processed += 1
         should_log = self.pairs_processed % self.log_frequency == 0
         
@@ -162,7 +164,8 @@ class IntegratedAnalyzer:
             return AlignmentResult(
                 unigram_alignments=unigram_alignments,
                 trigram_alignments=[],
-                composite_score=composite_score
+                composite_score=composite_score,
+                gloss_predictions={}  # No gloss predictions for short sentences
             )
         
         src_trigrams = self.get_trigrams(src_tokens)
@@ -177,15 +180,19 @@ class IntegratedAnalyzer:
             src_tokens, tgt_tokens, src_trigrams, tgt_trigrams
         )
         
-        # Step 3: Use trigram alignments to narrow down unigram alignments
+        # Step 3: Use trigram alignments to predict glosses for all non-stop words
+        gloss_predictions = self.predict_glosses(src_tokens, trigram_alignments)
+        
+        # Step 4: Use trigram alignments to narrow down unigram alignments
         unigram_alignments = self.get_unigram_alignments_guided_by_trigrams(
             src_tokens, tgt_tokens, trigram_alignments
         )
         
         if should_log:
             print(f"Alignments found - Trigrams: {len(trigram_alignments)}, Unigrams: {len(unigram_alignments)}")
+            print(f"Gloss predictions: {gloss_predictions}")
         
-        # Step 4: Calculate composite score
+        # Step 5: Calculate composite score
         unigram_score = sum(score for _, _, score in unigram_alignments) / (len(unigram_alignments) or 1)
         trigram_score = sum(score for _, _, score in trigram_alignments) / (len(trigram_alignments) or 1)
         composite_score = (unigram_score + trigram_score) / 2
@@ -196,15 +203,61 @@ class IntegratedAnalyzer:
         return AlignmentResult(
             unigram_alignments=unigram_alignments,
             trigram_alignments=trigram_alignments,
-            composite_score=composite_score
+            composite_score=composite_score,
+            gloss_predictions=gloss_predictions  # Add gloss predictions
         )
 
+    def predict_glosses(self, src_tokens: List[str], trigram_alignments: List[Tuple[str, str, float]]) -> Dict[str, str]:
+        """Predict glosses for all non-stop words in the source sentence using trigram alignments."""
+        gloss_predictions = {}
+        
+        # Create a mapping of source unigrams to their best glosses
+        for s_tri, t_tri, trigram_score in trigram_alignments:
+            s_tri_tokens = s_tri.split()
+            t_tri_tokens = t_tri.split()
+            
+            # Find the best gloss for each source unigram in the trigram
+            for s_token in s_tri_tokens:
+                if s_token in self.stop_words:
+                    continue  # Skip stop words
+                
+                best_gloss = None
+                best_score = 0
+                
+                # Find the best target unigram in the target trigram
+                for t_token in t_tri_tokens:
+                    if t_token in self.stop_words:
+                        continue  # Skip stop words
+                    
+                    # Calculate the unigram alignment score
+                    s_idx = src_tokens.index(s_token)
+                    t_idx = t_tri_tokens.index(t_token)
+                    unigram_score = self._calculate_score(
+                        s_token, t_token, s_idx, t_idx, len(src_tokens), len(t_tri_tokens)
+                    )
+                    
+                    # Combine trigram and unigram scores
+                    combined_score = (trigram_score + unigram_score) / 2
+                    
+                    # Update the best gloss for this source unigram
+                    if combined_score > best_score:
+                        best_score = combined_score
+                        best_gloss = t_token
+                
+                # Store the best gloss for this source unigram
+                if best_gloss and best_score > 0:
+                    if s_token not in gloss_predictions or gloss_predictions[s_token][1] < best_score:
+                        gloss_predictions[s_token] = (best_gloss, best_score)
+        
+        # Convert to a dictionary of glosses (without scores)
+        return {s_token: gloss for s_token, (gloss, _) in gloss_predictions.items()}
+
     def get_unigram_alignments_guided_by_trigrams(
-    self, 
-    src_tokens: List[str], 
-    tgt_tokens: List[str], 
-    trigram_alignments: List[Tuple[str, str, float]]
-) -> List[Tuple[str, str, float]]:
+        self, 
+        src_tokens: List[str], 
+        tgt_tokens: List[str], 
+        trigram_alignments: List[Tuple[str, str, float]]
+    ) -> List[Tuple[str, str, float]]:
         """Get the best unigram alignment for each unigram in each trigram, then consolidate."""
         # Filter stop words from already tokenized text
         src_tokens_filtered = np.array([t for t in src_tokens if t not in self.stop_words])

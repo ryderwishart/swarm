@@ -153,6 +153,18 @@ class IntegratedAnalyzer:
         # Step 1: Tokenize and generate trigrams once
         src_tokens = self.tokenize(source)
         tgt_tokens = self.tokenize(target)
+        
+        if len(src_tokens) < 3 or len(tgt_tokens) < 3:
+            # Skip trigram alignment for short sentences
+            unigram_alignments = self.get_unigram_alignments(src_tokens, tgt_tokens)
+            composite_score = sum(score for _, _, score in unigram_alignments) / (len(unigram_alignments) or 1)
+            
+            return AlignmentResult(
+                unigram_alignments=unigram_alignments,
+                trigram_alignments=[],
+                composite_score=composite_score
+            )
+        
         src_trigrams = self.get_trigrams(src_tokens)
         tgt_trigrams = self.get_trigrams(tgt_tokens)
         
@@ -188,94 +200,60 @@ class IntegratedAnalyzer:
         )
 
     def get_unigram_alignments_guided_by_trigrams(
-        self, 
-        src_tokens: List[str], 
-        tgt_tokens: List[str], 
-        trigram_alignments: List[Tuple[str, str, float]]
-    ) -> List[Tuple[str, str, float]]:
-        """Get unigram alignments guided by trigram alignments with optimized mapping."""
+    self, 
+    src_tokens: List[str], 
+    tgt_tokens: List[str], 
+    trigram_alignments: List[Tuple[str, str, float]]
+) -> List[Tuple[str, str, float]]:
+        """Get the best unigram alignment for each unigram in each trigram, then consolidate."""
         # Filter stop words from already tokenized text
         src_tokens_filtered = np.array([t for t in src_tokens if t not in self.stop_words])
         tgt_tokens_filtered = np.array([t for t in tgt_tokens if t not in self.stop_words])
         
-        # Create optimized mappings for quick lookups
-        src_unigram_to_trigrams = defaultdict(list)  # unigram -> [(trigram, score)]
-        tgt_unigram_to_trigrams = defaultdict(list)  # unigram -> [(trigram, score)]
+        # Dictionary to store the best unigram alignment for each source-target pair
+        best_unigram_alignments = {}
         
-        # Build the mappings in a single pass through trigram alignments
-        for s_tri, t_tri, score in trigram_alignments:
+        # Process each trigram alignment
+        for s_tri, t_tri, trigram_score in trigram_alignments:
             s_tri_tokens = s_tri.split()
             t_tri_tokens = t_tri.split()
             
-            # Map source unigrams to their trigrams
+            # Find the best unigram alignment for each source unigram in the trigram
             for s_token in s_tri_tokens:
-                if s_token not in self.stop_words:
-                    src_unigram_to_trigrams[s_token].append((s_tri, score))
-            
-            # Map target unigrams to their trigrams
-            for t_token in t_tri_tokens:
-                if t_token not in self.stop_words:
-                    tgt_unigram_to_trigrams[t_token].append((t_tri, score))
-        
-        # Pre-compute average trigram scores using vectorized operations
-        src_unigram_scores = {
-            token: np.mean(np.array([score for _, score in trigrams], dtype=np.float32))
-            for token, trigrams in src_unigram_to_trigrams.items()
-        }
-        tgt_unigram_scores = {
-            token: np.mean(np.array([score for _, score in trigrams], dtype=np.float32))
-            for token, trigrams in tgt_unigram_to_trigrams.items()
-        }
-        
-        alignments = []
-        # Process each source token
-        for s_idx, s_token in enumerate(src_tokens_filtered):
-            s_trigram_score = src_unigram_scores.get(s_token, 0)
-            
-            # Only consider target tokens that appear in aligned trigrams
-            potential_targets = np.array([
-                t_token for t_token in tgt_tokens_filtered
-                if t_token in tgt_unigram_scores
-            ])
-            
-            if len(potential_targets) > 0:
-                # Vectorized computation of trigram scores
-                t_trigram_scores = np.array([tgt_unigram_scores.get(t, 0) for t in potential_targets], dtype=np.float32)
-                trigram_scores = (s_trigram_score + t_trigram_scores) / 2
+                if s_token in self.stop_words:
+                    continue  # Skip stop words
                 
-                # Calculate unigram scores only for promising candidates
-                promising_indices = np.where(trigram_scores > 0)[0]
-                if len(promising_indices) > 0:
-                    promising_targets = potential_targets[promising_indices]
-                    promising_trigram_scores = trigram_scores[promising_indices]
+                best_score = 0
+                best_target = None
+                
+                # Find the best target unigram in the target trigram
+                for t_token in t_tri_tokens:
+                    if t_token in self.stop_words:
+                        continue  # Skip stop words
                     
-                    # Calculate unigram scores for promising candidates
-                    unigram_scores = np.array([
-                        self._calculate_score(
-                            s_token,
-                            t_token,
-                            s_idx,
-                            np.where(tgt_tokens_filtered == t_token)[0][0],
-                            len(src_tokens_filtered),
-                            len(tgt_tokens_filtered)
-                        )
-                        for t_token in promising_targets
-                    ], dtype=np.float32)
+                    # Calculate the unigram alignment score
+                    s_idx = np.where(src_tokens_filtered == s_token)[0][0]
+                    t_idx = np.where(tgt_tokens_filtered == t_token)[0][0]
+                    unigram_score = self._calculate_score(
+                        s_token, t_token, s_idx, t_idx, len(src_tokens_filtered), len(tgt_tokens_filtered)
+                    )
                     
-                    # Combine scores and find the best match
-                    combined_scores = (promising_trigram_scores + unigram_scores) / 2
-                    if len(combined_scores) > 0:
-                        best_idx = np.argmax(combined_scores)
-                        best_score = combined_scores[best_idx]
-                        if best_score > 0:
-                            alignments.append((s_token, promising_targets[best_idx], float(best_score)))
+                    # Combine trigram and unigram scores
+                    combined_score = (trigram_score + unigram_score) / 2
+                    
+                    # Update the best alignment for this source unigram
+                    if combined_score > best_score:
+                        best_score = combined_score
+                        best_target = t_token
+                
+                # Store the best alignment for this source unigram in this trigram
+                if best_target and best_score > 0:
+                    key = (s_token, best_target)
+                    if key not in best_unigram_alignments or best_unigram_alignments[key][2] < best_score:
+                        best_unigram_alignments[key] = (s_token, best_target, best_score)
         
-        # Sort alignments using numpy
-        if alignments:
-            scores = np.array([score for _, _, score in alignments], dtype=np.float32)
-            sorted_indices = np.argsort(scores)[::-1]
-            alignments = [alignments[i] for i in sorted_indices]
-        
+        # Convert the dictionary to a sorted list of alignments
+        alignments = sorted(best_unigram_alignments.values(), key=lambda x: x[2], reverse=True)
         return alignments
 
     def calculate_anomaly_score(self, pair: TranslationPair) -> float:
@@ -539,6 +517,29 @@ class IntegratedAnalyzer:
         
         return abs(len(s1) - len(s2)) + abs(self.compressed_length_cache[s1] - self.compressed_length_cache[s2])
 
+    def consolidate_unigram_alignments(self, unigram_alignments: List[Tuple[str, str, float]]) -> List[Tuple[str, str, float]]:
+        """Consolidate unigram alignments to ensure exclusive alignments."""
+        # Create dictionaries to track the best alignment for each source and target word
+        best_for_source = {}
+        best_for_target = {}
+        
+        for src, tgt, score in unigram_alignments:
+            # Update best alignment for the source word
+            if src not in best_for_source or best_for_source[src][2] < score:
+                best_for_source[src] = (src, tgt, score)
+            
+            # Update best alignment for the target word
+            if tgt not in best_for_target or best_for_target[tgt][2] < score:
+                best_for_target[tgt] = (src, tgt, score)
+        
+        # Merge the best alignments, ensuring exclusivity
+        consolidated = {}
+        for src, tgt, score in best_for_source.values():
+            if tgt in best_for_target and best_for_target[tgt][0] == src:
+                consolidated[(src, tgt)] = (src, tgt, score)
+        
+        return sorted(consolidated.values(), key=lambda x: x[2], reverse=True)
+
     def display_results(self, results: List[Dict], pairs: List[TranslationPair], top_n: int = 10):
         """Display analysis results with detailed trigram and unigram alignments."""
         console = Console()
@@ -570,6 +571,9 @@ class IntegratedAnalyzer:
             verse_table.add_column("Trigram Alignment", style="white")
             verse_table.add_column("Unigram Alignments", style="white")
             
+            # Consolidate unigram alignments
+            consolidated_unigrams = self.consolidate_unigram_alignments(result['unigram_alignments'])
+            
             # Create optimized mapping of unigrams to trigrams
             trigram_to_unigrams = defaultdict(list)
             unigram_to_trigrams = defaultdict(set)
@@ -581,7 +585,7 @@ class IntegratedAnalyzer:
             }
             
             # Build the mapping in a single pass
-            for s, t, uni_score in result['unigram_alignments']:
+            for s, t, uni_score in consolidated_unigrams:
                 # Find matching trigrams efficiently
                 matching_trigrams = [
                     (s_tri, t_tri) for (s_tri, t_tri), (s_tokens, t_tokens) in trigram_tokens.items()
@@ -624,6 +628,13 @@ class IntegratedAnalyzer:
             console.print(verse_table)
             console.print(f"[bold]Source:[/bold] {pair.source}", style="white")
             console.print(f"[bold]Target:[/bold] {pair.target}", style="white")
+            
+            # Color-coded source-target best unigrams display
+            if consolidated_unigrams:
+                console.print("\n[bold]Best Unigram Alignments:[/bold]")
+                for src, tgt, score in consolidated_unigrams:
+                    console.print(f"[{colors[0]}]{src}[/{colors[0]}] -> [{colors[0]}]{tgt}[/{colors[0]}] ({score:.2f})")
+            
             console.print("\n" + "=" * 80 + "\n")
 
 def load_jsonl(file_path: str) -> List[TranslationPair]:

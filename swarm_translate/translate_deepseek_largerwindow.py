@@ -1,4 +1,3 @@
-from swarm import Swarm, Agent
 from typing import List, Dict, Optional, Tuple
 import json
 import time
@@ -12,6 +11,7 @@ import re
 import multiprocessing as mp
 from functools import partial
 from difflib import SequenceMatcher
+import csv
 
 # Load environment variables
 load_dotenv()
@@ -42,6 +42,42 @@ class TranslationScenario:
         self.batch_size = self.config["batch_settings"]["batch_size"]
         self.save_frequency = self.config["batch_settings"]["save_frequency"]
         self.resume_from_last = self.config["batch_settings"]["resume_from_last"]
+        
+        # Load book ID mapping
+        self.id_mapping_path = self.base_path / "data" / "id_mapping.json"
+        self.book_id_mapping = self._load_book_id_mapping()
+    
+    def _load_book_id_mapping(self) -> Dict[str, str]:
+        """Load the mapping of USFM book codes to full names."""
+        try:
+            with open(self.id_mapping_path, 'r', encoding='utf-8') as f:
+                return json.load(f)
+        except Exception as e:
+            print(f"Warning: Could not load book ID mapping: {e}")
+            return {}
+    
+    def map_reference_id(self, ref_id: str) -> Optional[str]:
+        """Convert USFM reference (e.g., '1CH 10:1') to full name (e.g., '1 Chronicles 10:1')."""
+        if not ref_id or not self.book_id_mapping:
+            return ref_id
+            
+        try:
+            # Split into book code and verse reference
+            parts = ref_id.strip().split(' ', 1)
+            if len(parts) != 2:
+                return ref_id
+                
+            book_code, verse_ref = parts
+            book_code = book_code.strip()
+            verse_ref = verse_ref.strip()
+            
+            if book_code in self.book_id_mapping:
+                return f"{self.book_id_mapping[book_code]} {verse_ref}"
+            
+            return ref_id
+        except Exception as e:
+            print(f"Warning: Error mapping reference ID '{ref_id}': {e}")
+            return ref_id
     
     def get_style_prompt(self) -> str:
         style = self.config["style"]
@@ -157,69 +193,93 @@ class TranslationScenario:
 
 class TranslationMemory:
     def __init__(self, scenario: TranslationScenario):
-        self.memory_path = scenario.base_path / f"{scenario.source_code}_{scenario.target_code}_translation_memory.jsonl"
-        self.memory = self._load_memory()
-        
-    def _load_memory(self) -> Dict[str, Dict]:
-        """Load existing translation memory."""
-        memory = {}
-        if self.memory_path.exists():
-            with open(self.memory_path, 'r', encoding='utf-8') as f:
-                for line in f:
-                    if line.strip():
-                        entry = json.loads(line)
-                        # Use source text as key
-                        memory[entry['source']] = entry
-        return memory
+        self.memory_path = scenario.base_path / f"{scenario.source_code}_{scenario.target_code}_memory_{os.getpid()}.jsonl"
+        self.memory = {}
     
-    def _save_entry(self, entry: Dict):
-        """Save a new entry to the translation memory file."""
-        with open(self.memory_path, 'a', encoding='utf-8') as f:
-            f.write(json.dumps(entry, ensure_ascii=False) + '\n')
+    def find_matches(self, analysis: Dict) -> List[Dict]:
+        """Find similar translations in memory."""
+        matches = []
+        for source_text, entry in self.memory.items():
+            # Simple similarity check based on key terms
+            if any(term in source_text for term in analysis.get('terms', [])):
+                matches.append(entry)
+        return matches[:3]  # Return top 3 matches
     
-    def similar(self, text1: str, text2: str, threshold: float = 0.85) -> bool:
-        """Check if two texts are similar using sequence matcher."""
-        return SequenceMatcher(None, text1, text2).ratio() > threshold
-    
-    def find_matches(self, components: Dict[str, List[str]], 
-                    threshold: float = 0.85) -> Dict[str, List[Dict]]:
-        """Find matching translations for each component."""
-        matches = {
-            'phrases': [],
-            'terms': [],
-            'idioms': [],
-            'cultural': []
+    def add_entry(self, analysis: Dict, translation: Dict):
+        """Add a new translation to memory."""
+        entry = {
+            'source': json.dumps(analysis, ensure_ascii=False),
+            'translation': translation
         }
-        
-        for category in matches.keys():
-            for item in components.get(category, []):
-                for source, entry in self.memory.items():
-                    if self.similar(item, source, threshold):
-                        matches[category].append({
-                            'source': source,
-                            'target': entry['target'],
-                            'similarity': SequenceMatcher(None, item, source).ratio()
-                        })
-        
-        return matches
+        key = json.dumps(analysis.get('terms', []), ensure_ascii=False)
+        self.memory[key] = entry
+
+def create_memory_context(matches: List[Dict]) -> str:
+    """Create context string from translation memory matches."""
+    if not matches:
+        return ""
     
-    def add_entry(self, source_components: Dict[str, List[str]], 
-                 target_components: Dict[str, List[str]]):
-        """Add new translations to memory."""
-        for category in ['phrases', 'terms', 'idioms', 'cultural']:
-            sources = source_components.get(category, [])
-            targets = target_components.get(category, [])
+    context_parts = []
+    for match in matches:
+        try:
+            source = json.loads(match['source'])
+            context_parts.append(
+                f"Similar translation:\n"
+                f"Terms: {', '.join(source.get('terms', []))}\n"
+                f"Translation: {json.dumps(match['translation'], ensure_ascii=False)}\n"
+            )
+        except Exception as e:
+            print(f"Warning: Error creating memory context: {e}")
+            continue
+        
+        if context_parts:
+            return "Previous similar translations for reference:\n" + "\n".join(context_parts)
+        return ""
+
+def get_previous_verses(text_id: Optional[str], scenario: TranslationScenario, 
+                       num_verses: int = 2) -> List[Dict]:
+    """Get previous verses for context."""
+    if not text_id:
+        return []
+    
+    try:
+        # Parse book and chapter from text_id (e.g., "Genesis 1:5")
+        parts = text_id.split()
+        if len(parts) != 2:
+            return []
             
-            for source, target in zip(sources, targets):
-                if source not in self.memory:
-                    entry = {
-                        'source': source,
-                        'target': target,
-                        'category': category,
-                        'timestamp': datetime.now().isoformat()
-                    }
-                    self.memory[source] = entry
-                    self._save_entry(entry)
+        book = parts[0]
+        chapter_verse = parts[1].split(':')
+        if len(chapter_verse) != 2:
+            return []
+            
+        chapter, verse = chapter_verse
+        verse = int(verse)
+        
+        # Read output file to find previous verses
+        output_path = scenario.get_output_path()
+        if not output_path.exists():
+            return []
+            
+        previous_verses = []
+        with open(output_path, 'r', encoding='utf-8') as f:
+            for line in f:
+                try:
+                    entry = json.loads(line)
+                    entry_id = entry.get('id', '')
+                    if entry_id.startswith(f"{book} {chapter}:"):
+                        entry_verse = int(entry_id.split(':')[1])
+                        if entry_verse < verse and entry_verse >= verse - num_verses:
+                            previous_verses.append(entry)
+                except Exception:
+                    continue
+                    
+        return sorted(previous_verses, 
+                     key=lambda x: int(x['id'].split(':')[1]) if x.get('id') else 0)
+                     
+    except Exception as e:
+        print(f"Warning: Error getting previous verses: {e}")
+        return []
 
 def is_complete_thought(text: str) -> bool:
     """Check if text ends with terminal punctuation."""
@@ -230,14 +290,14 @@ def is_complete_thought(text: str) -> bool:
     last_chars = text.strip()[-2:]
     return any(punct in last_chars for punct in '.!?')
 
-def batch_translations(translations: List[Dict], scenario: TranslationScenario, qa_bot: Agent, swarm_client: Swarm) -> str:
+def batch_translations(translations: List[Dict], scenario: TranslationScenario, qa_bot: OpenAI, swarm_client: OpenAI) -> str:
     """Combine multiple translations into a cohesive paragraph."""
     # Only use the translations from the current batch
     originals = [t["original"] for t in translations]
     translated = [t["translation"] for t in translations]
     
-    response = swarm_client.run(
-        agent=qa_bot,
+    response = swarm_client.chat.completions.create(
+        model="deepseek-chat",
         messages=[{
             "role": "user",
             "content": f"""Combine ONLY these {len(translations)} translations into natural, flowing {scenario.target_label} text.
@@ -253,7 +313,7 @@ def batch_translations(translations: List[Dict], scenario: TranslationScenario, 
         }]
     )
     
-    return response.messages[-1]["content"]
+    return response.choices[0].message.content.strip()
 
 def setup_agents(scenario: TranslationScenario) -> tuple:
     """Set up the translation agents based on scenario configuration."""
@@ -274,224 +334,242 @@ def setup_agents(scenario: TranslationScenario) -> tuple:
     )
 
     # Create Swarm instance
-    swarm_client = Swarm(client=decision_client)
+    swarm_client = OpenAI(
+        api_key=api_key,
+        base_url="https://api.deepseek.com"
+    )
     
     def transfer_to_translator(*args, **kwargs):
         return translator_bot
-
+        
     def transfer_to_qa(*args, **kwargs):
         return qa_bot
-
+        
     def transfer_to_consolidator(*args, **kwargs):
         return consolidation_bot
 
-    # Define the specialized agents
-    linguist_bot = Agent(
-        name="Linguist",
-        instructions=f"""You are an expert linguist who excels at breaking down {scenario.source_label} sentences for translation.
-        Analyze the given sentence and output ONLY a JSON object with these components:
-        {{
-            "phrases": [list of main phrases],
-            "terms": [key terms],
-            "idioms": [idiomatic expressions],
-            "cultural": [cultural references]
-        }}""",
-        functions=[transfer_to_translator],
-        client=decision_client,
-        model="deepseek-chat"
+    # Create agents with proper transfer functions
+    linguist_bot = OpenAI(
+        api_key=api_key,
+        base_url="https://api.deepseek.com"
     )
 
-    translator_bot = Agent(
-        name="Translator",
-        instructions=f"""You are a precise translation expert specializing in {scenario.source_label} to {scenario.target_label} translation.
-        Translate the components provided by the linguist into {scenario.target_label}.
-        {scenario.get_style_prompt()}
-        Output ONLY a JSON object with the translations:
-        {{
-            "phrases": [translated phrases],
-            "terms": [translated terms],
-            "idioms": [translated expressions],
-            "cultural": [translated references]
-        }}""",
-        functions=[transfer_to_qa],
-        client=translation_client,
-        model="deepseek-chat"
+    translator_bot = OpenAI(
+        api_key=api_key,
+        base_url="https://api.deepseek.com"
     )
 
-    consolidation_bot = Agent(
-        name="Consolidation Editor",
-        instructions=f"""You are an Oxford professor with decades of experience editing academic works, poetry, and literature in {scenario.target_label}.
-        Your task is to review and refine translations while maintaining consistency with preceding verses.
-        
-        Consider:
-        1. Terminology consistency
-        2. Style and tone continuity
-        3. Thematic coherence
-        4. Natural flow between verses
-        5. Cultural and contextual alignment
-        
-        {scenario.get_style_prompt()}
-        
-        Output ONLY the refined translation of the current verse, ensuring it flows naturally with previous verses while maintaining accuracy.""",
-        client=translation_client,
-        model="deepseek-chat"
+    consolidation_bot = OpenAI(
+        api_key=api_key,
+        base_url="https://api.deepseek.com"
     )
 
-    qa_bot = Agent(
-        name="QA Expert",
-        instructions=f"""You are a translation quality assurance expert for {scenario.target_label}.
-        Given the original {scenario.source_label} text and component translations, provide the FINAL TRANSLATION ONLY.
-        {scenario.get_style_prompt()}
-        Do not include any explanations, notes, or additional text.
-        Output only the translated text in {scenario.target_label}.""",
-        functions=[transfer_to_consolidator],
-        client=translation_client,
-        model="deepseek-chat"
+    qa_bot = OpenAI(
+        api_key=api_key,
+        base_url="https://api.deepseek.com"
     )
     
     return swarm_client, linguist_bot, translator_bot, qa_bot, consolidation_bot
 
-def get_previous_verses(current_id: str, scenario: TranslationScenario, n: int = 10) -> List[Dict]:
-    """Retrieve the n previous verses from the output file."""
-    verses = []
-    output_path = scenario.get_output_path()
-    
-    if not output_path.exists():
-        return verses
-
-    try:
-        with open(output_path, 'r', encoding='utf-8') as f:
-            translations = [json.loads(line) for line in f if line.strip()]
+def call_llm(client: OpenAI, prompt: str, expect_json: bool = False) -> str:
+    """Make a single call to the DeepSeek LLM with retries and parsing."""
+    max_retries = 3
+    for attempt in range(max_retries):
+        try:
+            response = client.chat.completions.create(
+                model="deepseek-chat",
+                messages=[{
+                    "role": "user", 
+                    "content": f"{prompt}\n\nIMPORTANT: Return ONLY the requested output, nothing else."
+                }]
+            )
+            content = response.choices[0].message.content.strip()
             
-        # Find the current verse's position
-        current_index = next((i for i, t in enumerate(translations) 
-                            if t.get('id') == current_id), None)
-        
-        if current_index is not None:
-            # Get up to n previous verses
-            start_index = max(0, current_index - n)
-            verses = translations[start_index:current_index]
-    except Exception as e:
-        print(f"Warning: Error reading previous verses: {e}")
-    
-    return verses
+            if expect_json:
+                try:
+                    # Try direct JSON parsing
+                    return json.loads(content)
+                except json.JSONDecodeError:
+                    # Try to extract JSON from response
+                    json_start = content.find('{')
+                    json_end = content.rfind('}') + 1
+                    if json_start >= 0 and json_end > json_start:
+                        extracted = content[json_start:json_end]
+                        try:
+                            return json.loads(extracted)
+                        except json.JSONDecodeError:
+                            if attempt == max_retries - 1:
+                                raise ValueError(f"Could not parse JSON after {max_retries} attempts")
+                            continue
+                    if attempt == max_retries - 1:
+                        raise ValueError(f"No valid JSON found in response after {max_retries} attempts")
+                    continue
+            return content
+            
+        except Exception as e:
+            if "rate_limit" in str(e).lower():
+                print(f"Rate limit hit, waiting 60 seconds...")
+                time.sleep(60)
+                continue
+            if attempt == max_retries - 1:
+                print(f"LLM call failed after {max_retries} attempts: {e}")
+                raise
+            time.sleep(2 ** attempt)  # Exponential backoff
 
-def translate_with_agents(text: str, scenario: TranslationScenario, 
-                        swarm_client: Swarm, linguist_bot: Agent, 
-                        translator_bot: Agent, qa_bot: Agent,
-                        consolidation_bot: Agent,
-                        translation_memory: TranslationMemory,
-                        text_id: Optional[str] = None) -> Dict:
-    """Main function to coordinate the translation process between agents."""
+def analyze_text(client: OpenAI, text: str, source_label: str, target_label: str, book_context: str = "") -> Dict:
+    """Analyze text structure (formerly Linguist bot)."""
+    prompt = f"""Analyze this {source_label} sentence for translation to {target_label}: '{text}'{book_context}
+    
+    Return ONLY a JSON object with these components:
+    {{
+        "phrases": [list of main phrases],
+        "terms": [key terms],
+        "idioms": [idiomatic expressions],
+        "cultural": [cultural references]
+    }}"""
+    
+    analysis = call_llm(client, prompt, expect_json=True)
+    return {
+        'phrases': analysis.get('phrases', []),
+        'terms': analysis.get('terms', []),
+        'idioms': analysis.get('idioms', []),
+        'cultural': analysis.get('cultural', [])
+    }
+
+def translate_components(client: OpenAI, analysis: Dict, source_label: str, target_label: str, 
+                       style_prompt: str, memory_context: str = "") -> Dict:
+    """Translate analyzed components (formerly Translator bot)."""
+    prompt = f"""Translate these components from {source_label} to {target_label}:
+    
+    Components to translate:
+    {json.dumps(analysis, ensure_ascii=False, indent=2)}
+    
+    {memory_context}
+    {style_prompt}
+    
+    Return ONLY a JSON object with the translations."""
+    
+    translations = call_llm(client, prompt, expect_json=True)
+    return {
+        'phrases': translations.get('phrases', []),
+        'terms': translations.get('terms', []),
+        'idioms': translations.get('idioms', []),
+        'cultural': translations.get('cultural', [])
+    }
+
+def combine_translation(client: OpenAI, original: str, translations: Dict, 
+                       source_label: str, target_label: str, style_prompt: str) -> str:
+    """Combine translated components (formerly QA bot)."""
+    prompt = f"""Provide the final {target_label} translation:
+    Original ({source_label}): {original}
+    Component translations: {json.dumps(translations, ensure_ascii=False)}
+    
+    {style_prompt}
+    Return ONLY the final translation text."""
+    
+    return call_llm(client, prompt)
+
+def consolidate_translation(client: OpenAI, final_translation: str, original: str,
+                          book_context: str, previous_verses: List[Dict],
+                          source_label: str, target_label: str,
+                          style_prompt: str, verse_num: str) -> str:
+    """Ensure consistency with previous verses (formerly Consolidation bot)."""
+    if not previous_verses:
+        return final_translation
+        
+    context = "\n".join([
+        f"Verse {v['id'].split(':')[1]}: {v['translation']}" 
+        for v in previous_verses
+    ])
+    
+    prompt = f"""Review and refine this translation in light of the preceding verses:
+
+    {book_context}
+    Previous verses from this chapter:
+    {context}
+    
+    Current verse ({verse_num}):
+    {final_translation}
+    
+    Original ({source_label}): {original}
+    
+    {style_prompt}
+    Return ONLY the refined translation of the current verse."""
+    
+    return call_llm(client, prompt)
+
+def translate_with_llm(text: str, scenario: TranslationScenario, 
+                      client: OpenAI, translation_memory: TranslationMemory,
+                      text_id: Optional[str] = None) -> Dict:
+    """Main translation function using direct LLM calls."""
     start_time = time.time()
     
     try:
-        # Step 1: Linguist bot analyzes the sentence
-        response = swarm_client.run(
-            agent=linguist_bot,
-            messages=[{
-                "role": "user",
-                "content": f"Analyze this {scenario.source_label} sentence for translation to {scenario.target_label}: '{text}'"
-            }]
-        )
-        analysis = json.loads(response.messages[-1]["content"])
-        
-        # Find matching translations from memory
-        matches = translation_memory.find_matches(analysis)
-        
-        # Step 2: Translator bot translates components with memory context
-        memory_context = ""
-        if any(matches.values()):
-            memory_context = "Previous translations from similar content:\n"
-            for category, category_matches in matches.items():
-                if category_matches:
-                    memory_context += f"\n{category.title()}:\n"
-                    for match in category_matches:
-                        memory_context += f"- {match['source']} → {match['target']}\n"
-        
-        response = swarm_client.run(
-            agent=translator_bot,
-            messages=[{
-                "role": "user",
-                "content": f"""Translate these components from {scenario.source_label} to {scenario.target_label}:
-                
-                Components to translate:
-                {json.dumps(analysis, ensure_ascii=False, indent=2)}
-                
-                {memory_context}
-                
-                Please maintain consistency with previous translations where appropriate."""
-            }]
-        )
-        translations = json.loads(response.messages[-1]["content"])
-        
-        # Add new translations to memory
-        translation_memory.add_entry(analysis, translations)
-        
-        # Step 3: QA bot always provides final translation
-        response = swarm_client.run(
-            agent=qa_bot,
-            messages=[{
-                "role": "user",
-                "content": f"""Provide the final {scenario.target_label} translation:
-                Original ({scenario.source_label}): {text}
-                Component translations: {translations}"""
-            }]
-        )
-        final_translation = response.messages[-1]["content"]
-        
-        # New Step 4: Consolidation with previous verses
-        previous_verses = get_previous_verses(text_id, scenario)
-        
-        if previous_verses:
-            context = "\n".join([
-                f"Verse {i+1}: {v['translation']}" 
-                for i, v in enumerate(previous_verses)
-            ])
-            
-            response = swarm_client.run(
-                agent=consolidation_bot,
-                messages=[{
-                    "role": "user",
-                    "content": f"""Review and refine this translation in light of the preceding verses:
+        # Get book context
+        book_context = ""
+        if text_id:
+            try:
+                book_name = text_id.split()[0]
+                if book_name in scenario.book_id_mapping:
+                    book_context = f"\nThis verse is from {scenario.book_id_mapping[book_name]}. "
+            except Exception as e:
+                print(f"Warning: Error creating book context for '{text_id}': {e}")
 
-                    Previous verses:
-                    {context}
-                    
-                    Current verse translation:
-                    {final_translation}
-                    
-                    Original ({scenario.source_label}): {text}
-                    
-                    Please provide the refined translation of ONLY the current verse, ensuring it flows naturally with the previous verses while maintaining accuracy."""
-                }]
-            )
-            
-            final_translation = response.messages[-1]["content"].strip()
+        # Step 1: Analyze text
+        analysis = analyze_text(client, text, scenario.source_label, 
+                              scenario.target_label, book_context)
+
+        # Step 2: Get matching translations and translate components
+        matches = translation_memory.find_matches(analysis)
+        memory_context = create_memory_context(matches) if matches else ""
         
+        translations = translate_components(client, analysis, 
+                                         scenario.source_label, scenario.target_label,
+                                         scenario.get_style_prompt(), memory_context)
+
+        # Add to translation memory
+        try:
+            translation_memory.add_entry(analysis, translations)
+        except Exception as e:
+            print(f"Warning: Failed to add to translation memory: {e}")
+
+        # Step 3: Combine translations
+        final_translation = combine_translation(client, text, translations,
+                                             scenario.source_label, scenario.target_label,
+                                             scenario.get_style_prompt())
+
+        # Step 4: Consolidate with previous verses
+        try:
+            previous_verses = get_previous_verses(text_id, scenario)
+            if previous_verses:
+                verse_num = text_id.split(':')[1] if text_id else "unknown"
+                final_translation = consolidate_translation(
+                    client, final_translation, text, book_context,
+                    previous_verses, scenario.source_label, scenario.target_label,
+                    scenario.get_style_prompt(), verse_num
+                )
+        except Exception as e:
+            print(f"Warning: Consolidation step failed: {e}")
+
+        # Create result
         translation_time = time.time() - start_time
-        
         result = {
             "source_lang": scenario.source_code,
-            "source_label": scenario.source_label,
             "target_lang": scenario.target_code,
-            "target_label": scenario.target_label,
             "original": text,
-            "translation": final_translation.strip(),  # Clean up any extra whitespace
+            "translation": final_translation,
             "translation_time": round(translation_time, 2),
-            "model": translator_bot.model,
             "calver": datetime.now().strftime("%Y.%m.%d")
         }
         
         if text_id:
             result["id"] = text_id
-        
+            
         return result
         
     except Exception as e:
         print(f"Error translating text: '{text}'")
         print(f"Error details: {str(e)}")
-        # Return a minimal result indicating failure
         return {
             "source_lang": scenario.source_code,
             "target_lang": scenario.target_code,
@@ -508,8 +586,10 @@ def process_batch(batch_data: tuple, scenario: TranslationScenario, output_path:
     
     print(f"Starting batch {batch_id} with {len(lines)} items")
     
-    # Set up agents and translation memory for this process
+    # Set up agents for this process
     swarm_client, linguist_bot, translator_bot, qa_bot, consolidation_bot = setup_agents(scenario)
+    
+    # Create a process-specific translation memory
     translation_memory = TranslationMemory(scenario)
     
     for item in lines:
@@ -523,10 +603,8 @@ def process_batch(batch_data: tuple, scenario: TranslationScenario, output_path:
         
         while True:
             try:
-                result = translate_with_agents(
-                    content, scenario, swarm_client, 
-                    linguist_bot, translator_bot, qa_bot, consolidation_bot,
-                    translation_memory, text_id
+                result = translate_with_llm(
+                    content, scenario, swarm_client, translation_memory, text_id
                 )
                 break
             except Exception as e:
@@ -536,7 +614,7 @@ def process_batch(batch_data: tuple, scenario: TranslationScenario, output_path:
                     continue
                 raise
         
-        # Save individual translation immediately
+        # Use a lock for file writing
         try:
             with open(output_path, 'a', encoding='utf-8') as f:
                 f.write(json.dumps(result, ensure_ascii=False) + '\n')
@@ -554,17 +632,23 @@ def process_input_file(scenario: TranslationScenario):
         existing_translations = scenario.find_existing_translations()
         
         # Read input file
+        lines = []
         with open(scenario.input_path, 'r', encoding='utf-8') as f:
-            if scenario.config["input"]["format"] == "jsonl":
-                lines = []
+            input_format = scenario.config["input"]["format"].lower()
+            
+            if input_format == "jsonl":
                 for i, line in enumerate(f, 1):
                     line = line.strip()
                     if not line:  # Skip empty lines
                         continue
                     try:
                         item = json.loads(line)
-                        # Skip if we already have a valid translation
+                        # Map the reference ID if present
                         item_id = item.get(scenario.config["input"]["id_field"])
+                        if item_id:
+                            item[scenario.config["input"]["id_field"]] = scenario.map_reference_id(item_id)
+                        
+                        # Skip if we already have a valid translation
                         if item_id and item_id in existing_translations:
                             continue
                         lines.append(item)
@@ -572,8 +656,28 @@ def process_input_file(scenario: TranslationScenario):
                         print(f"Error parsing line {i}:")
                         print(f"Line content: {line}")
                         raise
+                        
+            elif input_format == "csv":
+                csv_reader = csv.DictReader(f)
+                for i, row in enumerate(csv_reader, 1):
+                    try:
+                        # Create item dictionary with mapped fields
+                        item = {
+                            scenario.config["input"]["id_field"]: scenario.map_reference_id(row["id"]),
+                            scenario.config["input"]["content_field"]: row["content"]
+                        }
+                        
+                        # Skip if we already have a valid translation
+                        if item[scenario.config["input"]["id_field"]] in existing_translations:
+                            continue
+                        lines.append(item)
+                    except Exception as e:
+                        print(f"Error processing CSV row {i}:")
+                        print(f"Row content: {row}")
+                        raise
+                        
             else:
-                lines = []
+                # Plain text format (unchanged)
                 for i, line in enumerate(f):
                     if not line.strip():
                         continue

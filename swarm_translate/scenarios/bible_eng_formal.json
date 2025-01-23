@@ -1,0 +1,44 @@
+{
+    "name": "Vox Populi Translation - English (Formal)",
+    "description": "A translation of Biblical texts from Hebrew and Greek to English, aiming for formal equivalence over natural equivalence for increased transparency to the source language structures.",
+    
+    "input": {
+        "file": "data/combined_greek_hebrew_vref.csv",
+        "format": "csv",
+        "id_field": "id",
+        "content_field": "content"
+    },
+    
+    "output": {
+        "directory": "translations",
+        "format": "jsonl",
+        "filename_template": "{source_code}-{target_code}_bible_{date}"
+    },
+    
+    "source": {
+        "code": "x-org",
+        "label": "Macula Hebrew and Greek"
+    },
+    
+    "target": {
+        "code": "eng",
+        "label": "English (Formal)"
+    },
+    
+    "style": {
+        "formality": "formal",
+        "register": "academic", 
+        "notes": "Create a formal equivalence translation that prioritizes accurately reflecting the source text's grammatical structures and word choices wherever possible, while maintaining clear readability in the target language. Follow standard Biblical translation conventions where they aid understanding, but don't be bound by tradition. Aim for a moderate formal register similar to academic writing. When multiple valid translation options exist, choose clear, precise language that best conveys the original meaning - and aim to retain source-culture idioms and terminology wherever possible. Use LORD in caps for the tetragrammaton. Maintain theological and traditional religious terminology where it best represents the source concepts. The goal is a faithful, transparent translation that allows readers to see the underlying text semantics while remaining comprehensible to modern readers."
+    },
+    
+    "models": {
+        "routing": "deepseek-chat",
+        "translation": "deepseek-chat"
+    },
+    
+    "batch_settings": {
+        "batch_size": 10,
+        "save_frequency": 5,
+        "resume_from_last": true
+    }
+} 

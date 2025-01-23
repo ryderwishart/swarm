@@ -3,8 +3,9 @@ import glob
 import json
 import shutil
 from datetime import datetime
-from typing import Dict, List
+from typing import Dict, List, Optional
 import re
+from pathlib import Path
 
 def parse_reference(id: str) -> tuple:
     """Parse a biblical reference ID into sortable components."""
@@ -43,6 +44,24 @@ def parse_reference(id: str) -> tuple:
     
     return (book_num, int(chapter), int(verse))
 
+def get_scenario_config(project_name: str, base_dir: str = "scenarios") -> Optional[Dict]:
+    """Find and load the scenario config file for a given project."""
+    scenario_dir = Path(base_dir)
+    
+    # Look for scenario files with matching project name
+    for scenario_file in scenario_dir.glob("*.json"):
+        try:
+            with open(scenario_file, 'r', encoding='utf-8') as f:
+                config = json.load(f)
+                # Check if this scenario matches our project
+                output_template = config.get("output", {}).get("filename_template", "")
+                if project_name in output_template:
+                    return config
+        except Exception as e:
+            print(f"Warning: Error reading scenario file {scenario_file}: {e}")
+            continue
+    return None
+
 def consolidate_files(source_dir: str, target_dir: str, frontend_dir: str = "../swarm_frontend/public"):
     # Delete existing consolidated files
     if os.path.exists(target_dir):
@@ -71,7 +90,7 @@ def consolidate_files(source_dir: str, target_dir: str, frontend_dir: str = "../
                 project_data[project_name] = []
             project_data[project_name].extend(lines)
 
-    # For each project, sort the lines by biblical reference
+    # For each project, sort the lines and create scenario entry
     for project_name, data in project_data.items():
         # Parse lines into objects, sort them, then convert back to strings
         parsed_lines = [json.loads(line) for line in data]
@@ -87,20 +106,38 @@ def consolidate_files(source_dir: str, target_dir: str, frontend_dir: str = "../
             file.writelines(sorted_data)
         print(f'Consolidated file created: {consolidated_file_path}')
 
-        # Copy to frontend public directory
-        # shutil.copy2(consolidated_file_path, frontend_file_path)
-        # print(f'Copied to frontend: {frontend_file_path}')
-
-        # Add to scenarios list
+        # Get first line for metadata
         first_line = json.loads(sorted_data[0])
-        scenarios.append({
+        
+        # Try to get language info from scenario config if not in translation
+        scenario_config = get_scenario_config(project_name)
+        
+        # Create scenario entry with fallbacks
+        scenario_entry = {
             "id": project_name,
             "filename": filename,
-            "source_lang": first_line["source_lang"],
-            "source_label": first_line["source_label"],
-            "target_lang": first_line["target_lang"],
-            "target_label": first_line["target_label"]
-        })
+            "source_lang": first_line.get("source_lang"),
+            "target_lang": first_line.get("target_lang"),
+        }
+        
+        if scenario_config:
+            # Add labels from scenario config if available
+            scenario_entry["source_label"] = (
+                first_line.get("source_label") or 
+                scenario_config.get("source", {}).get("label") or 
+                scenario_entry["source_lang"]
+            )
+            scenario_entry["target_label"] = (
+                first_line.get("target_label") or 
+                scenario_config.get("target", {}).get("label") or 
+                scenario_entry["target_lang"]
+            )
+        else:
+            # Fallback to using language codes as labels
+            scenario_entry["source_label"] = first_line.get("source_label") or scenario_entry["source_lang"]
+            scenario_entry["target_label"] = first_line.get("target_label") or scenario_entry["target_lang"]
+        
+        scenarios.append(scenario_entry)
 
     # Sort scenarios by biblical reference
     scenarios.sort(key=lambda x: parse_reference(x['id']))

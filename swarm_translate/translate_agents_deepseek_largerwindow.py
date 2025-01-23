@@ -11,6 +11,7 @@ from dotenv import load_dotenv
 import re
 import multiprocessing as mp
 from functools import partial
+from difflib import SequenceMatcher
 
 # Load environment variables
 load_dotenv()
@@ -153,6 +154,72 @@ class TranslationScenario:
             print(f"Found {len(translated_items)} valid existing translations")
         
         return translated_items
+
+class TranslationMemory:
+    def __init__(self, scenario: TranslationScenario):
+        self.memory_path = scenario.base_path / f"{scenario.source_code}_{scenario.target_code}_translation_memory.jsonl"
+        self.memory = self._load_memory()
+        
+    def _load_memory(self) -> Dict[str, Dict]:
+        """Load existing translation memory."""
+        memory = {}
+        if self.memory_path.exists():
+            with open(self.memory_path, 'r', encoding='utf-8') as f:
+                for line in f:
+                    if line.strip():
+                        entry = json.loads(line)
+                        # Use source text as key
+                        memory[entry['source']] = entry
+        return memory
+    
+    def _save_entry(self, entry: Dict):
+        """Save a new entry to the translation memory file."""
+        with open(self.memory_path, 'a', encoding='utf-8') as f:
+            f.write(json.dumps(entry, ensure_ascii=False) + '\n')
+    
+    def similar(self, text1: str, text2: str, threshold: float = 0.85) -> bool:
+        """Check if two texts are similar using sequence matcher."""
+        return SequenceMatcher(None, text1, text2).ratio() > threshold
+    
+    def find_matches(self, components: Dict[str, List[str]], 
+                    threshold: float = 0.85) -> Dict[str, List[Dict]]:
+        """Find matching translations for each component."""
+        matches = {
+            'phrases': [],
+            'terms': [],
+            'idioms': [],
+            'cultural': []
+        }
+        
+        for category in matches.keys():
+            for item in components.get(category, []):
+                for source, entry in self.memory.items():
+                    if self.similar(item, source, threshold):
+                        matches[category].append({
+                            'source': source,
+                            'target': entry['target'],
+                            'similarity': SequenceMatcher(None, item, source).ratio()
+                        })
+        
+        return matches
+    
+    def add_entry(self, source_components: Dict[str, List[str]], 
+                 target_components: Dict[str, List[str]]):
+        """Add new translations to memory."""
+        for category in ['phrases', 'terms', 'idioms', 'cultural']:
+            sources = source_components.get(category, [])
+            targets = target_components.get(category, [])
+            
+            for source, target in zip(sources, targets):
+                if source not in self.memory:
+                    entry = {
+                        'source': source,
+                        'target': target,
+                        'category': category,
+                        'timestamp': datetime.now().isoformat()
+                    }
+                    self.memory[source] = entry
+                    self._save_entry(entry)
 
 def is_complete_thought(text: str) -> bool:
     """Check if text ends with terminal punctuation."""
@@ -313,6 +380,7 @@ def translate_with_agents(text: str, scenario: TranslationScenario,
                         swarm_client: Swarm, linguist_bot: Agent, 
                         translator_bot: Agent, qa_bot: Agent,
                         consolidation_bot: Agent,
+                        translation_memory: TranslationMemory,
                         text_id: Optional[str] = None) -> Dict:
     """Main function to coordinate the translation process between agents."""
     start_time = time.time()
@@ -326,17 +394,39 @@ def translate_with_agents(text: str, scenario: TranslationScenario,
                 "content": f"Analyze this {scenario.source_label} sentence for translation to {scenario.target_label}: '{text}'"
             }]
         )
-        analysis = response.messages[-1]["content"]
+        analysis = json.loads(response.messages[-1]["content"])
         
-        # Step 2: Translator bot translates components
+        # Find matching translations from memory
+        matches = translation_memory.find_matches(analysis)
+        
+        # Step 2: Translator bot translates components with memory context
+        memory_context = ""
+        if any(matches.values()):
+            memory_context = "Previous translations from similar content:\n"
+            for category, category_matches in matches.items():
+                if category_matches:
+                    memory_context += f"\n{category.title()}:\n"
+                    for match in category_matches:
+                        memory_context += f"- {match['source']} → {match['target']}\n"
+        
         response = swarm_client.run(
             agent=translator_bot,
             messages=[{
                 "role": "user",
-                "content": f"Translate these components from {scenario.source_label} to {scenario.target_label}: {analysis}"
+                "content": f"""Translate these components from {scenario.source_label} to {scenario.target_label}:
+                
+                Components to translate:
+                {json.dumps(analysis, ensure_ascii=False, indent=2)}
+                
+                {memory_context}
+                
+                Please maintain consistency with previous translations where appropriate."""
             }]
         )
-        translations = response.messages[-1]["content"]
+        translations = json.loads(response.messages[-1]["content"])
+        
+        # Add new translations to memory
+        translation_memory.add_entry(analysis, translations)
         
         # Step 3: QA bot always provides final translation
         response = swarm_client.run(
@@ -418,8 +508,9 @@ def process_batch(batch_data: tuple, scenario: TranslationScenario, output_path:
     
     print(f"Starting batch {batch_id} with {len(lines)} items")
     
-    # Set up agents for this process
+    # Set up agents and translation memory for this process
     swarm_client, linguist_bot, translator_bot, qa_bot, consolidation_bot = setup_agents(scenario)
+    translation_memory = TranslationMemory(scenario)
     
     for item in lines:
         try:
@@ -434,8 +525,8 @@ def process_batch(batch_data: tuple, scenario: TranslationScenario, output_path:
             try:
                 result = translate_with_agents(
                     content, scenario, swarm_client, 
-                    linguist_bot, translator_bot, qa_bot, consolidation_bot, 
-                    text_id
+                    linguist_bot, translator_bot, qa_bot, consolidation_bot,
+                    translation_memory, text_id
                 )
                 break
             except Exception as e:

@@ -48,11 +48,23 @@ def get_scenario_config(project_name: str, base_dir: str = "scenarios") -> Optio
     """Find and load the scenario config file for a given project."""
     scenario_dir = Path(base_dir)
     
-    # Extract language codes from project name (e.g., "eng-mal" -> "mal")
+    # Extract language codes from project name, handling x- prefix
     try:
-        source_lang, target_lang = project_name.split('-')
-    except ValueError:
-        print(f"Warning: Invalid project name format: {project_name}")
+        parts = project_name.split('-')
+        if len(parts) < 2:
+            print(f"Warning: Invalid project name format: {project_name}")
+            return None
+            
+        # Handle cases like "x-org-eng" -> target_lang = "eng"
+        if parts[0] == "x":
+            target_lang = parts[-1]  # Take the last part
+            source_lang = "-".join(parts[:-1])  # Join all previous parts
+        else:
+            source_lang, target_lang = parts[0], parts[1]
+            
+        print(f"Extracted languages - source: {source_lang}, target: {target_lang}")
+    except Exception as e:
+        print(f"Warning: Error parsing project name {project_name}: {e}")
         return None
     
     # Look for scenario files with matching target language
@@ -60,15 +72,27 @@ def get_scenario_config(project_name: str, base_dir: str = "scenarios") -> Optio
         try:
             with open(scenario_file, 'r', encoding='utf-8') as f:
                 config = json.load(f)
-                # Check if this scenario matches our target language
-                if config.get("target", {}).get("code", "").lower() == target_lang.lower():
+                config_target = config.get("target", {}).get("code", "").lower()
+                config_source = config.get("source", {}).get("code", "").lower()
+                
+                # Match either the exact code or without x- prefix
+                target_matches = (
+                    config_target == target_lang.lower() or
+                    (target_lang.startswith("x-") and config_target == target_lang.split("-")[-1].lower())
+                )
+                source_matches = (
+                    config_source == source_lang.lower() or
+                    (source_lang.startswith("x-") and config_source == source_lang.split("-")[-1].lower())
+                )
+                
+                if target_matches and source_matches:
                     print(f"Found matching scenario config: {scenario_file}")
                     return config
         except Exception as e:
             print(f"Warning: Error reading scenario file {scenario_file}: {e}")
             continue
     
-    print(f"No matching scenario found for target language: {target_lang}")
+    print(f"No matching scenario found for {source_lang} → {target_lang}")
     return None
 
 def consolidate_files(source_dir: str, target_dir: str, frontend_dir: str = "../swarm_frontend/public"):
@@ -133,30 +157,28 @@ def consolidate_files(source_dir: str, target_dir: str, frontend_dir: str = "../
             print(f"Warning: No scenario config found for {project_name}, skipping...")
             continue
 
-        # Create scenario entry from config
+        # Parse the project name to get source and target languages
+        parts = project_name.split('-')
+        if parts[0] == "x":
+            # Handle x-org-eng case
+            source_lang = "x-org"  # Keep the x- prefix for source
+            target_lang = parts[-1]  # Just 'eng' for target
+        else:
+            # Handle normal eng-spa case
+            source_lang, target_lang = parts[0], parts[1]
+
         scenario_entry = {
             "id": project_name,
             "filename": filename,
-            "source_lang": scenario_config["source"]["code"],
-            "target_lang": scenario_config["target"]["code"],
+            "source_lang": source_lang,
+            "target_lang": target_lang,
             "source_label": scenario_config["source"]["label"],
             "target_label": scenario_config["target"]["label"]
         }
 
-        # Only use translation data as fallback if scenario config is missing info
-        if parsed_lines:
-            first_line = parsed_lines[0]
-            if not scenario_entry["source_lang"]:
-                scenario_entry["source_lang"] = first_line.get("source_lang")
-            if not scenario_entry["target_lang"]:
-                scenario_entry["target_lang"] = first_line.get("target_lang")
-            if not scenario_entry["source_label"]:
-                scenario_entry["source_label"] = first_line.get("source_label", scenario_entry["source_lang"])
-            if not scenario_entry["target_label"]:
-                scenario_entry["target_label"] = first_line.get("target_label", scenario_entry["target_lang"])
-
         scenarios.append(scenario_entry)
         print(f"Added scenario: {scenario_entry['source_label']} → {scenario_entry['target_label']}")
+        print(f"  Languages: {scenario_entry['source_lang']} → {scenario_entry['target_lang']}")
 
     # Sort scenarios by ID
     scenarios.sort(key=lambda x: x['id'])

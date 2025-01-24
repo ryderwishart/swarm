@@ -81,13 +81,13 @@
       "target_label": "Tok Pisin"
     },
     {
-      "id": "grc-eng",
-      "filename": "grc-eng_consolidated.jsonl",
-      "source_lang": "eng",
+      "id": "x-org-eng",
+      "filename": "x-org-eng_consolidated.jsonl",
+      "source_lang": "x-org",
       "target_lang": "eng",
-      "source_label": "English (Berean Standard Bible)",
-      "target_label": "English (Natural, Middle-School Level)"
+      "source_label": "Macula Hebrew and Greek",
+      "target_label": "English (Formal)"
     }
   ],
-  "updated_at": "2025-01-24T10:32:52.918804"
+  "updated_at": "2025-01-24T10:40:22.896574"
 }

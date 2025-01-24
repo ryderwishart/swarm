@@ -62,19 +62,27 @@ def get_scenario_config(project_name: str, base_dir: str = "scenarios") -> Optio
     return None
 
 def consolidate_files(source_dir: str, target_dir: str, frontend_dir: str = "../swarm_frontend/public"):
-    # Delete existing consolidated files
-    if os.path.exists(target_dir):
-        shutil.rmtree(target_dir)
-    os.makedirs(target_dir)
+    """Consolidate translation files and create manifest."""
+    # Convert paths to absolute paths
+    source_dir = os.path.abspath(source_dir)
+    target_dir = os.path.abspath(target_dir)
+    frontend_dir = os.path.abspath(frontend_dir)
+    
+    print(f"Source directory: {source_dir}")
+    print(f"Target directory: {target_dir}")
+    print(f"Frontend directory: {frontend_dir}")
 
-    # Delete existing JSONL files from frontend public dir
-    if os.path.exists(frontend_dir):
-        for f in glob.glob(os.path.join(frontend_dir, "*.jsonl")):
-            os.remove(f)
+    # Ensure directories exist
+    os.makedirs(target_dir, exist_ok=True)
     os.makedirs(frontend_dir, exist_ok=True)
 
-    # Get all JSONL files in the source directory
-    jsonl_files = glob.glob(os.path.join(source_dir, '*.jsonl'))
+    # Get all JSONL files from source directory
+    jsonl_files = [f for f in glob.glob(os.path.join(source_dir, "*.jsonl"))]
+    if not jsonl_files:
+        print("No JSONL files found in source directory")
+        return
+
+    print(f"Found {len(jsonl_files)} JSONL files")
 
     # Dictionary to hold data for each project
     project_data: Dict[str, List[str]] = {}
@@ -83,6 +91,8 @@ def consolidate_files(source_dir: str, target_dir: str, frontend_dir: str = "../
     # Read each file and group data by project
     for file_path in jsonl_files:
         project_name = os.path.basename(file_path).split('_')[0]
+        print(f"Processing project: {project_name}")
+        
         with open(file_path, 'r', encoding='utf-8') as file:
             lines = file.readlines()
             if project_name not in project_data:
@@ -91,6 +101,12 @@ def consolidate_files(source_dir: str, target_dir: str, frontend_dir: str = "../
 
     # For each project, sort the lines and create scenario entry
     for project_name, data in project_data.items():
+        # Get scenario config first
+        scenario_config = get_scenario_config(project_name)
+        if not scenario_config:
+            print(f"Warning: No scenario config found for {project_name}")
+            continue
+
         # Parse lines into objects, sort them, then convert back to strings
         parsed_lines = [json.loads(line) for line in data]
         parsed_lines.sort(key=lambda x: parse_reference(x['id']))
@@ -100,49 +116,41 @@ def consolidate_files(source_dir: str, target_dir: str, frontend_dir: str = "../
         consolidated_file_path = os.path.join(target_dir, filename)
         frontend_file_path = os.path.join(frontend_dir, filename)
 
-        # Write sorted data to consolidated directory
+        # Write sorted data to both consolidated directory and frontend public directory
         with open(consolidated_file_path, 'w', encoding='utf-8') as file:
             file.writelines(sorted_data)
-        print(f'Consolidated file created: {consolidated_file_path}')
-
-        # Get scenario config first
-        scenario_config = get_scenario_config(project_name)
-        if not scenario_config:
-            print(f"Warning: No scenario config found for {project_name}")
-            continue
+        # Copy to frontend directory
+        shutil.copy2(consolidated_file_path, frontend_file_path)
+        print(f'Created consolidated file: {consolidated_file_path}')
+        print(f'Copied to frontend: {frontend_file_path}')
 
         # Create scenario entry from config
         scenario_entry = {
             "id": project_name,
             "filename": filename,
-            "source_lang": scenario_config.get("source", {}).get("code"),
-            "target_lang": scenario_config.get("target", {}).get("code"),
-            "source_label": scenario_config.get("source", {}).get("label"),
-            "target_label": scenario_config.get("target", {}).get("label")
+            "source_lang": scenario_config["source"]["code"],
+            "target_lang": scenario_config["target"]["code"],
+            "source_label": scenario_config["source"]["label"],
+            "target_label": scenario_config["target"]["label"]
         }
-
-        # Only use translation data as fallback if scenario config is missing info
-        if parsed_lines:
-            first_line = parsed_lines[0]
-            if not scenario_entry["source_lang"]:
-                scenario_entry["source_lang"] = first_line.get("source_lang")
-            if not scenario_entry["target_lang"]:
-                scenario_entry["target_lang"] = first_line.get("target_lang")
-            if not scenario_entry["source_label"]:
-                scenario_entry["source_label"] = first_line.get("source_label", scenario_entry["source_lang"])
-            if not scenario_entry["target_label"]:
-                scenario_entry["target_label"] = first_line.get("target_label", scenario_entry["target_lang"])
-
         scenarios.append(scenario_entry)
 
-    # Sort scenarios by ID
+    # Sort scenarios
     scenarios.sort(key=lambda x: x['id'])
 
-    # Write manifest.json
+    # Write manifest.json to frontend directory
     manifest_path = os.path.join(frontend_dir, "manifest.json")
+    manifest_content = {
+        "scenarios": scenarios,
+        "updated_at": datetime.now().isoformat()
+    }
+    
     with open(manifest_path, 'w', encoding='utf-8') as f:
-        json.dump({"scenarios": scenarios}, f, indent=2, ensure_ascii=False)
+        json.dump(manifest_content, f, indent=2, ensure_ascii=False)
     print(f'Created manifest: {manifest_path}')
+    print(f'Number of scenarios: {len(scenarios)}')
+    for scenario in scenarios:
+        print(f"  - {scenario['id']}: {scenario['source_label']} → {scenario['target_label']}")
 
 if __name__ == "__main__":
     source_directory = 'scenarios/translations'

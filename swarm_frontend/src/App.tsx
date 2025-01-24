@@ -59,18 +59,33 @@ const App = () => {
   const navigate = useNavigate();
   const [scenarios, setScenarios] = useState<Scenario[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const loadManifest = async () => {
       try {
+        console.log('Fetching manifest...');
         const response = await fetch('/manifest.json');
+        console.log('Response status:', response.status);
+        
         if (!response.ok) {
-          throw new Error('Failed to fetch manifest');
+          const text = await response.text();
+          console.error('Response text:', text);
+          throw new Error(`Failed to fetch manifest: ${response.status} ${response.statusText}`);
         }
+        
         const data: Manifest = await response.json();
+        console.log('Manifest data:', data);
+        
+        if (!data.scenarios || !Array.isArray(data.scenarios)) {
+          throw new Error('Invalid manifest format: scenarios array missing');
+        }
+        
         setScenarios(data.scenarios);
+        setError(null);
       } catch (err) {
         console.error('Error loading manifest:', err);
+        setError(err instanceof Error ? err.message : 'Unknown error loading manifest');
       }
     };
     loadManifest();
@@ -98,7 +113,7 @@ const App = () => {
     <>
       <SEO />
       <div className="min-h-screen bg-gray-50 dark:bg-gray-900/50 py-4">
-        <Card className="container mx-auto max-w-6xl">
+        <Card className="container mx-auto max-w-[90rem]">
           <CardHeader className="space-y-0 pb-3">
             <CardTitle className="text-xl">Bible Translation Projects</CardTitle>
             <CardDescription className="text-sm">
@@ -107,6 +122,13 @@ const App = () => {
           </CardHeader>
           <CardContent className="space-y-3">
             <CopyrightStatement />
+            {error && (
+              <Card className="border-l-4 border-l-red-500 bg-red-50 dark:bg-red-950/50 mb-3">
+                <CardContent className="text-xs text-red-700 dark:text-red-300 py-2">
+                  {error}
+                </CardContent>
+              </Card>
+            )}
             <div className="flex flex-col gap-3">
               <Input
                 placeholder="Search by language code or name..."
@@ -116,7 +138,7 @@ const App = () => {
               />
               <Separator className="my-1" />
               <ScrollArea className="h-[calc(100vh-16rem)]">
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 pb-3">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 pb-3">
                   {filteredScenarios.length === 0 ? (
                     <p className="text-muted-foreground py-2 col-span-full text-sm">
                       {scenarios.length === 0
@@ -135,18 +157,18 @@ const App = () => {
                         onClick={() => handleScenarioClick(scenario)}
                       >
                         <CardHeader className="p-3 space-y-1.5">
-                          <div className="flex flex-col gap-1.5">
+                          <div className="flex flex-col gap-1.5 min-w-0">
                             <div className="flex items-center justify-between">
-                              <div className="flex items-center gap-1.5">
-                                <span className="font-medium text-sm">
+                              <div className="flex items-center gap-1.5 min-w-0">
+                                <span className="font-medium text-sm truncate">
                                   {scenario.source_label}
                                 </span>
-                                <span className="text-muted-foreground text-xs">→</span>
-                                <span className="font-medium text-sm">
+                                <span className="text-muted-foreground text-xs shrink-0">→</span>
+                                <span className="font-medium text-sm truncate">
                                   {scenario.target_label}
                                 </span>
                               </div>
-                              <div className="text-muted-foreground/50 hover:text-primary transition-colors text-xs">
+                              <div className="text-muted-foreground/50 hover:text-primary transition-colors text-xs shrink-0">
                                 →
                               </div>
                             </div>

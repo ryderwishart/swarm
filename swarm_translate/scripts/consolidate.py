@@ -54,8 +54,7 @@ def get_scenario_config(project_name: str, base_dir: str = "scenarios") -> Optio
             with open(scenario_file, 'r', encoding='utf-8') as f:
                 config = json.load(f)
                 # Check if this scenario matches our project
-                output_template = config.get("output", {}).get("filename_template", "")
-                if project_name in output_template:
+                if project_name == config.get("id"):
                     return config
         except Exception as e:
             print(f"Warning: Error reading scenario file {scenario_file}: {e}")
@@ -106,46 +105,43 @@ def consolidate_files(source_dir: str, target_dir: str, frontend_dir: str = "../
             file.writelines(sorted_data)
         print(f'Consolidated file created: {consolidated_file_path}')
 
-        # Get first line for metadata
-        first_line = json.loads(sorted_data[0])
-        
-        # Try to get language info from scenario config if not in translation
+        # Get scenario config first
         scenario_config = get_scenario_config(project_name)
-        
-        # Create scenario entry with fallbacks
+        if not scenario_config:
+            print(f"Warning: No scenario config found for {project_name}")
+            continue
+
+        # Create scenario entry from config
         scenario_entry = {
             "id": project_name,
             "filename": filename,
-            "source_lang": first_line.get("source_lang"),
-            "target_lang": first_line.get("target_lang"),
+            "source_lang": scenario_config.get("source", {}).get("code"),
+            "target_lang": scenario_config.get("target", {}).get("code"),
+            "source_label": scenario_config.get("source", {}).get("label"),
+            "target_label": scenario_config.get("target", {}).get("label")
         }
-        
-        if scenario_config:
-            # Add labels from scenario config if available
-            scenario_entry["source_label"] = (
-                first_line.get("source_label") or 
-                scenario_config.get("source", {}).get("label") or 
-                scenario_entry["source_lang"]
-            )
-            scenario_entry["target_label"] = (
-                first_line.get("target_label") or 
-                scenario_config.get("target", {}).get("label") or 
-                scenario_entry["target_lang"]
-            )
-        else:
-            # Fallback to using language codes as labels
-            scenario_entry["source_label"] = first_line.get("source_label") or scenario_entry["source_lang"]
-            scenario_entry["target_label"] = first_line.get("target_label") or scenario_entry["target_lang"]
-        
+
+        # Only use translation data as fallback if scenario config is missing info
+        if parsed_lines:
+            first_line = parsed_lines[0]
+            if not scenario_entry["source_lang"]:
+                scenario_entry["source_lang"] = first_line.get("source_lang")
+            if not scenario_entry["target_lang"]:
+                scenario_entry["target_lang"] = first_line.get("target_lang")
+            if not scenario_entry["source_label"]:
+                scenario_entry["source_label"] = first_line.get("source_label", scenario_entry["source_lang"])
+            if not scenario_entry["target_label"]:
+                scenario_entry["target_label"] = first_line.get("target_label", scenario_entry["target_lang"])
+
         scenarios.append(scenario_entry)
 
-    # Sort scenarios by biblical reference
-    scenarios.sort(key=lambda x: parse_reference(x['id']))
+    # Sort scenarios by ID
+    scenarios.sort(key=lambda x: x['id'])
 
     # Write manifest.json
     manifest_path = os.path.join(frontend_dir, "manifest.json")
     with open(manifest_path, 'w', encoding='utf-8') as f:
-        json.dump({"scenarios": scenarios}, f, indent=2)
+        json.dump({"scenarios": scenarios}, f, indent=2, ensure_ascii=False)
     print(f'Created manifest: {manifest_path}')
 
 if __name__ == "__main__":

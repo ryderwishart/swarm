@@ -48,17 +48,27 @@ def get_scenario_config(project_name: str, base_dir: str = "scenarios") -> Optio
     """Find and load the scenario config file for a given project."""
     scenario_dir = Path(base_dir)
     
-    # Look for scenario files with matching project name
-    for scenario_file in scenario_dir.glob("*.json"):
+    # Extract language codes from project name (e.g., "eng-mal" -> "mal")
+    try:
+        source_lang, target_lang = project_name.split('-')
+    except ValueError:
+        print(f"Warning: Invalid project name format: {project_name}")
+        return None
+    
+    # Look for scenario files with matching target language
+    for scenario_file in scenario_dir.glob("bible_*.json"):
         try:
             with open(scenario_file, 'r', encoding='utf-8') as f:
                 config = json.load(f)
-                # Check if this scenario matches our project
-                if project_name == config.get("id"):
+                # Check if this scenario matches our target language
+                if config.get("target", {}).get("code", "").lower() == target_lang.lower():
+                    print(f"Found matching scenario config: {scenario_file}")
                     return config
         except Exception as e:
             print(f"Warning: Error reading scenario file {scenario_file}: {e}")
             continue
+    
+    print(f"No matching scenario found for target language: {target_lang}")
     return None
 
 def consolidate_files(source_dir: str, target_dir: str, frontend_dir: str = "../swarm_frontend/public"):
@@ -101,12 +111,8 @@ def consolidate_files(source_dir: str, target_dir: str, frontend_dir: str = "../
 
     # For each project, sort the lines and create scenario entry
     for project_name, data in project_data.items():
-        # Get scenario config first
-        scenario_config = get_scenario_config(project_name)
-        if not scenario_config:
-            print(f"Warning: No scenario config found for {project_name}")
-            continue
-
+        print(f"\nProcessing translations for {project_name}")
+        
         # Parse lines into objects, sort them, then convert back to strings
         parsed_lines = [json.loads(line) for line in data]
         parsed_lines.sort(key=lambda x: parse_reference(x['id']))
@@ -116,13 +122,16 @@ def consolidate_files(source_dir: str, target_dir: str, frontend_dir: str = "../
         consolidated_file_path = os.path.join(target_dir, filename)
         frontend_file_path = os.path.join(frontend_dir, filename)
 
-        # Write sorted data to both consolidated directory and frontend public directory
+        # Write sorted data to consolidated directory
         with open(consolidated_file_path, 'w', encoding='utf-8') as file:
             file.writelines(sorted_data)
-        # Copy to frontend directory
-        shutil.copy2(consolidated_file_path, frontend_file_path)
         print(f'Created consolidated file: {consolidated_file_path}')
-        print(f'Copied to frontend: {frontend_file_path}')
+
+        # Get scenario config first
+        scenario_config = get_scenario_config(project_name)
+        if not scenario_config:
+            print(f"Warning: No scenario config found for {project_name}, skipping...")
+            continue
 
         # Create scenario entry from config
         scenario_entry = {
@@ -133,12 +142,26 @@ def consolidate_files(source_dir: str, target_dir: str, frontend_dir: str = "../
             "source_label": scenario_config["source"]["label"],
             "target_label": scenario_config["target"]["label"]
         }
-        scenarios.append(scenario_entry)
 
-    # Sort scenarios
+        # Only use translation data as fallback if scenario config is missing info
+        if parsed_lines:
+            first_line = parsed_lines[0]
+            if not scenario_entry["source_lang"]:
+                scenario_entry["source_lang"] = first_line.get("source_lang")
+            if not scenario_entry["target_lang"]:
+                scenario_entry["target_lang"] = first_line.get("target_lang")
+            if not scenario_entry["source_label"]:
+                scenario_entry["source_label"] = first_line.get("source_label", scenario_entry["source_lang"])
+            if not scenario_entry["target_label"]:
+                scenario_entry["target_label"] = first_line.get("target_label", scenario_entry["target_lang"])
+
+        scenarios.append(scenario_entry)
+        print(f"Added scenario: {scenario_entry['source_label']} → {scenario_entry['target_label']}")
+
+    # Sort scenarios by ID
     scenarios.sort(key=lambda x: x['id'])
 
-    # Write manifest.json to frontend directory
+    # Write manifest.json
     manifest_path = os.path.join(frontend_dir, "manifest.json")
     manifest_content = {
         "scenarios": scenarios,
@@ -147,7 +170,8 @@ def consolidate_files(source_dir: str, target_dir: str, frontend_dir: str = "../
     
     with open(manifest_path, 'w', encoding='utf-8') as f:
         json.dump(manifest_content, f, indent=2, ensure_ascii=False)
-    print(f'Created manifest: {manifest_path}')
+    
+    print(f'\nCreated manifest: {manifest_path}')
     print(f'Number of scenarios: {len(scenarios)}')
     for scenario in scenarios:
         print(f"  - {scenario['id']}: {scenario['source_label']} → {scenario['target_label']}")

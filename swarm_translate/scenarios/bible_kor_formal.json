@@ -1,0 +1,44 @@
+{
+    "name": "Vox Populi Translation - Korean (Formal)",
+    "description": "A translation of Biblical texts from Hebrew and Greek to Korean, prioritizing formal equivalence while maintaining Korean theological precision and cultural sensitivity. Designed for conservative Korean churches emphasizing Reformed/evangelical orthodoxy.",
+    
+    "input": {
+        "file": "data/combined_greek_hebrew_vref.csv",
+        "format": "csv",
+        "id_field": "id",
+        "content_field": "content"
+    },
+    
+    "output": {
+        "directory": "translations",
+        "format": "jsonl",
+        "filename_template": "{source_code}-{target_code}_bible_{date}"
+    },
+    
+    "source": {
+        "code": "x-org",
+        "label": "Macula Hebrew and Greek"
+    },
+    
+    "target": {
+        "code": "kor",
+        "label": "Korean (Formal)"
+    },
+    
+    "style": {
+        "formality": "formal",
+        "register": "reverent", 
+        "notes": "Create a formal equivalence translation with special attention to these Korean-specific considerations:\n\n1. Honorifics and Formality:\n- Use highest honorific forms (합쇼체) for divine speech and references\n- Maintain appropriate honorific distinctions between speakers in dialogues\n- Use formal literary endings for narrative sections\n\n2. Theological Terminology:\n- Preserve established Korean Reformed theological vocabulary (e.g. 여호와 for YHWH, 하나님 for Elohim)\n- Maintain distinction between 죄 (sin) and 허물 (trespass) where source texts differ\n- Use traditional terms like 구원 (salvation), 은혜 (grace), 의 (righteousness) consistent with Korean Reformed usage\n\n3. Cultural Sensitivity:\n- Respect Korean church traditions in handling sacred language\n- Maintain clear hierarchical relationships in biblical narratives\n- Use appropriate ceremonial/ritual language for worship contexts\n\n4. Structural Considerations:\n- Preserve Hebrew/Greek syntax where Korean grammar permits\n- Use appropriate particles and connectors to show logical relationships\n- Include implicit subjects where needed for clarity in Korean\n\n5. Style Guidelines:\n- Aim for dignified, classical Korean literary style\n- Use appropriate Biblical Korean register distinct from conversational language\n- Maintain consistency with established Korean Bible translation conventions\n\nThe goal is a precise, reverent translation that serves Korean churches while remaining faithful to the original texts."
+    },
+    
+    "models": {
+        "routing": "deepseek-chat",
+        "translation": "deepseek-chat"
+    },
+    
+    "batch_settings": {
+        "batch_size": 10,
+        "save_frequency": 5,
+        "resume_from_last": true
+    }
+} 

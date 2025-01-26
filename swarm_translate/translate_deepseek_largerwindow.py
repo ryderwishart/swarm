@@ -154,6 +154,10 @@ class TranslationScenario:
                             translation = json.loads(line)
                             if "id" in translation and "original" in translation:
                                 item_id = translation["id"]
+                                # Also check for error field to mark for retry
+                                if "error" in translation:
+                                    invalid_translations.append((file_path, line_num))
+                                    continue
                                 # Validate against source
                                 if (item_id in source_items and 
                                     source_items[item_id] == translation["original"]):
@@ -162,6 +166,7 @@ class TranslationScenario:
                                     invalid_translations.append((file_path, line_num))
                         except json.JSONDecodeError:
                             print(f"Warning: Invalid JSON at {file_path}:{line_num}")
+                            invalid_translations.append((file_path, line_num))
                             continue
                 
                 # If we found invalid translations, create a new file without them

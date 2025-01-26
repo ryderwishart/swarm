@@ -1,0 +1,44 @@
+{
+    "name": "Vox Populi Translation - Bengali (Formal)",
+    "description": "A translation of Biblical texts from Hebrew and Greek to Bengali, balancing formal equivalence with natural Bengali literary style. Designed for clarity and theological precision while respecting Bengali literary traditions.",
+    
+    "input": {
+        "file": "data/combined_greek_hebrew_vref.csv",
+        "format": "csv",
+        "id_field": "id",
+        "content_field": "content"
+    },
+    
+    "output": {
+        "directory": "translations",
+        "format": "jsonl",
+        "filename_template": "{source_code}-{target_code}_bible_{date}"
+    },
+    
+    "source": {
+        "code": "x-org",
+        "label": "Macula Hebrew and Greek"
+    },
+    
+    "target": {
+        "code": "ben",
+        "label": "Bengali (Formal)"
+    },
+    
+    "style": {
+        "formality": "formal",
+        "register": "literary", 
+        "notes": "Create a formal equivalence translation with special attention to these Bengali-specific considerations:\n\n1. Language Register:\n- Use সাধু ভাষা (formal literary Bengali) vocabulary where appropriate\n- Balance between চলিত ভাষা (standard Bengali) and formal registers for clarity\n- Maintain appropriate honorific forms (আপনি, মহাশয়, etc.)\n\n2. Theological Terminology:\n- Use established theological terms (e.g., ঈশ্বর, আত্মা, অনুগ্রহ)\n- Preserve distinctions between key concepts (e.g., পাপ vs অপরাধ)\n- Handle Sanskrit-derived religious terminology with precision\n- Maintain consistency in divine name translations\n\n3. Cultural Sensitivity:\n- Consider both West Bengal and Bangladesh usage patterns\n- Handle religious terminology with appropriate reverence\n- Use appropriate honorifics for divine references\n- Respect Bengali literary and religious traditions\n\n4. Structural Considerations:\n- Follow natural Bengali syntax while preserving source meaning\n- Use appropriate compound verbs and verbal nouns\n- Handle Bengali's complex tense system appropriately\n- Maintain proper সম্বন্ধপদ (possessive compounds) usage\n\n5. Style Guidelines:\n- Aim for elevated literary Bengali prose that remains accessible\n- Use appropriate discourse markers and transitions\n- Balance between Sanskritized and common vocabulary\n- Maintain consistency in register throughout\n\n6. Textual Features:\n- Preserve Hebrew/Greek literary devices where possible\n- Adapt poetic sections to Bengali literary conventions\n- Use proper Bengali punctuation conventions\n- Handle idiomatic expressions with cultural sensitivity\n\nThe goal is a dignified translation that maintains theological accuracy while embodying the rich literary traditions of Bengali."
+    },
+    
+    "models": {
+        "routing": "deepseek-chat",
+        "translation": "deepseek-chat"
+    },
+    
+    "batch_settings": {
+        "batch_size": 10,
+        "save_frequency": 5,
+        "resume_from_last": true
+    }
+} 

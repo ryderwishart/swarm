@@ -30,16 +30,16 @@ Languages with at least 50 million first-language speakers[7]
 
 | Status | Language | Native speakers (M) | Language family | Branch | File | Drafted (%) | Revisions (%) |
 |--------|----------|---------------------|-----------------|--------|------|-------------|---------------|
-| [ ]    | Spanish | 486 | Indo-European | Romance | [bible_consolidated.jsonl](./scenarios/consolidated/eng-spa_consolidated.jsonl) | 0.05% | 0% |
-| [ ]    | English | 380 | Indo-European | Germanic | [eng-eng_consolidated.jsonl](./scenarios/consolidated/eng-eng_consolidated.jsonl) | 100% | 0% |
-| [ ]    | French | 74 | Indo-European | Romance | [eng-fra_consolidated.jsonl](./scenarios/consolidated/eng-fra_consolidated.jsonl) | 98.18% | 0% |
-| [ ]    | Afrikaans | N/A | Indo-European | Germanic | [eng-afr_consolidated.jsonl](./scenarios/consolidated/eng-afr_consolidated.jsonl) | 100% | 0% |
-| [ ]    | Indonesian | N/A | Austronesian | Malayo-Polynesian | [eng-idn_consolidated.jsonl](./scenarios/consolidated/eng-idn_consolidated.jsonl) | 10.62% | 0% |
-| [ ]    | German | N/A | Indo-European | Germanic | [eng-deu_consolidated.jsonl](./scenarios/consolidated/eng-deu_consolidated.jsonl) | 100% | 0% |
-| [ ]    | Arabic | N/A | Afroasiatic | Semitic | [eng-ara_consolidated.jsonl](./scenarios/consolidated/eng-ara_consolidated.jsonl) | 100% | 0% |
-| [ ]    | Tok Pisin | N/A | Creole | English-based | [eng-tpi_consolidated.jsonl](./scenarios/consolidated/eng-tpi_consolidated.jsonl) | 100% | 0% |
-| [ ]    | Nepali | N/A | Indo-European | Indo-Aryan | [eng-npi_consolidated.jsonl](./scenarios/consolidated/eng-npi_consolidated.jsonl) | 100% | 0% |
-| [ ]    | Malayalam | N/A | Dravidian | South-Central | [eng-mal_consolidated.jsonl](./scenarios/consolidated/eng-mal_consolidated.jsonl) | 100% | 0% |
+| [x]    | Spanish | 486 | Indo-European | Romance | [bible_consolidated.jsonl](./scenarios/consolidated/eng-spa_consolidated.jsonl) | 100% | 0% |
+| [x]    | English | 380 | Indo-European | Germanic | [eng-eng_consolidated.jsonl](./scenarios/consolidated/eng-eng_consolidated.jsonl) | 100% | 0% |
+| [x]    | French | 74 | Indo-European | Romance | [eng-fra_consolidated.jsonl](./scenarios/consolidated/eng-fra_consolidated.jsonl) | 98.18% | 0% |
+| [x]    | Afrikaans | N/A | Indo-European | Germanic | [eng-afr_consolidated.jsonl](./scenarios/consolidated/eng-afr_consolidated.jsonl) | 100% | 0% |
+| [x]    | Indonesian | N/A | Austronesian | Malayo-Polynesian | [eng-idn_consolidated.jsonl](./scenarios/consolidated/eng-idn_consolidated.jsonl) | 100% | 0% |
+| [x]    | German | N/A | Indo-European | Germanic | [eng-deu_consolidated.jsonl](./scenarios/consolidated/eng-deu_consolidated.jsonl) | 100% | 0% |
+| [x]    | Arabic | N/A | Afroasiatic | Semitic | [eng-ara_consolidated.jsonl](./scenarios/consolidated/eng-ara_consolidated.jsonl) | 100% | 0% |
+| [x]    | Tok Pisin | N/A | Creole | English-based | [eng-tpi_consolidated.jsonl](./scenarios/consolidated/eng-tpi_consolidated.jsonl) | 100% | 0% |
+| [x]    | Nepali | N/A | Indo-European | Indo-Aryan | [eng-npi_consolidated.jsonl](./scenarios/consolidated/eng-npi_consolidated.jsonl) | 100% | 0% |
+| [x]    | Malayalam | N/A | Dravidian | South-Central | [eng-mal_consolidated.jsonl](./scenarios/consolidated/eng-mal_consolidated.jsonl) | 100% | 0% |
 | [ ]    | Greek | N/A | Indo-European | Hellenic | [grc-eng_consolidated.jsonl](./scenarios/consolidated/grc-eng_consolidated.jsonl) | 25.57% | 0% |
 | [ ]    | Mandarin Chinese | 941 | Sino-Tibetan | Sinitic | [cmn.json](./scenarios/cmn.json) | 0% | 0% |
 | [ ]    | Hindi | 345 | Indo-European | Indo-Aryan | [hin.json](./scenarios/hin.json) | 0% | 0% |

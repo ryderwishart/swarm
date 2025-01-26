@@ -81,6 +81,14 @@
       "target_label": "Tok Pisin"
     },
     {
+      "id": "x-org-ben",
+      "filename": "x-org-ben_consolidated.jsonl",
+      "source_lang": "x-org",
+      "target_lang": "ben",
+      "source_label": "Macula Hebrew and Greek",
+      "target_label": "Bengali (Formal)"
+    },
+    {
       "id": "x-org-cmn",
       "filename": "x-org-cmn_consolidated.jsonl",
       "source_lang": "x-org",
@@ -113,5 +121,5 @@
       "target_label": "Korean (Formal)"
     }
   ],
-  "updated_at": "2025-01-26T07:47:56.671179"
+  "updated_at": "2025-01-26T14:30:22.749515"
 }

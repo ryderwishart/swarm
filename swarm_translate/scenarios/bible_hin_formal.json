@@ -1,0 +1,44 @@
+{
+    "name": "Vox Populi Translation - Hindi (Formal)",
+    "description": "A translation of Biblical texts from Hebrew and Greek to Hindi, balancing formal equivalence with natural Hindi literary style. Designed for clarity and theological precision while maintaining cultural sensitivity in the Indian context.",
+    
+    "input": {
+        "file": "data/combined_greek_hebrew_vref.csv",
+        "format": "csv",
+        "id_field": "id",
+        "content_field": "content"
+    },
+    
+    "output": {
+        "directory": "translations",
+        "format": "jsonl",
+        "filename_template": "{source_code}-{target_code}_bible_{date}"
+    },
+    
+    "source": {
+        "code": "x-org",
+        "label": "Macula Hebrew and Greek"
+    },
+    
+    "target": {
+        "code": "hin",
+        "label": "Hindi (Formal)"
+    },
+    
+    "style": {
+        "formality": "formal",
+        "register": "literary", 
+        "notes": "Create a formal equivalence translation with special attention to these Hindi-specific considerations:\n\n1. Language Register:\n- Use शुद्ध (pure) Hindi with Sanskrit-derived vocabulary for theological concepts\n- Maintain formal literary Hindi style while ensuring readability\n- Use respectful forms appropriately (आप, श्री, etc.)\n\n2. Theological Terminology:\n- Use established theological terms (e.g., परमेश्वर, आत्मा, अनुग्रह)\n- Maintain clear distinctions between key concepts (e.g., पाप vs दोष)\n- Preserve Hebrew names with appropriate transliteration\n\n3. Cultural Sensitivity:\n- Handle religious terminology with appropriate reverence\n- Consider pan-Indian cultural context while maintaining accuracy\n- Use appropriate honorifics for divine references\n\n4. Structural Considerations:\n- Follow natural Hindi word order while preserving source meaning\n- Use appropriate Sanskrit-based compounds where they aid clarity\n- Include implicit subjects where Hindi grammar requires\n- Maintain proper gender agreement throughout\n\n5. Style Guidelines:\n- Aim for dignified literary prose that sounds natural to Hindi speakers\n- Balance between formal register and accessibility\n- Use clear paragraph transitions and discourse markers\n- Maintain consistency in technical and theological terminology\n\n6. Textual Features:\n- Preserve Hebrew/Greek literary devices where possible in Hindi\n- Handle idioms with appropriate Hindi equivalents while maintaining meaning\n- Use proper punctuation according to modern Hindi conventions\n\nThe goal is a precise, dignified translation that maintains theological accuracy while being natural and authoritative in Hindi."
+    },
+    
+    "models": {
+        "routing": "deepseek-chat",
+        "translation": "deepseek-chat"
+    },
+    
+    "batch_settings": {
+        "batch_size": 10,
+        "save_frequency": 5,
+        "resume_from_last": true
+    }
+} 

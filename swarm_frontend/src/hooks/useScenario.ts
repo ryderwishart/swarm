@@ -35,8 +35,8 @@ interface UseScenarioReturn {
 }
 
 const ENDPOINT = process.env.NODE_ENV === 'production'
-    ? 'https://raw.githubusercontent.com/ryderwishart/swarm/refs/heads/master/swarm_translate/scenarios/consolidated'
-    : 'http://localhost:5173';
+    ? 'https://raw.githubusercontent.com/ryderwishart/swarm/main/swarm_translate/scenarios/consolidated'
+    : '/consolidated';
 
 export function useScenario(id: string | undefined): UseScenarioReturn {
     const [scenario, setScenario] = useState<Scenario | null>(null);
@@ -73,16 +73,26 @@ export function useScenario(id: string | undefined): UseScenarioReturn {
                 }
 
                 const text = await translationsResponse.text();
+                console.log('Raw translation file content:', text.slice(0, 500)); // Log the first 500 chars
+                
                 const lines = text.split('\n');
+                console.log('First few lines:', lines.slice(0, 3)); // Log first 3 lines
+                
                 const parsedTranslations: Translation[] = [];
 
                 for (const line of lines) {
                     if (!line.trim()) continue;
                     try {
+                        console.log('Attempting to parse line:', line); // Log each line before parsing
                         const translation = JSON.parse(line) as Translation;
                         parsedTranslations.push(translation);
                     } catch (err) {
-                        console.error('Error parsing translation line:', err);
+                        console.error('Error parsing line:', {
+                            line: line,
+                            length: line.length,
+                            firstFewChars: line.slice(0, 20),
+                            charCodes: Array.from(line.slice(0, 5)).map(c => c.charCodeAt(0))
+                        });
                     }
                 }
 

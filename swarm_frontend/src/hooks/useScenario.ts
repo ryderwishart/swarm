@@ -35,7 +35,7 @@ interface UseScenarioReturn {
 }
 
 const ENDPOINT = process.env.NODE_ENV === 'production'
-    ? 'https://raw.githubusercontent.com/ryderwishart/swarm/main/swarm_translate/scenarios/consolidated'
+    ? 'https://raw.githubusercontent.com/ryderwishart/swarm/refs/heads/master/swarm_translate/scenarios/consolidated'
     : '/consolidated';
 
 export function useScenario(id: string | undefined): UseScenarioReturn {

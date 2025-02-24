@@ -599,7 +599,19 @@ def process_batch(batch_data: tuple, scenario: TranslationScenario, output_path:
     
     for item in lines:
         try:
-            content = item[scenario.config["input"]["content_field"]]
+            # Safely fetch the text field name from scenario.config
+            source_field = scenario.config["input"].get("content_field", "content")
+            # Fallback logic if the chosen field doesn't exist in the item
+            if source_field not in item:
+                # Attempt "original" or "translation" next, or raise an error if you prefer
+                if "original" in item:
+                    content = item["original"]
+                else:
+                    # Final fallback - handle gracefully or raise
+                    raise KeyError(f"No '{source_field}' or 'original' field found in item:\n{item}")
+            else:
+                content = item[source_field]
+            
             text_id = item.get(scenario.config["input"]["id_field"])
         except KeyError as e:
             print(f"Error accessing fields in batch {batch_id}:")

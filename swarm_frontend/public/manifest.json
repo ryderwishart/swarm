@@ -1,6 +1,14 @@
 {
   "scenarios": [
     {
+      "id": "cmn-mnp",
+      "filename": "cmn-mnp_consolidated.jsonl",
+      "source_lang": "cmn",
+      "target_lang": "mnp",
+      "source_label": "Mandarin Chinese (Formal)",
+      "target_label": "Min Bei Chinese"
+    },
+    {
       "id": "eng-afr",
       "filename": "eng-afr_consolidated.jsonl",
       "source_lang": "eng",
@@ -121,5 +129,5 @@
       "target_label": "Korean (Formal)"
     }
   ],
-  "updated_at": "2025-01-26T14:30:22.749515"
+  "updated_at": "2025-02-24T10:15:55.037629"
 }

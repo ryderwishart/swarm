@@ -1,0 +1,38 @@
+{
+    "name": "Vox Populi Translation - Min Bei (Formal)",
+    "description": "A translation of Biblical texts from Mandarin Chinese to Min Bei Chinese, maintaining formal equivalence while ensuring accessibility to Min Bei speakers.",
+    "input": {
+        "file": "consolidated/x-org-cmn_consolidated.jsonl",
+        "format": "jsonl",
+        "content_field": "content",
+        "id_field": "id"
+    },
+    "output": {
+        "directory": "translations",
+        "format": "jsonl",
+        "filename_template": "{source_code}-{target_code}_bible_{date}"
+    },
+    "source": {
+        "code": "cmn",
+        "label": "Mandarin Chinese (Formal)"
+    },
+    "target": {
+        "code": "mnp",
+        "label": "Min Bei Chinese"
+    },
+    "linguistic_directives": "1. Everyday Life; Mandarin, Min Bei, Min Bei pronunciation; 吃饭, 食饭, si̍t pūi; 喝水, 食水, si̍t tsúi; 睡觉, 困觉, khùn kàu; 回家, 转厝, tùi tshù; 洗澡, 洗身, sé sīn; 穿衣服, 颂衫, sōng sã; 脱衣服, 褪衫, thùi sã; 洗脸, 洗面, sé mī; 刷牙, 洗喙, sé tshùi; 梳头, 捋头毛, lú thâu mô; 2. Family Members; Mandarin, Min Bei, Min Bei pronunciation; 父亲, 阿爹, a tia; 母亲, 阿娘, a niông; 爷爷, 阿公, a kōng; 奶奶, 阿嬷, a mà; 儿子, 囝, kiã; 女儿, 妹, muē; 哥哥, 阿哥, a kō; 姐姐, 阿姊, a tsé; 弟弟, 老弟, ló tī; 妹妹, 老妹, ló muē; 3. Nature and Weather; Mandarin, Min Bei, Min Bei pronunciation; 太阳, 日头, ji̍t thâu; 月亮, 月娘, gue̍h niô; 下雨, 落雨, lo̍h hōu; 刮风, 起风, khí hong; 打雷, 响雷, hiáng luî; 下雪, 落雪, lo̍h soat; 晴天, 好天, hó thĩ; 阴天, 乌天, ou thĩ; 星星, 星子, sĩn tsú; 云, 云头, hûn thâu; 4. Food and Drink; Mandarin, Min Bei, Min Bei pronunciation; 米饭, 饭, pūi; 面条, 面, mī; 粥, 糜, muê; 鸡蛋, 鸡卵, ke nūi; 猪肉, 豕肉, tshú bah; 鱼, 鱼, hî; 蔬菜, 菜蔬, tshài tshu; 水果, 果子, kué tsú; 茶, 茶, tê; 酒, 酒, tsiú; 5. Body Parts; Mandarin, Min Bei, Min Bei pronunciation; 头, 头壳, thâu khok; 眼睛, 目珠, ba̍k tsu; 鼻子, 鼻, phī; 嘴巴, 喙, tshùi; 耳朵, 耳, hĩ; 手, 手, tshiú; 脚, 骹, kha; 肚子, 腹肚, pak tóu; 头发, 头毛, thâu mô; 牙齿, 喙齿, tshùi khí; 6. Time and Location; Mandarin, Min Bei, Min Bei pronunciation; 今天, 今朝, kim tiâu; 明天, 明朝, mîng tiâu; 昨天, 昨暝, tsa̍h mê; 早上, 早起, tsá khí; 晚上, 暗暝, àm mê; 前面, 前头, tsîng thâu; 后面, 后头, āu thâu; 左边, 倒手爿, tò tshiú pê; 右边, 正手爿, tsiàⁿ tshiú pê; 中间, 中央, tiong iông; 7. Actions and States; Mandarin, Min Bei, Min Bei pronunciation; 走, 行, kiâⁿ; 跑, 走, tsáu; 看, 睇, thói; 听, 听, thiaⁿ; 说, 讲, kóng; 笑, 笑, tshiàu; 哭, 啼, thî; 坐, 坐, tsō; 站, 企, khiā; 拿, 搦, lia̍h; 8. Animals and Plants; Mandarin, Min Bei, Min Bei pronunciation; 狗, 犬, khián; 猫, 猫, niau; 鸡, 鸡, ke; 鸭, 鸭, ah; 猪, 豕, tshú; 树, 树, tshiū; 花, 花, hue; 草, 草, tsháu; 叶子, 箬, hio̍h; 根, 根, kin; 9. Numbers and Measures; Mandarin, Min Bei, Min Bei pronunciation; 一, 蜀, si̍t; 二, 两, nō; 三, 三, sã; 多, 侪, tsiâ; 少, 少, tsió; 大, 大, tuā; 小, 细, sè; 高, 悬, kûi; 低, 低, kē; 长, 长, tn̂g; 10. Miscellaneous; Mandarin, Min Bei, Min Bei pronunciation; 钱, 镭, luî; 书, 册, tsheh; 字, 字, jī; 学校, 学堂, ha̍k tông; 工作, 做工, tsò kang; 买, 买, bé; 卖, 卖, bē; 来, 来, lâi; 去, 去, khì; 喜欢, 欢喜, huã hí; 11. Phrases in everyday conversation; Mandarin, Min Bei, Min Bei pronunciation; 你好, 汝好, lú hó; 谢谢, 多谢, to-siā; 对不起, 对唔住, tùi-ṁ-tsū; 没关系, 无要紧, bô-iàu-kín; 再见, 再会, tsài-huē; 请问, 借问, tsioh-mn̄g; 不知道, 唔知, ṁ-tsai; 快点, 紧咧, kín-leh; 慢点, 慢咧, bān-leh; 等一下, 等下, tán-ē; 12， Emotions and Attitudes; Mandarin, Min Bei, Min Bei pronunciation; 高兴, 欢喜, huã-hí; 生气, 受气, siū-khì; 害怕, 惊, kiaⁿ; 喜欢, 中意, tiong-ì; 讨厌, 憎, tsng; 累, 疲, phî; 舒服, 爽快, sóng-khuài; 难过, 艰苦, kan-khó; 无聊, 无趣, bô-tshù; 惊讶, 惊疑, kiaⁿ-gî; 13. Time; Mandarin, Min Bei, Min Bei pronunciation; 现在, 即阵, tsit-tsūn; 刚才, 头先, thâu-seng; 以后, 后摆, āu-pái; 以前, 旧底, kū-té; 每天, 逐日, ta̍k-ji̍t; 经常, 常时, siông-sî; 很少, 罕得, hán-tit; 马上, 即时, tsik-sî; 突然, 突然, tu̍t-jiên; 偶尔, 有时, ū-sî; 14. Relative location; Mandarin, Min Bei, Min Bei pronunciation; 这里, 即搭, tsit-tah; 那里, 彼搭, hit-tah; 上面, 顶头, tíng-thâu; 下面, 下底, ē-té; 里面, 内底, lāi-té; 外面, 外口, guā-kháu; 旁边, 边头, piⁿ-thâu; 附近, 附近, hù-kīn; 远处, 远位, hñg-ūi; 角落, 角头, kak-thâu; 15. More Measures and Extent; Mandarin, Min Bei, Min Bei pronunciation; 很多, 真侪, tsin-tsiâ; 很少, 真少, tsin-tsió; 全部, 拢总, lóng-tsóng; 一些, 淡薄, tām-po̍h; 几个, 几隻, kúi-tsiah; 一半, 一半, tsi̍t-puàⁿ; 全部, 全全, tsuân-tsuân; 更多, 较侪, khah-tsiâ; 更少, 较少, khah-tsió; 差不多, 差不多, tsha-put-to",
+    "style": {
+        "formality": "formal",
+        "register": "academic",
+        "notes": "Translate from the formal Mandarin version while preserving theological terminology and formal register. Maintain consistency with Mandarin conventions for divine names (Shangdi, Shen). Ensure the translation is accessible to Min Bei speakers, always adopting regional expressions and lexical varieties from Min Bei, while preserving the formal nature of the source text. Pay special attention to Min Bei-specific expressions and grammatical structures where they differ from Mandarin."
+    },
+    "models": {
+        "routing": "deepseek-chat",
+        "translation": "deepseek-chat"
+    },
+    "batch_settings": {
+        "batch_size": 10,
+        "save_frequency": 5,
+        "resume_from_last": true
+    }
+}

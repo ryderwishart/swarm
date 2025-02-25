@@ -603,12 +603,15 @@ def process_batch(batch_data: tuple, scenario: TranslationScenario, output_path:
             source_field = scenario.config["input"].get("content_field", "content")
             # Fallback logic if the chosen field doesn't exist in the item
             if source_field not in item:
-                # Attempt "original" or "translation" next, or raise an error if you prefer
-                if "original" in item:
+                # First try "translation" for daisy chaining translations
+                if "translation" in item:
+                    content = item["translation"]
+                # Then fall back to "original" if translation isn't available
+                elif "original" in item:
                     content = item["original"]
                 else:
                     # Final fallback - handle gracefully or raise
-                    raise KeyError(f"No '{source_field}' or 'original' field found in item:\n{item}")
+                    raise KeyError(f"No '{source_field}', 'translation', or 'original' field found in item:\n{item}")
             else:
                 content = item[source_field]
             

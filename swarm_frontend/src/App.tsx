@@ -163,18 +163,10 @@ const App = () => {
                           <div className="flex-1 min-w-0">
                             <div className="flex items-center gap-1">
                               <span className="font-medium text-xs">
-                                {scenario.source_label}
-                              </span>
-                              <ArrowRightIcon className="h-2.5 w-2.5 text-muted-foreground shrink-0" />
-                              <span className="font-medium text-xs">
                                 {scenario.target_label}
                               </span>
                             </div>
                             <div className="flex items-center gap-1 text-[10px] text-muted-foreground mt-0.5">
-                              <code className="px-0.5 py-0 rounded bg-muted text-[9px]">
-                                {scenario.source_lang}
-                              </code>
-                              <span className="text-[9px]">to</span>
                               <code className="px-0.5 py-0 rounded bg-muted text-[9px]">
                                 {scenario.target_lang}
                               </code>
@@ -201,13 +193,7 @@ const App = () => {
                             <div className="flex flex-col gap-1.5 min-w-0">
                               <div className="flex items-center justify-between">
                                 <div className="flex items-center gap-1.5 min-w-0">
-                                  <span className="font-medium text-sm truncate">
-                                    {scenario.source_label}
-                                  </span>
-                                  <span className="text-muted-foreground text-xs shrink-0">
-                                    →
-                                  </span>
-                                  <span className="font-medium text-sm truncate">
+                                  <span className="font-medium text-sm">
                                     {scenario.target_label}
                                   </span>
                                 </div>
@@ -216,10 +202,6 @@ const App = () => {
                                 </div>
                               </div>
                               <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
-                                <code className="px-1 py-0.5 rounded bg-muted text-[10px]">
-                                  {scenario.source_lang}
-                                </code>
-                                <span className="text-[10px]">to</span>
                                 <code className="px-1 py-0.5 rounded bg-muted text-[10px]">
                                   {scenario.target_lang}
                                 </code>

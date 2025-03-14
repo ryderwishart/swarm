@@ -116,107 +116,107 @@ const App = () => {
   return (
     <>
       <SEO />
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-900/50 py-4">
-        <Card className="container mx-auto max-w-[90rem]">
-          <CardHeader className="space-y-0 pb-2 md:pb-3">
-            <CardTitle className="text-lg md:text-xl">
-              Bible Translation Projects
-            </CardTitle>
-            <CardDescription className="text-xs md:text-sm">
-              Select a translation project to review and read
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-2 md:space-y-3">
-            <CopyrightStatement />
-            {error && (
-              <Card className="border-l-4 border-l-red-500 bg-red-50 dark:bg-red-950/50 mb-2 md:mb-3">
-                <CardContent className="text-xs text-red-700 dark:text-red-300 py-2">
-                  {error}
-                </CardContent>
-              </Card>
-            )}
-            <div className="flex flex-col gap-2 md:gap-3">
-              <Input
-                placeholder="Search by language code or name..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="max-w-md h-7 md:h-8 text-xs md:text-sm"
-              />
-              <Separator className="my-1" />
-              <ScrollArea className="h-[calc(100vh-14rem)] md:h-[calc(100vh-16rem)]">
-                {filteredScenarios.length === 0 ? (
-                  <p className="text-muted-foreground py-2 col-span-full text-xs md:text-sm">
-                    {scenarios.length === 0
-                      ? 'No translation projects found'
-                      : 'No matches found for your search'}
-                  </p>
-                ) : (
-                  <>
-                    {/* Mobile List View */}
-                    <div className="md:hidden space-y-0.5">
-                      {filteredScenarios.map((scenario) => (
-                        <div
-                          key={scenario.id}
-                          className="flex items-center p-1.5 border-b hover:bg-gray-50 dark:hover:bg-gray-800/50 cursor-pointer"
-                          onClick={() => handleScenarioClick(scenario)}
-                        >
-                          <div className="flex-1 min-w-0">
-                            <div className="flex items-center gap-1">
-                              <span className="font-medium text-xs">
+      <div className="flex flex-col h-full min-h-screen px-4 py-4 md:py-6">
+        <div className="flex-shrink-0 mb-2 md:mb-4">
+          <h1 className="text-lg md:text-xl font-bold">
+            Bible Translation Projects
+          </h1>
+          <p className="text-xs md:text-sm text-muted-foreground">
+            Select a translation project to review and read
+          </p>
+        </div>
+
+        <div className="flex-shrink-0 mb-2 md:mb-4">
+          <CopyrightStatement />
+          {error && (
+            <Card className="border-l-4 border-l-red-500 bg-red-50 dark:bg-red-950/50 mt-2">
+              <CardContent className="text-xs text-red-700 dark:text-red-300 py-2">
+                {error}
+              </CardContent>
+            </Card>
+          )}
+        </div>
+
+        <div className="flex flex-col gap-2 md:gap-3 flex-1 overflow-hidden">
+          <Input
+            placeholder="Search by language code or name..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="max-w-md h-7 md:h-8 text-xs md:text-sm flex-shrink-0"
+          />
+          <Separator className="my-1 flex-shrink-0" />
+          <ScrollArea className="flex-1">
+            {filteredScenarios.length === 0 ? (
+              <p className="text-muted-foreground py-2 text-xs md:text-sm">
+                {scenarios.length === 0
+                  ? 'No translation projects found'
+                  : 'No matches found for your search'}
+              </p>
+            ) : (
+              <>
+                {/* Mobile List View */}
+                <div className="md:hidden space-y-0.5 pb-4">
+                  {filteredScenarios.map((scenario) => (
+                    <div
+                      key={scenario.id}
+                      className="flex items-center p-1.5 border-b hover:bg-gray-50 dark:hover:bg-gray-800/50 cursor-pointer"
+                      onClick={() => handleScenarioClick(scenario)}
+                    >
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-1">
+                          <span className="font-medium text-xs">
+                            {scenario.target_label}
+                          </span>
+                        </div>
+                        <div className="flex items-center gap-1 text-[10px] text-muted-foreground mt-0.5">
+                          <code className="px-0.5 py-0 rounded bg-muted text-[9px]">
+                            {scenario.target_lang}
+                          </code>
+                        </div>
+                      </div>
+                      <ArrowRightIcon className="h-3 w-3 text-muted-foreground/50 shrink-0 ml-1" />
+                    </div>
+                  ))}
+                </div>
+
+                {/* Desktop Card Grid View */}
+                <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 pb-3">
+                  {filteredScenarios.map((scenario) => (
+                    <Card
+                      key={scenario.id}
+                      className={cn(
+                        'transition-all hover:shadow-md cursor-pointer',
+                        'border hover:border-primary/50',
+                        'bg-card/50 hover:bg-card',
+                      )}
+                      onClick={() => handleScenarioClick(scenario)}
+                    >
+                      <CardHeader className="p-3 space-y-1.5">
+                        <div className="flex flex-col gap-1.5 min-w-0">
+                          <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-1.5 min-w-0">
+                              <span className="font-medium text-sm">
                                 {scenario.target_label}
                               </span>
                             </div>
-                            <div className="flex items-center gap-1 text-[10px] text-muted-foreground mt-0.5">
-                              <code className="px-0.5 py-0 rounded bg-muted text-[9px]">
-                                {scenario.target_lang}
-                              </code>
+                            <div className="text-muted-foreground/50 hover:text-primary transition-colors text-xs shrink-0">
+                              →
                             </div>
                           </div>
-                          <ArrowRightIcon className="h-3 w-3 text-muted-foreground/50 shrink-0 ml-1" />
+                          <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
+                            <code className="px-1 py-0.5 rounded bg-muted text-[10px]">
+                              {scenario.target_lang}
+                            </code>
+                          </div>
                         </div>
-                      ))}
-                    </div>
-
-                    {/* Desktop Card Grid View */}
-                    <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 pb-3">
-                      {filteredScenarios.map((scenario) => (
-                        <Card
-                          key={scenario.id}
-                          className={cn(
-                            'transition-all hover:shadow-md cursor-pointer',
-                            'border hover:border-primary/50',
-                            'bg-card/50 hover:bg-card',
-                          )}
-                          onClick={() => handleScenarioClick(scenario)}
-                        >
-                          <CardHeader className="p-3 space-y-1.5">
-                            <div className="flex flex-col gap-1.5 min-w-0">
-                              <div className="flex items-center justify-between">
-                                <div className="flex items-center gap-1.5 min-w-0">
-                                  <span className="font-medium text-sm">
-                                    {scenario.target_label}
-                                  </span>
-                                </div>
-                                <div className="text-muted-foreground/50 hover:text-primary transition-colors text-xs shrink-0">
-                                  →
-                                </div>
-                              </div>
-                              <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
-                                <code className="px-1 py-0.5 rounded bg-muted text-[10px]">
-                                  {scenario.target_lang}
-                                </code>
-                              </div>
-                            </div>
-                          </CardHeader>
-                        </Card>
-                      ))}
-                    </div>
-                  </>
-                )}
-              </ScrollArea>
-            </div>
-          </CardContent>
-        </Card>
+                      </CardHeader>
+                    </Card>
+                  ))}
+                </div>
+              </>
+            )}
+          </ScrollArea>
+        </div>
       </div>
     </>
   );

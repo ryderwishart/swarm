@@ -391,24 +391,18 @@ def call_llm(client: OpenAI, prompt: str, expect_json: bool = False) -> str:
             content = response.choices[0].message.content.strip()
             
             if expect_json:
-                try:
-                    # Try direct JSON parsing
-                    return json.loads(content)
-                except json.JSONDecodeError:
-                    # Try to extract JSON from response
-                    json_start = content.find('{')
-                    json_end = content.rfind('}') + 1
-                    if json_start >= 0 and json_end > json_start:
-                        extracted = content[json_start:json_end]
-                        try:
-                            return json.loads(extracted)
-                        except json.JSONDecodeError:
-                            if attempt == max_retries - 1:
-                                raise ValueError(f"Could not parse JSON after {max_retries} attempts")
-                            continue
-                    if attempt == max_retries - 1:
-                        raise ValueError(f"No valid JSON found in response after {max_retries} attempts")
-                    continue
+                # Multiple approaches to extract valid JSON
+                json_result = extract_json(content)
+                if json_result:
+                    return json_result
+                
+                print(f"Attempt {attempt+1}: Failed to parse JSON. Content: {content[:200]}...")
+                if attempt == max_retries - 1:
+                    # Return a minimal valid JSON as fallback on last attempt
+                    print(f"Returning minimal valid JSON after {max_retries} failed attempts")
+                    return {"phrases": [], "terms": [], "idioms": [], "cultural": []}
+                continue
+            
             return content
             
         except Exception as e:
@@ -416,10 +410,86 @@ def call_llm(client: OpenAI, prompt: str, expect_json: bool = False) -> str:
                 print(f"Rate limit hit, waiting 60 seconds...")
                 time.sleep(60)
                 continue
+            print(f"Attempt {attempt+1} failed: {str(e)}")
             if attempt == max_retries - 1:
-                print(f"LLM call failed after {max_retries} attempts: {e}")
+                if expect_json:
+                    print(f"Returning minimal valid JSON after {max_retries} failed attempts")
+                    return {"phrases": [], "terms": [], "idioms": [], "cultural": []}
                 raise
             time.sleep(2 ** attempt)  # Exponential backoff
+
+def extract_json(text: str) -> Optional[Dict]:
+    """Extract JSON from text using multiple approaches."""
+    # Approach 1: Direct parsing
+    try:
+        return json.loads(text)
+    except json.JSONDecodeError:
+        pass
+    
+    # Approach 2: Find JSON between curly braces
+    try:
+        json_start = text.find('{')
+        json_end = text.rfind('}') + 1
+        if json_start >= 0 and json_end > json_start:
+            extracted = text[json_start:json_end]
+            return json.loads(extracted)
+    except (json.JSONDecodeError, ValueError):
+        pass
+    
+    # Approach 3: Find JSON between code blocks
+    try:
+        code_block_pattern = r"```(?:json)?\s*([\s\S]*?)\s*```"
+        matches = re.findall(code_block_pattern, text)
+        if matches:
+            for match in matches:
+                try:
+                    return json.loads(match.strip())
+                except json.JSONDecodeError:
+                    continue
+    except Exception:
+        pass
+    
+    # Approach 4: Try to fix common JSON errors
+    try:
+        # Replace single quotes with double quotes
+        fixed_text = re.sub(r"'([^']*)':", r'"\1":', text)
+        # Add quotes to unquoted keys
+        fixed_text = re.sub(r'(\s*)(\w+)(\s*):', r'\1"\2"\3:', fixed_text)
+        return json.loads(fixed_text)
+    except (json.JSONDecodeError, Exception):
+        pass
+    
+    # Approach 5: Construct JSON from key-value pairs
+    try:
+        result = {}
+        # Look for patterns like "key": value or key: value
+        kv_pattern = r'["\']?([^"\']+)["\']?\s*:\s*(?:\[([^\]]+)\]|["\']([^"\']+)["\']|(\w+))'
+        matches = re.findall(kv_pattern, text)
+        for match in matches:
+            key = match[0].strip()
+            # Determine which value group matched
+            if match[1]:  # List value
+                value_str = match[1].strip()
+                # Split by commas, handle quoted items
+                items = re.findall(r'["\']([^"\']+)["\']|(\w+)', value_str)
+                value = [item[0] if item[0] else item[1] for item in items if any(item)]
+            elif match[2]:  # String value
+                value = match[2].strip()
+            elif match[3]:  # Word value
+                value = match[3].strip()
+            else:
+                continue
+                
+            result[key] = value
+            
+        # Only return if we found something
+        if result:
+            return result
+    except Exception:
+        pass
+    
+    # No valid JSON found
+    return None
 
 def analyze_text(client: OpenAI, text: str, source_label: str, target_label: str, book_context: str = "") -> Dict:
     """Analyze text structure (formerly Linguist bot)."""

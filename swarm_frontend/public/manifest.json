@@ -110,7 +110,7 @@
       "source_lang": "x-org",
       "target_lang": "eng",
       "source_label": "Macula Hebrew and Greek",
-      "target_label": "English (Formal)"
+      "target_label": "English (Millennial)"
     },
     {
       "id": "x-org-hin",
@@ -121,6 +121,14 @@
       "target_label": "Hindi (Formal)"
     },
     {
+      "id": "x-org-jpn",
+      "filename": "x-org-jpn_consolidated.jsonl",
+      "source_lang": "x-org",
+      "target_lang": "jpn",
+      "source_label": "Macula Hebrew and Greek",
+      "target_label": "Modern Formal Japanese"
+    },
+    {
       "id": "x-org-kor",
       "filename": "x-org-kor_consolidated.jsonl",
       "source_lang": "x-org",
@@ -129,5 +137,5 @@
       "target_label": "Korean (Formal)"
     }
   ],
-  "updated_at": "2025-02-25T00:58:24.708846"
+  "updated_at": "2025-03-14T06:23:19.451890"
 }

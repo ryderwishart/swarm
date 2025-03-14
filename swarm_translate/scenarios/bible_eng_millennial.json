@@ -1,0 +1,37 @@
+{
+    "name": "Vox Populi Translation - English (Millennial)",
+    "description": "A translation of Biblical texts from Hebrew and Greek to English, aiming for natural equivalence over formal equivalence for increased readability and accessibility, while still retaining a close tie to the underlying Hebrew and Greek source text.",
+    "input": {
+        "file": "data/combined_greek_hebrew_vref.csv",
+        "format": "csv",
+        "id_field": "id",
+        "content_field": "content"
+    },
+    "output": {
+        "directory": "translations",
+        "format": "jsonl",
+        "filename_template": "{source_code}-{target_code}_{scenario}_{date}"
+    },
+    "source": {
+        "code": "x-org",
+        "label": "Macula Hebrew and Greek"
+    },
+    "target": {
+        "code": "eng",
+        "label": "English (Millennial)"
+    },
+    "style": {
+        "formality": "millennial",
+        "register": "general",
+        "notes": "Create a translation that prioritizes natural equivalence over formal equivalence for increased readability and accessibility, while still retaining a close tie to the underlying Hebrew and Greek source text. Use modern English idioms and terminology, and avoid archaic language. When multiple valid translation options exist, choose clear, precise language that best conveys the original meaning - and aim to retain source-culture idioms and terminology wherever possible. Use LORD in caps for the tetragrammaton. Maintain theological and traditional religious terminology where it best represents the source concepts. The goal is a faithful translation that uses language that millennials actually use in spoken and general written registers (e.g., emails, etc.). Avoid archiaic bible-ese language."
+    },
+    "models": {
+        "routing": "gpt-4o-mini",
+        "translation": "gpt-4o-mini"
+    },
+    "batch_settings": {
+        "batch_size": 10,
+        "save_frequency": 5,
+        "resume_from_last": true
+    }
+}

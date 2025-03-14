@@ -11,7 +11,7 @@ import { ScrollArea } from './components/ui/scroll-area';
 import { Separator } from './components/ui/separator';
 import { Input } from './components/ui/input';
 import { cn } from './lib/utils';
-import { InfoIcon } from 'lucide-react';
+import { InfoIcon, ArrowRightIcon } from 'lucide-react';
 import { SEO } from './components/SEO';
 
 interface Scenario {
@@ -37,8 +37,8 @@ const CopyrightStatement = () => (
     </CardHeader>
     <CardContent className="text-xs text-blue-700 dark:text-blue-300 py-0 px-4 pb-2">
       <p className="mb-1">
-        Our goal is to release all of these translations into the public
-        domain. All rights reserved until novelty verified (coming soon!).
+        Our goal is to release all of these translations into the public domain.
+        All rights reserved until novelty verified (coming soon!).
       </p>
       <p>
         Please check our{' '}
@@ -67,25 +67,29 @@ const App = () => {
         console.log('Fetching manifest...');
         const response = await fetch('/manifest.json');
         console.log('Response status:', response.status);
-        
+
         if (!response.ok) {
           const text = await response.text();
           console.error('Response text:', text);
-          throw new Error(`Failed to fetch manifest: ${response.status} ${response.statusText}`);
+          throw new Error(
+            `Failed to fetch manifest: ${response.status} ${response.statusText}`,
+          );
         }
-        
+
         const data: Manifest = await response.json();
         console.log('Manifest data:', data);
-        
+
         if (!data.scenarios || !Array.isArray(data.scenarios)) {
           throw new Error('Invalid manifest format: scenarios array missing');
         }
-        
+
         setScenarios(data.scenarios);
         setError(null);
       } catch (err) {
         console.error('Error loading manifest:', err);
-        setError(err instanceof Error ? err.message : 'Unknown error loading manifest');
+        setError(
+          err instanceof Error ? err.message : 'Unknown error loading manifest',
+        );
       }
     };
     loadManifest();
@@ -114,79 +118,119 @@ const App = () => {
       <SEO />
       <div className="min-h-screen bg-gray-50 dark:bg-gray-900/50 py-4">
         <Card className="container mx-auto max-w-[90rem]">
-          <CardHeader className="space-y-0 pb-3">
-            <CardTitle className="text-xl">Bible Translation Projects</CardTitle>
-            <CardDescription className="text-sm">
+          <CardHeader className="space-y-0 pb-2 md:pb-3">
+            <CardTitle className="text-lg md:text-xl">
+              Bible Translation Projects
+            </CardTitle>
+            <CardDescription className="text-xs md:text-sm">
               Select a translation project to review and read
             </CardDescription>
           </CardHeader>
-          <CardContent className="space-y-3">
+          <CardContent className="space-y-2 md:space-y-3">
             <CopyrightStatement />
             {error && (
-              <Card className="border-l-4 border-l-red-500 bg-red-50 dark:bg-red-950/50 mb-3">
+              <Card className="border-l-4 border-l-red-500 bg-red-50 dark:bg-red-950/50 mb-2 md:mb-3">
                 <CardContent className="text-xs text-red-700 dark:text-red-300 py-2">
                   {error}
                 </CardContent>
               </Card>
             )}
-            <div className="flex flex-col gap-3">
+            <div className="flex flex-col gap-2 md:gap-3">
               <Input
                 placeholder="Search by language code or name..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="max-w-md h-8 text-sm"
+                className="max-w-md h-7 md:h-8 text-xs md:text-sm"
               />
               <Separator className="my-1" />
-              <ScrollArea className="h-[calc(100vh-16rem)]">
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 pb-3">
-                  {filteredScenarios.length === 0 ? (
-                    <p className="text-muted-foreground py-2 col-span-full text-sm">
-                      {scenarios.length === 0
-                        ? 'No translation projects found'
-                        : 'No matches found for your search'}
-                    </p>
-                  ) : (
-                    filteredScenarios.map((scenario) => (
-                      <Card
-                        key={scenario.id}
-                        className={cn(
-                          'transition-all hover:shadow-md cursor-pointer',
-                          'border hover:border-primary/50',
-                          'bg-card/50 hover:bg-card',
-                        )}
-                        onClick={() => handleScenarioClick(scenario)}
-                      >
-                        <CardHeader className="p-3 space-y-1.5">
-                          <div className="flex flex-col gap-1.5 min-w-0">
-                            <div className="flex items-center justify-between">
-                              <div className="flex items-center gap-1.5 min-w-0">
-                                <span className="font-medium text-sm truncate">
-                                  {scenario.source_label}
-                                </span>
-                                <span className="text-muted-foreground text-xs shrink-0">→</span>
-                                <span className="font-medium text-sm truncate">
-                                  {scenario.target_label}
-                                </span>
-                              </div>
-                              <div className="text-muted-foreground/50 hover:text-primary transition-colors text-xs shrink-0">
-                                →
-                              </div>
+              <ScrollArea className="h-[calc(100vh-14rem)] md:h-[calc(100vh-16rem)]">
+                {filteredScenarios.length === 0 ? (
+                  <p className="text-muted-foreground py-2 col-span-full text-xs md:text-sm">
+                    {scenarios.length === 0
+                      ? 'No translation projects found'
+                      : 'No matches found for your search'}
+                  </p>
+                ) : (
+                  <>
+                    {/* Mobile List View */}
+                    <div className="md:hidden space-y-0.5">
+                      {filteredScenarios.map((scenario) => (
+                        <div
+                          key={scenario.id}
+                          className="flex items-center p-1.5 border-b hover:bg-gray-50 dark:hover:bg-gray-800/50 cursor-pointer"
+                          onClick={() => handleScenarioClick(scenario)}
+                        >
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center gap-1">
+                              <span className="font-medium text-xs">
+                                {scenario.source_label}
+                              </span>
+                              <ArrowRightIcon className="h-2.5 w-2.5 text-muted-foreground shrink-0" />
+                              <span className="font-medium text-xs">
+                                {scenario.target_label}
+                              </span>
                             </div>
-                            <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
-                              <code className="px-1 py-0.5 rounded bg-muted text-[10px]">
+                            <div className="flex items-center gap-1 text-[10px] text-muted-foreground mt-0.5">
+                              <code className="px-0.5 py-0 rounded bg-muted text-[9px]">
                                 {scenario.source_lang}
                               </code>
-                              <span className="text-[10px]">to</span>
-                              <code className="px-1 py-0.5 rounded bg-muted text-[10px]">
+                              <span className="text-[9px]">to</span>
+                              <code className="px-0.5 py-0 rounded bg-muted text-[9px]">
                                 {scenario.target_lang}
                               </code>
                             </div>
                           </div>
-                        </CardHeader>
-                      </Card>
-                    ))
-                  )}
-                </div>
+                          <ArrowRightIcon className="h-3 w-3 text-muted-foreground/50 shrink-0 ml-1" />
+                        </div>
+                      ))}
+                    </div>
+
+                    {/* Desktop Card Grid View */}
+                    <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 pb-3">
+                      {filteredScenarios.map((scenario) => (
+                        <Card
+                          key={scenario.id}
+                          className={cn(
+                            'transition-all hover:shadow-md cursor-pointer',
+                            'border hover:border-primary/50',
+                            'bg-card/50 hover:bg-card',
+                          )}
+                          onClick={() => handleScenarioClick(scenario)}
+                        >
+                          <CardHeader className="p-3 space-y-1.5">
+                            <div className="flex flex-col gap-1.5 min-w-0">
+                              <div className="flex items-center justify-between">
+                                <div className="flex items-center gap-1.5 min-w-0">
+                                  <span className="font-medium text-sm truncate">
+                                    {scenario.source_label}
+                                  </span>
+                                  <span className="text-muted-foreground text-xs shrink-0">
+                                    →
+                                  </span>
+                                  <span className="font-medium text-sm truncate">
+                                    {scenario.target_label}
+                                  </span>
+                                </div>
+                                <div className="text-muted-foreground/50 hover:text-primary transition-colors text-xs shrink-0">
+                                  →
+                                </div>
+                              </div>
+                              <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
+                                <code className="px-1 py-0.5 rounded bg-muted text-[10px]">
+                                  {scenario.source_lang}
+                                </code>
+                                <span className="text-[10px]">to</span>
+                                <code className="px-1 py-0.5 rounded bg-muted text-[10px]">
+                                  {scenario.target_lang}
+                                </code>
+                              </div>
+                            </div>
+                          </CardHeader>
+                        </Card>
+                      ))}
+                    </div>
+                  </>
+                )}
               </ScrollArea>
             </div>
           </CardContent>

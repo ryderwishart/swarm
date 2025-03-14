@@ -111,6 +111,12 @@ interface VerseInstance extends Translation {
   instanceId: string; // Unique identifier for each verse instance
 }
 
+// Add a new interface to track verse groups
+interface VerseGroup {
+  verseNumber: string;
+  instances: VerseInstance[];
+}
+
 // Add canonical book order
 const CANONICAL_BOOKS = [
   'Genesis',
@@ -434,6 +440,23 @@ const TranslationView = () => {
     return match ? match[1] : '';
   };
 
+  // Add a function to group verses by verse number
+  const groupVersesByNumber = (verses: VerseInstance[]): VerseGroup[] => {
+    const verseMap = new Map<string, VerseInstance[]>();
+
+    verses.forEach((verse) => {
+      const verseNumber = getVerseNumber(verse.id);
+      if (!verseMap.has(verseNumber)) {
+        verseMap.set(verseNumber, []);
+      }
+      verseMap.get(verseNumber)?.push(verse);
+    });
+
+    return Array.from(verseMap.entries())
+      .map(([verseNumber, instances]) => ({ verseNumber, instances }))
+      .sort((a, b) => parseInt(a.verseNumber) - parseInt(b.verseNumber));
+  };
+
   const toggleVerse = (verseId: string) => {
     setExpandedVerses((prev) => {
       const next = new Set(prev);
@@ -731,29 +754,43 @@ const TranslationView = () => {
           </Button>
         </div>
         <div className="space-y-3 pr-3">
-          {currentChapter?.translations.map((item: VerseInstance) => (
-            <div
-              key={item.instanceId}
-              onClick={() => toggleVerse(item.id)}
-              className={cn(
-                'group relative py-1 px-2 -mx-2 rounded cursor-pointer',
-                'transition-colors duration-200',
-                'hover:bg-muted/50',
-              )}
-            >
-              {(showAllSource || expandedVerses.has(item.id)) && (
-                <p className="text-muted-foreground text-base mb-1">
-                  {item.original}
-                </p>
-              )}
-              <p className="text-base">
-                <sup className="text-xs font-medium text-muted-foreground mr-1">
-                  {getVerseNumber(item.id)}
-                </sup>
-                {item.translation}
-              </p>
-            </div>
-          ))}
+          {currentChapter?.translations &&
+            groupVersesByNumber(currentChapter.translations).map((group) => (
+              <div key={group.verseNumber} className="space-y-2">
+                {group.instances.map((item, index) => (
+                  <div
+                    key={item.instanceId}
+                    onClick={() => toggleVerse(item.id)}
+                    className={cn(
+                      'group relative py-1 px-2 -mx-2 rounded cursor-pointer',
+                      'transition-colors duration-200',
+                      'hover:bg-muted/50',
+                      index > 0 &&
+                        'border-l-2 border-l-amber-400 pl-3 ml-1 -mr-3',
+                    )}
+                  >
+                    {(showAllSource || expandedVerses.has(item.id)) && (
+                      <p className="text-muted-foreground text-base mb-1">
+                        {item.original}
+                      </p>
+                    )}
+                    <p className="text-base">
+                      <sup className="text-xs font-medium text-muted-foreground mr-1">
+                        {index === 0
+                          ? group.verseNumber
+                          : `${group.verseNumber}*`}
+                      </sup>
+                      {item.translation}
+                    </p>
+                    {index === 0 && group.instances.length > 1 && (
+                      <div className="absolute top-1 right-1 bg-amber-100 dark:bg-amber-900/30 text-amber-800 dark:text-amber-300 rounded-full px-1.5 py-0.5 text-[10px] font-medium">
+                        {group.instances.length} versions
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            ))}
         </div>
       </ScrollArea>
     </>

@@ -1,0 +1,86 @@
+LANGUAGE_NAME	CODE	COUNTRY	REGION	SCENARIO_FILEPATH
+Bhojpuri	bho	India	Asia	swarm_translate/scenarios/luke-only/bible_bho_formal.json
+Chhattisgarhi	hne	India	Asia	swarm_translate/scenarios/luke-only/bible_hne_formal.json
+Chittagonian	ctg	Bangladesh	Asia	swarm_translate/scenarios/luke-only/bible_ctg_formal.json
+Dari	prs	Afghanistan	Asia	swarm_translate/scenarios/luke-only/bible_prs_formal.json
+Fulfulde, Nigerian	fuv	Nigeria	Africa	swarm_translate/scenarios/luke-only/bible_fuv_formal.json
+Hassaniyya	mey	Mauritania	Africa	swarm_translate/scenarios/luke-only/bible_mey_formal.json
+Hebrew	heb	Israel	Asia	swarm_translate/scenarios/luke-only/bible_heb_formal.json
+Kanuri, Yerwa	knc	Nigeria	Africa	swarm_translate/scenarios/luke-only/bible_knc_formal.json
+Kashmiri	kas	India	Asia	swarm_translate/scenarios/luke-only/bible_kas_formal.json
+Kazakh	kaz	Kazakhstan	Asia	swarm_translate/scenarios/luke-only/bible_kaz_formal.json
+Kurdish, Northern	kmr	Turkey	Asia	swarm_translate/scenarios/luke-only/bible_kmr_formal.json
+Luba-Kasai	lua	Democratic Republic of the Congo	Africa	swarm_translate/scenarios/luke-only/bible_lua_formal.json
+Magahi	mag	India	Asia	swarm_translate/scenarios/luke-only/bible_mag_formal.json
+Maithili	mai	India	Asia	swarm_translate/scenarios/luke-only/bible_mai_formal.json
+Pashto, Southern	pbt	Afghanistan	Asia	swarm_translate/scenarios/luke-only/bible_pbt_formal.json
+Rangpuri	rkt	Bangladesh	Asia	swarm_translate/scenarios/luke-only/bible_rkt_formal.json
+Rundi	run	Burundi	Africa	swarm_translate/scenarios/luke-only/bible_run_formal.json
+Santhali	sat	India	Asia	swarm_translate/scenarios/luke-only/bible_sat_formal.json
+Saraiki	skr	Pakistan	Asia	swarm_translate/scenarios/luke-only/bible_skr_formal.json
+Sindhi	snd	Pakistan	Asia	swarm_translate/scenarios/luke-only/bible_snd_formal.json
+Somali	som	Somalia	Africa	swarm_translate/scenarios/luke-only/bible_som_formal.json
+Sylheti	syl	Bangladesh	Asia	swarm_translate/scenarios/luke-only/bible_syl_formal.json
+Tajik	tgk	Tajikistan	Asia	swarm_translate/scenarios/luke-only/bible_tgk_formal.json
+Turkmen	tuk	Turkmenistan	Asia	swarm_translate/scenarios/luke-only/bible_tuk_formal.json
+Umbundu	umb	Angola	Africa	swarm_translate/scenarios/luke-only/bible_umb_formal.json
+Uyghur	uig	China	Asia	swarm_translate/scenarios/luke-only/bible_uig_formal.json
+Uzbek, Northern	uzn	Uzbekistan	Asia	swarm_translate/scenarios/luke-only/bible_uzn_formal.json
+Azerbaijani, South	azb	Iran	Asia	swarm_translate/scenarios/luke-only/bible_azb_formal.json
+Burmese	mya	Myanmar	Asia	swarm_translate/scenarios/luke-only/bible_mya_formal.json
+Chichewa	nya	Malawi	Africa	swarm_translate/scenarios/luke-only/bible_nya_formal.json
+Chuvash	chv	Russia	Europe	swarm_translate/scenarios/luke-only/bible_chv_formal.json
+Dinka	din	South Sudan	Africa	swarm_translate/scenarios/luke-only/bible_din_formal.json
+Javanese	jav	Indonesia	Asia	swarm_translate/scenarios/luke-only/bible_jav_formal.json
+Malay, Standard	zsm	Malaysia	Asia	swarm_translate/scenarios/luke-only/bible_zsm_formal.json
+Punjabi, Eastern	pan	India	Asia	swarm_translate/scenarios/luke-only/bible_pan_formal.json
+Arabic, Eastern Egyptian Bedawi	avl	Egypt	Africa	swarm_translate/scenarios/luke-only/bible_avl_formal.json
+Bai, Central	bca	China	Asia	swarm_translate/scenarios/luke-only/bible_bca_formal.json
+Bareli, Pauri	bfb	India	Asia	swarm_translate/scenarios/luke-only/bible_bfb_formal.json
+Batak Mandailing	btm	Indonesia	Asia	swarm_translate/scenarios/luke-only/bible_btm_formal.json
+Bena	bez	Tanzania	Africa	swarm_translate/scenarios/luke-only/bible_bez_formal.json
+Chinese, Gan	gan	China	Asia	swarm_translate/scenarios/luke-only/bible_gan_formal.json
+Chinese, Min Bei	mnp	China	Asia	swarm_translate/scenarios/luke-only/bible_mnp_formal.json
+Chinese Sign Language	csl	China	Asia	swarm_translate/scenarios/luke-only/bible_csl_formal.json
+Chinese, Xiang	hsn	China	Asia	swarm_translate/scenarios/luke-only/bible_hsn_formal.json
+Dinka, South Central	dib	South Sudan	Africa	swarm_translate/scenarios/luke-only/bible_dib_formal.json
+Dinka, Southeastern	dks	South Sudan	Africa	swarm_translate/scenarios/luke-only/bible_dks_formal.json
+Fulfulde, Maasina	ffm	Mali	Africa	swarm_translate/scenarios/luke-only/bible_ffm_formal.json
+Guyanese English Creole	gyn	Guyana	Americas	swarm_translate/scenarios/luke-only/bible_gyn_formal.json
+Hlai	lic	China	Asia	swarm_translate/scenarios/luke-only/bible_lic_formal.json
+Kabuverdianu	kea	Cape Verde	Africa	swarm_translate/scenarios/luke-only/bible_kea_formal.json
+Kacchi	kfr	India	Asia	swarm_translate/scenarios/luke-only/bible_kfr_formal.json
+Khorasani Turkish	kmz	Iran	Asia	swarm_translate/scenarios/luke-only/bible_kmz_formal.json
+Kipsigis	sgc	Kenya	Africa	swarm_translate/scenarios/luke-only/bible_sgc_formal.json
+Lampung Api	ljp	Indonesia	Asia	swarm_translate/scenarios/luke-only/bible_ljp_formal.json
+Lesser Antillean French Creole	acf	Saint Lucia	Americas	swarm_translate/scenarios/luke-only/bible_acf_formal.json
+Lingao	onb	China	Asia	swarm_translate/scenarios/luke-only/bible_onb_formal.json
+Maay	ymm	Somalia	Africa	swarm_translate/scenarios/luke-only/bible_ymm_formal.json
+Malagasy, Bara	bhr	Madagascar	Africa	swarm_translate/scenarios/luke-only/bible_bhr_formal.json
+Malagasy, Masikoro	msh	Madagascar	Africa	swarm_translate/scenarios/luke-only/bible_msh_formal.json
+Malagasy, Tandroy-Mahafaly	tdx	Madagascar	Africa	swarm_translate/scenarios/luke-only/bible_tdx_formal.json
+Malagasy, Tanosy	txy	Madagascar	Africa	swarm_translate/scenarios/luke-only/bible_txy_formal.json
+Malay, Central	pse	Indonesia	Asia	swarm_translate/scenarios/luke-only/bible_pse_formal.json
+Malay, Jambi	jax	Indonesia	Asia	swarm_translate/scenarios/luke-only/bible_jax_formal.json
+Miao, Southern Qiandong	hms	China	Asia	swarm_translate/scenarios/luke-only/bible_hms_formal.json
+Miao, Western Xiangxi	mmr	China	Asia	swarm_translate/scenarios/luke-only/bible_mmr_formal.json
+Ngas	anc	Nigeria	Africa	swarm_translate/scenarios/luke-only/bible_anc_formal.json
+Surigaonon	sgd	Philippines	Asia	swarm_translate/scenarios/luke-only/bible_sgd_formal.json
+Tamasheq	taq	Mali	Africa	swarm_translate/scenarios/luke-only/bible_taq_formal.json
+Tibetan, Amdo	adx	China	Asia	swarm_translate/scenarios/luke-only/bible_adx_formal.json
+Uzbek, Southern	uzs	Afghanistan	Asia	swarm_translate/scenarios/luke-only/bible_uzs_formal.json
+Zhuang, Eastern Hongshuihe	zeh	China	Asia	swarm_translate/scenarios/luke-only/bible_zeh_formal.json
+Zhuang, Guibei	zgb	China	Asia	swarm_translate/scenarios/luke-only/bible_zgb_formal.json
+Zhuang, Nong	zhn	China	Asia	swarm_translate/scenarios/luke-only/bible_zhn_formal.json
+Zhuang, Yongnan	zyn	China	Asia	swarm_translate/scenarios/luke-only/bible_zyn_formal.json
+Zhuang, Zuojiang	zzj	China	Asia	swarm_translate/scenarios/luke-only/bible_zzj_formal.json
+Bislama	bis	Vanuatu	Pacific	swarm_translate/scenarios/luke-only/bible_bis_formal.json
+French (Francophone Africa)	fra	France	Europe	swarm_translate/scenarios/luke-only/bible_fra_formal.json
+Portuguese (Brazilian)	por	Portugal	Europe	swarm_translate/scenarios/luke-only/bible_por_formal.json
+Spanish (Latin America)	spa	Spain	Europe	swarm_translate/scenarios/luke-only/bible_spa_formal.json
+Tok Pisin	tpi	Papua New Guinea	Pacific	swarm_translate/scenarios/luke-only/bible_tpi_formal.json
+Chokwe	cjk	Angola	Africa	swarm_translate/scenarios/luke-only/bible_cjk_formal.json
+Chol	ctu	Mexico	Americas	swarm_translate/scenarios/luke-only/bible_ctu_formal.json
+Chrau	crw	Vietnam	Asia	swarm_translate/scenarios/luke-only/bible_crw_formal.json
+Lunda	lun	Democratic Republic of the Congo	Africa	swarm_translate/scenarios/luke-only/bible_lun_formal.json
+Luo	luo	Kenya	Africa	swarm_translate/scenarios/luke-only/bible_luo_formal.json 

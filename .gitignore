@@ -126,3 +126,4 @@ node_modules/scheduler/cjs/scheduler.native.production.js
 node_modules/scheduler/cjs/scheduler.production.js
 .env
 swarm_translate/ACAI-2024-10-11/**/*
+swarm_translate/__pycache__/**/*

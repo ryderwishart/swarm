@@ -85,16 +85,40 @@ class TranslationMemory:
     
     def add_entry(self, analysis: Dict, translation: Dict):
         """Add a new translation to memory."""
-        entry = {
-            'analysis': analysis,
-            'translation': translation
-        }
-        key = json.dumps(analysis.get('terms', []), ensure_ascii=False)
-        self.memory[key] = entry
-        
-        # Save to file
-        with open(self.memory_path, 'a', encoding='utf-8') as f:
-            f.write(json.dumps(entry, ensure_ascii=False) + '\n')
+        try:
+            # Convert prediction objects to dictionaries
+            analysis_dict = self._prediction_to_dict(analysis)
+            translation_dict = self._prediction_to_dict(translation)
+            
+            entry = {
+                'analysis': analysis_dict,
+                'translation': translation_dict
+            }
+            key = json.dumps(analysis_dict.get('terms', []), ensure_ascii=False)
+            self.memory[key] = entry
+            
+            # Save to file
+            with open(self.memory_path, 'a', encoding='utf-8') as f:
+                f.write(json.dumps(entry, ensure_ascii=False) + '\n')
+                
+        except Exception as e:
+            print(f"Warning: Failed to add to translation memory: {e}")
+    
+    def _prediction_to_dict(self, obj) -> Dict:
+        """Convert DSPy prediction objects to dictionaries."""
+        if hasattr(obj, '__dict__'):
+            # For Prediction objects, convert to dict
+            result = {}
+            for key, value in obj.__dict__.items():
+                if not key.startswith('_'):  # Skip private attributes
+                    result[key] = self._prediction_to_dict(value)
+            return result
+        elif isinstance(obj, list):
+            return [self._prediction_to_dict(item) for item in obj]
+        elif isinstance(obj, dict):
+            return {k: self._prediction_to_dict(v) for k, v in obj.items()}
+        else:
+            return obj
 
 class TranslationProgram(dspy.Module):
     def __init__(self):

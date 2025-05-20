@@ -278,68 +278,84 @@ def process_sequential(lang_code: str, scenario: TranslationScenario, texts: Lis
 
 def process_parallel(lang_code: str, scenario: TranslationScenario, texts: List[Dict], results_file: Path) -> bool:
     """Process texts in parallel for a scenario."""
-    # Determine number of processes to use (limit to CPU count or text count)
-    num_processes = min(mp.cpu_count(), max(1, len(texts) // 5))
-    
-    # Divide texts into batches
-    batch_size = max(1, len(texts) // num_processes)
-    batches = []
-    
-    for i in range(0, len(texts), batch_size):
-        batch_texts = texts[i:i + batch_size]
-        # Each batch is (language_code, scenario, texts, results_file)
-        batches.append((lang_code, scenario, batch_texts, results_file))
-    
-    logging.info(f"Processing {len(texts)} texts for {lang_code} in {len(batches)} batches with {num_processes} processes")
-    
-    # Process batches in parallel
-    with mp.Pool(num_processes) as pool:
-        try:
-            # Process batches with unique process IDs
-            results = pool.starmap(process_batch, [(batch, i) for i, batch in enumerate(batches)])
-            
-            # Combine results
-            total_successful = sum(r[1] for r in results)
-            total_texts = sum(r[2] for r in results)
-            
-            logging.info(f"Parallel processing complete for {lang_code}: {total_successful}/{total_texts} successful translations")
-            return total_successful > 0
-            
-        except KeyboardInterrupt:
-            logging.info("\nGracefully shutting down workers...")
-            pool.terminate()
-            pool.join()
-            return False
-        except Exception as e:
-            logging.error(f"Error in parallel processing for {lang_code}: {str(e)}")
-            return False
+    try:
+        # Determine number of processes to use (limit to CPU count or text count)
+        num_processes = min(mp.cpu_count(), max(1, len(texts) // 5))
+        
+        # Divide texts into batches
+        batch_size = max(1, len(texts) // num_processes)
+        batches = []
+        
+        for i in range(0, len(texts), batch_size):
+            batch_texts = texts[i:i + batch_size]
+            # Each batch is (language_code, scenario, texts, results_file)
+            batches.append((lang_code, scenario, batch_texts, results_file))
+        
+        logging.info(f"Processing {len(texts)} texts for {lang_code} in {len(batches)} batches with {num_processes} processes")
+        
+        # Process batches in parallel
+        with mp.Pool(num_processes, maxtasksperchild=1) as pool:
+            try:
+                # Process batches with unique process IDs
+                results = pool.starmap(process_batch, [(batch, i) for i, batch in enumerate(batches)])
+                
+                # Combine results
+                total_successful = sum(r[1] for r in results)
+                total_texts = sum(r[2] for r in results)
+                
+                logging.info(f"Parallel processing complete for {lang_code}: {total_successful}/{total_texts} successful translations")
+                return total_successful > 0
+                
+            except KeyboardInterrupt:
+                logging.info("\nGracefully shutting down workers...")
+                pool.terminate()
+                pool.join()
+                return False
+            except Exception as e:
+                logging.error(f"Error in parallel processing for {lang_code}: {str(e)}")
+                return False
+    except Exception as e:
+        logging.error(f"Error setting up parallel processing for {lang_code}: {str(e)}")
+        # Fall back to sequential processing
+        logging.info(f"Falling back to sequential processing for {lang_code}")
+        return process_sequential(lang_code, scenario, texts, results_file)
 
 def process_scenarios_parallel(scenarios: List[Dict], test_mode: bool, output_dir: Path, limit: Optional[int] = None) -> int:
     """Process multiple scenarios in parallel."""
-    # Determine how many scenarios to process in parallel
-    # Limit to half of available CPU cores to avoid overwhelming API rate limits
-    num_workers = min(max(1, mp.cpu_count() // 2), len(scenarios))
-    
-    logging.info(f"Processing {len(scenarios)} scenarios with {num_workers} parallel workers")
-    
-    with mp.Pool(num_workers) as pool:
-        try:
-            # Process each scenario with partial function
-            process_func = partial(process_scenario, test_mode=test_mode, output_dir=output_dir, limit=limit)
-            results = pool.map(process_func, scenarios)
-            
-            # Count successful scenarios
-            successful = sum(1 for r in results if r)
-            return successful
-            
-        except KeyboardInterrupt:
-            logging.info("\nGracefully shutting down workers...")
-            pool.terminate()
-            pool.join()
-            return 0
-        except Exception as e:
-            logging.error(f"Error in parallel scenario processing: {str(e)}")
-            return 0
+    try:
+        # Determine how many scenarios to process in parallel
+        # Limit to half of available CPU cores to avoid overwhelming API rate limits
+        num_workers = min(max(1, mp.cpu_count() // 2), len(scenarios))
+        
+        logging.info(f"Processing {len(scenarios)} scenarios with {num_workers} parallel workers")
+        
+        with mp.Pool(num_workers, maxtasksperchild=1) as pool:
+            try:
+                # Process each scenario with partial function
+                process_func = partial(process_scenario, test_mode=test_mode, output_dir=output_dir, limit=limit)
+                results = pool.map(process_func, scenarios)
+                
+                # Count successful scenarios
+                successful = sum(1 for r in results if r)
+                return successful
+                
+            except KeyboardInterrupt:
+                logging.info("\nGracefully shutting down workers...")
+                pool.terminate()
+                pool.join()
+                return 0
+            except Exception as e:
+                logging.error(f"Error in parallel scenario processing: {str(e)}")
+                return 0
+    except Exception as e:
+        logging.error(f"Error setting up parallel scenario processing: {str(e)}")
+        # Fall back to sequential processing
+        logging.info("Falling back to sequential scenario processing")
+        successful = 0
+        for scenario_info in scenarios:
+            if process_scenario(scenario_info, test_mode, output_dir, limit, parallel=False):
+                successful += 1
+        return successful
 
 def main():
     # Parse command line arguments
@@ -421,4 +437,10 @@ def main():
     logging.info(f"Total execution time: {total_time/60:.1f} minutes")
 
 if __name__ == "__main__":
+    # Set start method for multiprocessing
+    try:
+        mp.set_start_method('spawn')
+    except RuntimeError:
+        # Method already set
+        pass
     main() 

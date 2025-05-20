@@ -23,11 +23,11 @@
     "style": {
         "formality": "formal",
         "register": "simple",
-        "notes": "Create a formal equivalence translation that prioritizes accurately reflecting the source text's grammatical structures and word choices wherever possible, while maintaining clear readability in the target language. Follow standard Biblical translation conventions where they aid understanding, but don't be bound by tradition. Aim for a moderate formal register similar to academic writing. When multiple valid translation options exist, choose clear, precise language that best conveys the original meaning - and aim to retain source-culture idioms and terminology wherever possible. Use SENHOR in caps for the tetragrammaton. Maintain theological and traditional religious terminology where it best represents the source concepts. The goal is a faithful, transparent translation that allows readers to see the underlying text semantics while remaining comprehensible to modern readers. Ensure sentence casing and punctiation is proper for Portuguese, but use all caps for the translated tetragrammaton (using Portuguese convention for God's name)."
+        "notes": "Create a formal equivalence translation that prioritizes accurately reflecting the source text's grammatical structures and word choices wherever possible, while maintaining clear readability in the target language. Follow standard Biblical translation conventions where they aid understanding, but don't be bound by tradition. Aim for a moderate formal register similar to academic writing. When multiple valid translation options exist, choose clear, precise language that best conveys the original meaning - and aim to retain source-culture idioms and terminology wherever possible. Use 'Yahweh' for the tetragrammaton. Maintain theological and traditional religious terminology where it best represents the source concepts. The goal is a faithful, transparent translation that allows readers to see the underlying text semantics while remaining comprehensible to modern readers. Ensure sentence casing and punctiation is proper for Portuguese (never use all caps for a sentence)."
     },
     "models": {
-        "routing": "gpt-4.1-nano",
-        "translation": "gpt-4.1-nano"
+        "routing": "gpt-4.1",
+        "translation": "gpt-4.1"
     },
     "batch_settings": {
         "batch_size": 10,

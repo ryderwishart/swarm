@@ -4,11 +4,14 @@ import json
 import time
 from datetime import datetime
 import logging
-from typing import Dict, List, Optional
+from typing import Dict, List, Optional, Tuple
 import sys
 from dotenv import load_dotenv
 import argparse
 import pandas as pd
+import multiprocessing as mp
+from functools import partial
+import os
 
 # Add parent directory to path to import from swarm_translate
 sys.path.append(str(Path(__file__).parent.parent))
@@ -141,7 +144,65 @@ def mark_scenario_completed(output_dir: Path, lang_code: str):
     with open(lang_dir / 'completed.txt', 'w') as f:
         f.write(f"Completed at {datetime.now().isoformat()}\n")
 
-def process_scenario(scenario_info: Dict, test_mode: bool, output_dir: Path, limit: Optional[int] = None) -> bool:
+def process_batch(batch_data: Tuple[str, TranslationScenario, List[Dict], Path], process_id: int):
+    """Process a batch of texts for a single scenario."""
+    lang_code, scenario, texts, results_file = batch_data
+    
+    successful = 0
+    batch_start = time.time()
+    
+    try:
+        # Configure process-specific logging
+        log_file = f"translation_run_{process_id}.log"
+        process_logger = logging.getLogger(f"process_{process_id}")
+        process_logger.setLevel(logging.INFO)
+        handler = logging.FileHandler(log_file)
+        handler.setFormatter(logging.Formatter('%(asctime)s - %(levelname)s - %(message)s'))
+        process_logger.addHandler(handler)
+        
+        process_logger.info(f"Process {process_id} starting batch with {len(texts)} texts for {lang_code}")
+        
+        for i, text_info in enumerate(texts):
+            try:
+                # Calculate max_tokens based on input length - approximately 2x
+                input_token_estimate = len(text_info['text'].split()) * 1.5  # rough estimate
+                max_tokens = max(500, int(input_token_estimate * 2))  # at least 500 tokens, up to 2x input
+                
+                result = translate_with_dspy(
+                    text=text_info['text'],
+                    scenario=scenario,
+                    text_id=text_info['id'],
+                    max_tokens=max_tokens
+                )
+                
+                # Save result - use a file lock for safety in multi-process environment
+                with open(results_file, 'a', encoding='utf-8') as f:
+                    f.write(json.dumps(result, ensure_ascii=False) + '\n')
+                
+                process_logger.info(f"Translated {text_info['id']} to {lang_code}")
+                successful += 1
+                
+                # Small delay to avoid rate limits
+                time.sleep(0.2)
+                
+            except Exception as e:
+                process_logger.error(f"Error translating {text_info['id']} to {lang_code}: {str(e)}")
+                continue
+            
+            # Log progress every 5 items
+            if (i + 1) % 5 == 0:
+                process_logger.info(f"Process {process_id} progress: {i+1}/{len(texts)} texts for {lang_code}")
+        
+        batch_time = time.time() - batch_start
+        process_logger.info(f"Process {process_id} completed batch for {lang_code} with {successful}/{len(texts)} successful translations in {batch_time:.1f} seconds")
+        
+        return (lang_code, successful, len(texts))
+        
+    except Exception as e:
+        logging.error(f"Process {process_id} error processing batch for {lang_code}: {str(e)}")
+        return (lang_code, successful, len(texts))
+
+def process_scenario(scenario_info: Dict, test_mode: bool, output_dir: Path, limit: Optional[int] = None, parallel: bool = True) -> bool:
     """Process a single scenario."""
     try:
         # Create scenario instance
@@ -167,47 +228,118 @@ def process_scenario(scenario_info: Dict, test_mode: bool, output_dir: Path, lim
         # Load texts from scenario file or use test texts
         texts = load_test_texts() if test_mode else load_texts_from_scenario(scenario, limit)
         
-        # Process each test text
-        successful = 0
-        for i, text_info in enumerate(texts):
-            try:
-                # Calculate max_tokens based on input length - approximately 2x
-                input_token_estimate = len(text_info['text'].split()) * 1.5  # rough estimate
-                max_tokens = max(500, int(input_token_estimate * 2))  # at least 500 tokens, up to 2x input
-                
-                result = translate_with_dspy(
-                    text=text_info['text'],
-                    scenario=scenario,
-                    text_id=text_info['id'],
-                    max_tokens=max_tokens
-                )
-                
-                # Save result
-                with open(results_file, 'a', encoding='utf-8') as f:
-                    f.write(json.dumps(result, ensure_ascii=False) + '\n')
-                
-                logging.info(f"Translated {text_info['id']} to {scenario_info['code']}")
-                successful += 1
-                
-                # Small delay to avoid rate limits (reduced to 0.2 seconds)
-                time.sleep(0.2)
-                
-            except Exception as e:
-                logging.error(f"Error translating {text_info['id']} to {scenario_info['code']}: {str(e)}")
-                continue
-            
-            # Log progress every 10 items
-            if (i + 1) % 10 == 0:
-                logging.info(f"Progress: {i+1}/{len(texts)} texts processed for {scenario_info['code']}")
-        
-        # Mark scenario as completed
-        mark_scenario_completed(output_dir, scenario_info['code'])
-        logging.info(f"Completed {scenario_info['language_name']} with {successful}/{len(texts)} successful translations")
-        return True
+        if not parallel or len(texts) <= 10:
+            # For small batches, process sequentially
+            return process_sequential(scenario_info['code'], scenario, texts, results_file)
+        else:
+            # For larger batches, process in parallel
+            return process_parallel(scenario_info['code'], scenario, texts, results_file)
         
     except Exception as e:
         logging.error(f"Error processing scenario {scenario_info['language_name']}: {str(e)}")
         return False
+
+def process_sequential(lang_code: str, scenario: TranslationScenario, texts: List[Dict], results_file: Path) -> bool:
+    """Process texts sequentially for a scenario."""
+    successful = 0
+    for i, text_info in enumerate(texts):
+        try:
+            # Calculate max_tokens based on input length - approximately 2x
+            input_token_estimate = len(text_info['text'].split()) * 1.5  # rough estimate
+            max_tokens = max(500, int(input_token_estimate * 2))  # at least 500 tokens, up to 2x input
+            
+            result = translate_with_dspy(
+                text=text_info['text'],
+                scenario=scenario,
+                text_id=text_info['id'],
+                max_tokens=max_tokens
+            )
+            
+            # Save result
+            with open(results_file, 'a', encoding='utf-8') as f:
+                f.write(json.dumps(result, ensure_ascii=False) + '\n')
+            
+            logging.info(f"Translated {text_info['id']} to {lang_code}")
+            successful += 1
+            
+            # Small delay to avoid rate limits
+            time.sleep(0.2)
+            
+        except Exception as e:
+            logging.error(f"Error translating {text_info['id']} to {lang_code}: {str(e)}")
+            continue
+        
+        # Log progress every 10 items
+        if (i + 1) % 10 == 0:
+            logging.info(f"Progress: {i+1}/{len(texts)} texts processed for {lang_code}")
+    
+    logging.info(f"Completed with {successful}/{len(texts)} successful translations")
+    return successful > 0
+
+def process_parallel(lang_code: str, scenario: TranslationScenario, texts: List[Dict], results_file: Path) -> bool:
+    """Process texts in parallel for a scenario."""
+    # Determine number of processes to use (limit to CPU count or text count)
+    num_processes = min(mp.cpu_count(), max(1, len(texts) // 5))
+    
+    # Divide texts into batches
+    batch_size = max(1, len(texts) // num_processes)
+    batches = []
+    
+    for i in range(0, len(texts), batch_size):
+        batch_texts = texts[i:i + batch_size]
+        # Each batch is (language_code, scenario, texts, results_file)
+        batches.append((lang_code, scenario, batch_texts, results_file))
+    
+    logging.info(f"Processing {len(texts)} texts for {lang_code} in {len(batches)} batches with {num_processes} processes")
+    
+    # Process batches in parallel
+    with mp.Pool(num_processes) as pool:
+        try:
+            # Process batches with unique process IDs
+            results = pool.starmap(process_batch, [(batch, i) for i, batch in enumerate(batches)])
+            
+            # Combine results
+            total_successful = sum(r[1] for r in results)
+            total_texts = sum(r[2] for r in results)
+            
+            logging.info(f"Parallel processing complete for {lang_code}: {total_successful}/{total_texts} successful translations")
+            return total_successful > 0
+            
+        except KeyboardInterrupt:
+            logging.info("\nGracefully shutting down workers...")
+            pool.terminate()
+            pool.join()
+            return False
+        except Exception as e:
+            logging.error(f"Error in parallel processing for {lang_code}: {str(e)}")
+            return False
+
+def process_scenarios_parallel(scenarios: List[Dict], test_mode: bool, output_dir: Path, limit: Optional[int] = None) -> int:
+    """Process multiple scenarios in parallel."""
+    # Determine how many scenarios to process in parallel
+    # Limit to half of available CPU cores to avoid overwhelming API rate limits
+    num_workers = min(max(1, mp.cpu_count() // 2), len(scenarios))
+    
+    logging.info(f"Processing {len(scenarios)} scenarios with {num_workers} parallel workers")
+    
+    with mp.Pool(num_workers) as pool:
+        try:
+            # Process each scenario with partial function
+            process_func = partial(process_scenario, test_mode=test_mode, output_dir=output_dir, limit=limit)
+            results = pool.map(process_func, scenarios)
+            
+            # Count successful scenarios
+            successful = sum(1 for r in results if r)
+            return successful
+            
+        except KeyboardInterrupt:
+            logging.info("\nGracefully shutting down workers...")
+            pool.terminate()
+            pool.join()
+            return 0
+        except Exception as e:
+            logging.error(f"Error in parallel scenario processing: {str(e)}")
+            return 0
 
 def main():
     # Parse command line arguments
@@ -215,7 +347,9 @@ def main():
     parser.add_argument('--resume', action='store_true', help='Resume from last completed scenario')
     parser.add_argument('--test', action='store_true', help='Use test texts instead of full input files')
     parser.add_argument('--limit', type=int, default=None, help='Limit number of texts to process per scenario')
-    parser.add_argument('--scenario', type=str, default=None, help='Process only a specific scenario code')
+    parser.add_argument('--scenario', type=str, action='append', help='Process only specific scenario code(s). Can be specified multiple times.')
+    parser.add_argument('--sequential', action='store_true', help='Process scenarios sequentially instead of in parallel')
+    parser.add_argument('--no-parallel-texts', action='store_true', help='Do not parallelize text processing within scenarios')
     args = parser.parse_args()
 
     # Load environment variables
@@ -230,12 +364,18 @@ def main():
     # Load scenarios
     scenarios = load_plan(plan_path)
     
-    # Filter for specific scenario if requested
+    # Filter for specific scenarios if requested
     if args.scenario:
-        scenarios = [s for s in scenarios if s['code'].lower() == args.scenario.lower()]
-        if not scenarios:
-            logging.error(f"No scenario found with code {args.scenario}")
+        # Convert to lowercase for case-insensitive matching
+        scenario_codes = [s.lower() for s in args.scenario]
+        filtered_scenarios = [s for s in scenarios if s['code'].lower() in scenario_codes]
+        
+        if not filtered_scenarios:
+            logging.error(f"No scenarios found with code(s): {', '.join(args.scenario)}")
             return
+            
+        scenarios = filtered_scenarios
+        logging.info(f"Filtered to {len(scenarios)} scenarios: {', '.join(s['language_name'] for s in scenarios)}")
     
     # Get completed scenarios if resuming
     completed_scenarios = get_completed_scenarios(output_dir) if args.resume else set()
@@ -245,23 +385,40 @@ def main():
         scenarios = [s for s in scenarios if s['code'] not in completed_scenarios]
         logging.info(f"Resuming with {len(scenarios)} remaining scenarios")
     
-    # Process each scenario
-    total = len(scenarios)
+    start_time = time.time()
+    logging.info(f"Starting translation run with {len(scenarios)} scenarios")
+    
     successful = 0
     
-    logging.info(f"Starting translation run with {total} scenarios")
+    if args.sequential or len(scenarios) == 1:
+        # Process scenarios sequentially
+        for i, scenario_info in enumerate(scenarios, 1):
+            logging.info(f"Processing scenario {i}/{len(scenarios)}: {scenario_info['language_name']}")
+            
+            if process_scenario(scenario_info, args.test, output_dir, args.limit, not args.no_parallel_texts):
+                successful += 1
+                # Mark as completed
+                mark_scenario_completed(output_dir, scenario_info['code'])
+            
+            # Progress update
+            logging.info(f"Progress: {i}/{len(scenarios)} scenarios processed ({successful} successful)")
+    else:
+        # Process scenarios in parallel
+        successful = process_scenarios_parallel(scenarios, args.test, output_dir, args.limit)
+        
+        # Mark all completed scenarios
+        for scenario_info in scenarios:
+            # Check if output exists for this scenario
+            lang_dir = output_dir / scenario_info['code']
+            if lang_dir.exists() and list(lang_dir.glob("translations_*.jsonl")):
+                mark_scenario_completed(output_dir, scenario_info['code'])
     
-    for i, scenario_info in enumerate(scenarios, 1):
-        logging.info(f"Processing scenario {i}/{total}: {scenario_info['language_name']}")
-        
-        if process_scenario(scenario_info, args.test, output_dir, args.limit):
-            successful += 1
-        
-        # Progress update
-        logging.info(f"Progress: {i}/{total} scenarios processed ({successful} successful)")
+    # Calculate execution time
+    total_time = time.time() - start_time
     
     # Final report
-    logging.info(f"Translation run complete. {successful}/{total} scenarios processed successfully.")
+    logging.info(f"Translation run complete. {successful}/{len(scenarios)} scenarios processed successfully.")
+    logging.info(f"Total execution time: {total_time/60:.1f} minutes")
 
 if __name__ == "__main__":
     main() 

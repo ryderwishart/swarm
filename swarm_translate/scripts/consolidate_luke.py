@@ -86,7 +86,7 @@ def consolidate_luke_files(source_dir: str, target_dir: str, frontend_dir: str =
 
         # Create scenario entry
         scenario_entry = {
-            "id": f"grc-{lang_code}",
+            "id": f"grc-{lang_code}_luke",  # Added _luke suffix to avoid conflicts
             "filename": filename,
             "source_lang": "grc",
             "target_lang": lang_code,
@@ -100,19 +100,47 @@ def consolidate_luke_files(source_dir: str, target_dir: str, frontend_dir: str =
     # Sort scenarios by ID
     scenarios.sort(key=lambda x: x['id'])
 
-    # Write manifest.json
+    # Read existing manifest if it exists
     manifest_path = os.path.join(frontend_dir, "manifest.json")
+    existing_scenarios = []
+    if os.path.exists(manifest_path):
+        try:
+            with open(manifest_path, 'r', encoding='utf-8') as f:
+                existing_manifest = json.load(f)
+                existing_scenarios = existing_manifest.get('scenarios', [])
+                print(f"Found {len(existing_scenarios)} existing scenarios in manifest")
+        except Exception as e:
+            print(f"Error reading existing manifest: {e}")
+            existing_scenarios = []
+
+    # Combine existing and new scenarios
+    all_scenarios = existing_scenarios + scenarios
+    
+    # Remove any duplicates (in case a language appears in both manifests)
+    seen_ids = set()
+    unique_scenarios = []
+    for scenario in all_scenarios:
+        if scenario['id'] not in seen_ids:
+            seen_ids.add(scenario['id'])
+            unique_scenarios.append(scenario)
+
+    # Sort all scenarios by ID
+    unique_scenarios.sort(key=lambda x: x['id'])
+
+    # Write updated manifest.json
     manifest_content = {
-        "scenarios": scenarios,
+        "scenarios": unique_scenarios,
         "updated_at": datetime.now().isoformat()
     }
     
     with open(manifest_path, 'w', encoding='utf-8') as f:
         json.dump(manifest_content, f, indent=2, ensure_ascii=False)
     
-    print(f'\nCreated manifest: {manifest_path}')
-    print(f'Number of scenarios: {len(scenarios)}')
-    for scenario in scenarios:
+    print(f'\nUpdated manifest: {manifest_path}')
+    print(f'Total number of scenarios: {len(unique_scenarios)}')
+    print(f'  - Existing scenarios: {len(existing_scenarios)}')
+    print(f'  - New Luke scenarios: {len(scenarios)}')
+    for scenario in unique_scenarios:
         print(f"  - {scenario['id']}: {scenario['source_label']} → {scenario['target_label']}")
 
 if __name__ == "__main__":

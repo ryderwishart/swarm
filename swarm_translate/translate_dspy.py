@@ -255,13 +255,18 @@ class TranslationProgram(dspy.Module):
             return []
 
 def translate_with_dspy(text: str, scenario: 'TranslationScenario', 
-                       text_id: Optional[str] = None) -> Dict:
+                       text_id: Optional[str] = None, max_tokens: int = 1000) -> Dict:
     """Main translation function using DSPy."""
     start_time = datetime.now()
     
     try:
-        # Set up DSPy with the correct LM class for newer versions
-        dspy.configure(lm=dspy.LM(f"openai/{scenario.config['models']['translation']}"))
+        # Set up DSPy with the correct LM class for newer versions and the specified max_tokens
+        lm = dspy.LM(
+            f"openai/{scenario.config['models']['translation']}", 
+            max_tokens=max_tokens,
+            temperature=0.1  # slight increase from default 0.0 to help with diversity
+        )
+        dspy.configure(lm=lm)
         
         # Create translation memory
         memory_path = scenario.base_path / f"{scenario.source_code}_{scenario.target_code}_memory.jsonl"

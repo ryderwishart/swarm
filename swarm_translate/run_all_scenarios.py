@@ -64,14 +64,28 @@ def load_texts_from_scenario(scenario: TranslationScenario, limit: Optional[int]
         id_field = input_config.get('id_field', 'id')
         content_field = input_config.get('content_field', 'content')
         
-        # Resolve path - if it's absolute, use it; otherwise, resolve relative to base_path
+        # Resolve path - handle both absolute and relative paths
         file_path = Path(input_file)
         if not file_path.is_absolute():
-            file_path = scenario.base_path / file_path
-        
-        if not file_path.exists():
-            logging.warning(f"Input file {file_path} not found for scenario {scenario.name}")
+            # Try different relative paths
+            potential_paths = [
+                scenario.base_path / file_path,  # Relative to scenario file
+                Path(__file__).parent / file_path,  # Relative to script
+                Path(__file__).parent.parent / file_path  # Relative to parent directory
+            ]
+            
+            for path in potential_paths:
+                if path.exists():
+                    file_path = path
+                    break
+            else:
+                logging.warning(f"Input file {input_file} not found in any of the potential paths for scenario {scenario.name}")
+                return load_test_texts()
+        elif not file_path.exists():
+            logging.warning(f"Absolute input file path {file_path} not found for scenario {scenario.name}")
             return load_test_texts()
+        
+        logging.info(f"Using input file: {file_path}")
         
         texts = []
         if input_format.lower() == 'csv':

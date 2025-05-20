@@ -1,0 +1,37 @@
+{
+    "name": "Vox Populi Translation - Portuguese (Natural Clarity)",
+    "description": "Dynamic, periphrastic translation of Biblical texts from English (Berean Standard Bible) to Portuguese",
+    "input": {
+        "file": "data/bsb-utf8.jsonl",
+        "format": "jsonl",
+        "content_field": "content",
+        "id_field": "id"
+    },
+    "output": {
+        "directory": "translations",
+        "format": "jsonl",
+        "filename_template": "bible_por_natural"
+    },
+    "source": {
+        "code": "eng",
+        "label": "English (Berean Standard Bible)"
+    },
+    "target": {
+        "code": "por",
+        "label": "Portuguese (Natural)"
+    },
+    "style": {
+        "formality": "natural",
+        "register": "informal",
+        "notes": "Aim for a natural, idiomatic translation, avoiding overly formal language. Emphasize simplicity, clarity, and readability. Don't go with the conventional English wordings just because they are traditional. Use the most natural and idiomatic translation. Aim for a reading level of a fourth grader. Use words known even in secular contexts. Instead of 'the Word', use 'Razão' or 'a mensagem'. Instead of 'sanctify', use 'tornar santo'. Use these sorts of circumlocutions for the sake of clarity and readability. Don't let it sound just like traditional Portuguese bibles. Make it sound like natural, conversational Portuguese that people use today."
+    },
+    "models": {
+        "routing": "llama-3.3-70b-instruct",
+        "translation": "llama-3.3-70b-instruct"
+    },
+    "batch_settings": {
+        "batch_size": 10,
+        "save_frequency": 5,
+        "resume_from_last": true
+    }
+}

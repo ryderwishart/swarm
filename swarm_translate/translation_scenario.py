@@ -9,6 +9,9 @@ class TranslationScenario:
         with open(scenario_path, 'r', encoding='utf-8') as f:
             self.config = json.load(f)
         
+        # Set up scenario name
+        self.name = self.config.get("name", Path(scenario_path).stem)
+        
         # Set up paths relative to scenario file
         self.base_path = self.scenario_path.parent
         self.input_path = self.base_path / self.config["input"]["file"]

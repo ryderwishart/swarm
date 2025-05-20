@@ -1,0 +1,1727 @@
+2025-05-19 23:22:59,652 - INFO - Starting translation run with 85 scenarios
+2025-05-19 23:22:59,652 - INFO - Processing scenario 1/85: Bhojpuri
+2025-05-19 23:22:59,652 - ERROR - Error processing scenario Bhojpuri: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_bho_formal.json'
+2025-05-19 23:22:59,652 - INFO - Progress: 1/85 scenarios processed (0 successful)
+2025-05-19 23:22:59,652 - INFO - Processing scenario 2/85: Chhattisgarhi
+2025-05-19 23:22:59,652 - ERROR - Error processing scenario Chhattisgarhi: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_hne_formal.json'
+2025-05-19 23:22:59,652 - INFO - Progress: 2/85 scenarios processed (0 successful)
+2025-05-19 23:22:59,652 - INFO - Processing scenario 3/85: Chittagonian
+2025-05-19 23:22:59,652 - ERROR - Error processing scenario Chittagonian: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_ctg_formal.json'
+2025-05-19 23:22:59,652 - INFO - Progress: 3/85 scenarios processed (0 successful)
+2025-05-19 23:22:59,652 - INFO - Processing scenario 4/85: Dari
+2025-05-19 23:22:59,652 - ERROR - Error processing scenario Dari: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_prs_formal.json'
+2025-05-19 23:22:59,652 - INFO - Progress: 4/85 scenarios processed (0 successful)
+2025-05-19 23:22:59,652 - INFO - Processing scenario 5/85: Fulfulde, Nigerian
+2025-05-19 23:22:59,652 - ERROR - Error processing scenario Fulfulde, Nigerian: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_fuv_formal.json'
+2025-05-19 23:22:59,652 - INFO - Progress: 5/85 scenarios processed (0 successful)
+2025-05-19 23:22:59,652 - INFO - Processing scenario 6/85: Hassaniyya
+2025-05-19 23:22:59,652 - ERROR - Error processing scenario Hassaniyya: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_mey_formal.json'
+2025-05-19 23:22:59,652 - INFO - Progress: 6/85 scenarios processed (0 successful)
+2025-05-19 23:22:59,652 - INFO - Processing scenario 7/85: Hebrew
+2025-05-19 23:22:59,652 - ERROR - Error processing scenario Hebrew: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_heb_formal.json'
+2025-05-19 23:22:59,652 - INFO - Progress: 7/85 scenarios processed (0 successful)
+2025-05-19 23:22:59,652 - INFO - Processing scenario 8/85: Kanuri, Yerwa
+2025-05-19 23:22:59,652 - ERROR - Error processing scenario Kanuri, Yerwa: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_knc_formal.json'
+2025-05-19 23:22:59,652 - INFO - Progress: 8/85 scenarios processed (0 successful)
+2025-05-19 23:22:59,652 - INFO - Processing scenario 9/85: Kashmiri
+2025-05-19 23:22:59,652 - ERROR - Error processing scenario Kashmiri: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_kas_formal.json'
+2025-05-19 23:22:59,652 - INFO - Progress: 9/85 scenarios processed (0 successful)
+2025-05-19 23:22:59,652 - INFO - Processing scenario 10/85: Kazakh
+2025-05-19 23:22:59,652 - ERROR - Error processing scenario Kazakh: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_kaz_formal.json'
+2025-05-19 23:22:59,652 - INFO - Progress: 10/85 scenarios processed (0 successful)
+2025-05-19 23:22:59,652 - INFO - Processing scenario 11/85: Kurdish, Northern
+2025-05-19 23:22:59,652 - ERROR - Error processing scenario Kurdish, Northern: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_kmr_formal.json'
+2025-05-19 23:22:59,652 - INFO - Progress: 11/85 scenarios processed (0 successful)
+2025-05-19 23:22:59,652 - INFO - Processing scenario 12/85: Luba-Kasai
+2025-05-19 23:22:59,652 - ERROR - Error processing scenario Luba-Kasai: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_lua_formal.json'
+2025-05-19 23:22:59,652 - INFO - Progress: 12/85 scenarios processed (0 successful)
+2025-05-19 23:22:59,652 - INFO - Processing scenario 13/85: Magahi
+2025-05-19 23:22:59,653 - ERROR - Error processing scenario Magahi: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_mag_formal.json'
+2025-05-19 23:22:59,653 - INFO - Progress: 13/85 scenarios processed (0 successful)
+2025-05-19 23:22:59,653 - INFO - Processing scenario 14/85: Maithili
+2025-05-19 23:22:59,653 - ERROR - Error processing scenario Maithili: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_mai_formal.json'
+2025-05-19 23:22:59,653 - INFO - Progress: 14/85 scenarios processed (0 successful)
+2025-05-19 23:22:59,653 - INFO - Processing scenario 15/85: Pashto, Southern
+2025-05-19 23:22:59,653 - ERROR - Error processing scenario Pashto, Southern: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_pbt_formal.json'
+2025-05-19 23:22:59,653 - INFO - Progress: 15/85 scenarios processed (0 successful)
+2025-05-19 23:22:59,653 - INFO - Processing scenario 16/85: Rangpuri
+2025-05-19 23:22:59,653 - ERROR - Error processing scenario Rangpuri: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_rkt_formal.json'
+2025-05-19 23:22:59,653 - INFO - Progress: 16/85 scenarios processed (0 successful)
+2025-05-19 23:22:59,653 - INFO - Processing scenario 17/85: Rundi
+2025-05-19 23:22:59,653 - ERROR - Error processing scenario Rundi: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_run_formal.json'
+2025-05-19 23:22:59,653 - INFO - Progress: 17/85 scenarios processed (0 successful)
+2025-05-19 23:22:59,653 - INFO - Processing scenario 18/85: Santhali
+2025-05-19 23:22:59,653 - ERROR - Error processing scenario Santhali: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_sat_formal.json'
+2025-05-19 23:22:59,653 - INFO - Progress: 18/85 scenarios processed (0 successful)
+2025-05-19 23:22:59,653 - INFO - Processing scenario 19/85: Saraiki
+2025-05-19 23:22:59,653 - ERROR - Error processing scenario Saraiki: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_skr_formal.json'
+2025-05-19 23:22:59,653 - INFO - Progress: 19/85 scenarios processed (0 successful)
+2025-05-19 23:22:59,653 - INFO - Processing scenario 20/85: Sindhi
+2025-05-19 23:22:59,653 - ERROR - Error processing scenario Sindhi: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_snd_formal.json'
+2025-05-19 23:22:59,653 - INFO - Progress: 20/85 scenarios processed (0 successful)
+2025-05-19 23:22:59,653 - INFO - Processing scenario 21/85: Somali
+2025-05-19 23:22:59,653 - ERROR - Error processing scenario Somali: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_som_formal.json'
+2025-05-19 23:22:59,653 - INFO - Progress: 21/85 scenarios processed (0 successful)
+2025-05-19 23:22:59,653 - INFO - Processing scenario 22/85: Sylheti
+2025-05-19 23:22:59,653 - ERROR - Error processing scenario Sylheti: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_syl_formal.json'
+2025-05-19 23:22:59,653 - INFO - Progress: 22/85 scenarios processed (0 successful)
+2025-05-19 23:22:59,653 - INFO - Processing scenario 23/85: Tajik
+2025-05-19 23:22:59,653 - ERROR - Error processing scenario Tajik: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_tgk_formal.json'
+2025-05-19 23:22:59,653 - INFO - Progress: 23/85 scenarios processed (0 successful)
+2025-05-19 23:22:59,653 - INFO - Processing scenario 24/85: Turkmen
+2025-05-19 23:22:59,653 - ERROR - Error processing scenario Turkmen: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_tuk_formal.json'
+2025-05-19 23:22:59,653 - INFO - Progress: 24/85 scenarios processed (0 successful)
+2025-05-19 23:22:59,653 - INFO - Processing scenario 25/85: Umbundu
+2025-05-19 23:22:59,653 - ERROR - Error processing scenario Umbundu: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_umb_formal.json'
+2025-05-19 23:22:59,653 - INFO - Progress: 25/85 scenarios processed (0 successful)
+2025-05-19 23:22:59,653 - INFO - Processing scenario 26/85: Uyghur
+2025-05-19 23:22:59,653 - ERROR - Error processing scenario Uyghur: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_uig_formal.json'
+2025-05-19 23:22:59,653 - INFO - Progress: 26/85 scenarios processed (0 successful)
+2025-05-19 23:22:59,653 - INFO - Processing scenario 27/85: Uzbek, Northern
+2025-05-19 23:22:59,653 - ERROR - Error processing scenario Uzbek, Northern: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_uzn_formal.json'
+2025-05-19 23:22:59,653 - INFO - Progress: 27/85 scenarios processed (0 successful)
+2025-05-19 23:22:59,653 - INFO - Processing scenario 28/85: Azerbaijani, South
+2025-05-19 23:22:59,653 - ERROR - Error processing scenario Azerbaijani, South: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_azb_formal.json'
+2025-05-19 23:22:59,653 - INFO - Progress: 28/85 scenarios processed (0 successful)
+2025-05-19 23:22:59,654 - INFO - Processing scenario 29/85: Burmese
+2025-05-19 23:22:59,654 - ERROR - Error processing scenario Burmese: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_mya_formal.json'
+2025-05-19 23:22:59,654 - INFO - Progress: 29/85 scenarios processed (0 successful)
+2025-05-19 23:22:59,654 - INFO - Processing scenario 30/85: Chichewa
+2025-05-19 23:22:59,654 - ERROR - Error processing scenario Chichewa: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_nya_formal.json'
+2025-05-19 23:22:59,654 - INFO - Progress: 30/85 scenarios processed (0 successful)
+2025-05-19 23:22:59,654 - INFO - Processing scenario 31/85: Chuvash
+2025-05-19 23:22:59,654 - ERROR - Error processing scenario Chuvash: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_chv_formal.json'
+2025-05-19 23:22:59,654 - INFO - Progress: 31/85 scenarios processed (0 successful)
+2025-05-19 23:22:59,654 - INFO - Processing scenario 32/85: Dinka
+2025-05-19 23:22:59,654 - ERROR - Error processing scenario Dinka: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_din_formal.json'
+2025-05-19 23:22:59,654 - INFO - Progress: 32/85 scenarios processed (0 successful)
+2025-05-19 23:22:59,654 - INFO - Processing scenario 33/85: Javanese
+2025-05-19 23:22:59,654 - ERROR - Error processing scenario Javanese: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_jav_formal.json'
+2025-05-19 23:22:59,654 - INFO - Progress: 33/85 scenarios processed (0 successful)
+2025-05-19 23:22:59,654 - INFO - Processing scenario 34/85: Malay, Standard
+2025-05-19 23:22:59,654 - ERROR - Error processing scenario Malay, Standard: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_zsm_formal.json'
+2025-05-19 23:22:59,654 - INFO - Progress: 34/85 scenarios processed (0 successful)
+2025-05-19 23:22:59,654 - INFO - Processing scenario 35/85: Punjabi, Eastern
+2025-05-19 23:22:59,654 - ERROR - Error processing scenario Punjabi, Eastern: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_pan_formal.json'
+2025-05-19 23:22:59,654 - INFO - Progress: 35/85 scenarios processed (0 successful)
+2025-05-19 23:22:59,654 - INFO - Processing scenario 36/85: Arabic, Eastern Egyptian Bedawi
+2025-05-19 23:22:59,654 - ERROR - Error processing scenario Arabic, Eastern Egyptian Bedawi: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_avl_formal.json'
+2025-05-19 23:22:59,654 - INFO - Progress: 36/85 scenarios processed (0 successful)
+2025-05-19 23:22:59,654 - INFO - Processing scenario 37/85: Bai, Central
+2025-05-19 23:22:59,654 - ERROR - Error processing scenario Bai, Central: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_bca_formal.json'
+2025-05-19 23:22:59,654 - INFO - Progress: 37/85 scenarios processed (0 successful)
+2025-05-19 23:22:59,654 - INFO - Processing scenario 38/85: Bareli, Pauri
+2025-05-19 23:22:59,654 - ERROR - Error processing scenario Bareli, Pauri: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_bfb_formal.json'
+2025-05-19 23:22:59,654 - INFO - Progress: 38/85 scenarios processed (0 successful)
+2025-05-19 23:22:59,654 - INFO - Processing scenario 39/85: Batak Mandailing
+2025-05-19 23:22:59,654 - ERROR - Error processing scenario Batak Mandailing: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_btm_formal.json'
+2025-05-19 23:22:59,654 - INFO - Progress: 39/85 scenarios processed (0 successful)
+2025-05-19 23:22:59,654 - INFO - Processing scenario 40/85: Bena
+2025-05-19 23:22:59,654 - ERROR - Error processing scenario Bena: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_bez_formal.json'
+2025-05-19 23:22:59,654 - INFO - Progress: 40/85 scenarios processed (0 successful)
+2025-05-19 23:22:59,654 - INFO - Processing scenario 41/85: Chinese, Gan
+2025-05-19 23:22:59,654 - ERROR - Error processing scenario Chinese, Gan: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_gan_formal.json'
+2025-05-19 23:22:59,654 - INFO - Progress: 41/85 scenarios processed (0 successful)
+2025-05-19 23:22:59,654 - INFO - Processing scenario 42/85: Chinese, Min Bei
+2025-05-19 23:22:59,654 - ERROR - Error processing scenario Chinese, Min Bei: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_mnp_formal.json'
+2025-05-19 23:22:59,654 - INFO - Progress: 42/85 scenarios processed (0 successful)
+2025-05-19 23:22:59,654 - INFO - Processing scenario 43/85: Chinese Sign Language
+2025-05-19 23:22:59,654 - ERROR - Error processing scenario Chinese Sign Language: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_csl_formal.json'
+2025-05-19 23:22:59,654 - INFO - Progress: 43/85 scenarios processed (0 successful)
+2025-05-19 23:22:59,654 - INFO - Processing scenario 44/85: Chinese, Xiang
+2025-05-19 23:22:59,654 - ERROR - Error processing scenario Chinese, Xiang: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_hsn_formal.json'
+2025-05-19 23:22:59,654 - INFO - Progress: 44/85 scenarios processed (0 successful)
+2025-05-19 23:22:59,654 - INFO - Processing scenario 45/85: Dinka, South Central
+2025-05-19 23:22:59,655 - ERROR - Error processing scenario Dinka, South Central: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_dib_formal.json'
+2025-05-19 23:22:59,655 - INFO - Progress: 45/85 scenarios processed (0 successful)
+2025-05-19 23:22:59,655 - INFO - Processing scenario 46/85: Dinka, Southeastern
+2025-05-19 23:22:59,655 - ERROR - Error processing scenario Dinka, Southeastern: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_dks_formal.json'
+2025-05-19 23:22:59,655 - INFO - Progress: 46/85 scenarios processed (0 successful)
+2025-05-19 23:22:59,655 - INFO - Processing scenario 47/85: Fulfulde, Maasina
+2025-05-19 23:22:59,655 - ERROR - Error processing scenario Fulfulde, Maasina: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_ffm_formal.json'
+2025-05-19 23:22:59,655 - INFO - Progress: 47/85 scenarios processed (0 successful)
+2025-05-19 23:22:59,655 - INFO - Processing scenario 48/85: Guyanese English Creole
+2025-05-19 23:22:59,655 - ERROR - Error processing scenario Guyanese English Creole: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_gyn_formal.json'
+2025-05-19 23:22:59,655 - INFO - Progress: 48/85 scenarios processed (0 successful)
+2025-05-19 23:22:59,655 - INFO - Processing scenario 49/85: Hlai
+2025-05-19 23:22:59,655 - ERROR - Error processing scenario Hlai: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_lic_formal.json'
+2025-05-19 23:22:59,655 - INFO - Progress: 49/85 scenarios processed (0 successful)
+2025-05-19 23:22:59,655 - INFO - Processing scenario 50/85: Kabuverdianu
+2025-05-19 23:22:59,655 - ERROR - Error processing scenario Kabuverdianu: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_kea_formal.json'
+2025-05-19 23:22:59,655 - INFO - Progress: 50/85 scenarios processed (0 successful)
+2025-05-19 23:22:59,655 - INFO - Processing scenario 51/85: Kacchi
+2025-05-19 23:22:59,655 - ERROR - Error processing scenario Kacchi: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_kfr_formal.json'
+2025-05-19 23:22:59,655 - INFO - Progress: 51/85 scenarios processed (0 successful)
+2025-05-19 23:22:59,655 - INFO - Processing scenario 52/85: Khorasani Turkish
+2025-05-19 23:22:59,655 - ERROR - Error processing scenario Khorasani Turkish: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_kmz_formal.json'
+2025-05-19 23:22:59,655 - INFO - Progress: 52/85 scenarios processed (0 successful)
+2025-05-19 23:22:59,655 - INFO - Processing scenario 53/85: Kipsigis
+2025-05-19 23:22:59,655 - ERROR - Error processing scenario Kipsigis: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_sgc_formal.json'
+2025-05-19 23:22:59,655 - INFO - Progress: 53/85 scenarios processed (0 successful)
+2025-05-19 23:22:59,655 - INFO - Processing scenario 54/85: Lampung Api
+2025-05-19 23:22:59,655 - ERROR - Error processing scenario Lampung Api: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_ljp_formal.json'
+2025-05-19 23:22:59,655 - INFO - Progress: 54/85 scenarios processed (0 successful)
+2025-05-19 23:22:59,655 - INFO - Processing scenario 55/85: Lesser Antillean French Creole
+2025-05-19 23:22:59,655 - ERROR - Error processing scenario Lesser Antillean French Creole: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_acf_formal.json'
+2025-05-19 23:22:59,655 - INFO - Progress: 55/85 scenarios processed (0 successful)
+2025-05-19 23:22:59,655 - INFO - Processing scenario 56/85: Lingao
+2025-05-19 23:22:59,655 - ERROR - Error processing scenario Lingao: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_onb_formal.json'
+2025-05-19 23:22:59,655 - INFO - Progress: 56/85 scenarios processed (0 successful)
+2025-05-19 23:22:59,655 - INFO - Processing scenario 57/85: Maay
+2025-05-19 23:22:59,655 - ERROR - Error processing scenario Maay: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_ymm_formal.json'
+2025-05-19 23:22:59,655 - INFO - Progress: 57/85 scenarios processed (0 successful)
+2025-05-19 23:22:59,655 - INFO - Processing scenario 58/85: Malagasy, Bara
+2025-05-19 23:22:59,655 - ERROR - Error processing scenario Malagasy, Bara: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_bhr_formal.json'
+2025-05-19 23:22:59,655 - INFO - Progress: 58/85 scenarios processed (0 successful)
+2025-05-19 23:22:59,655 - INFO - Processing scenario 59/85: Malagasy, Masikoro
+2025-05-19 23:22:59,655 - ERROR - Error processing scenario Malagasy, Masikoro: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_msh_formal.json'
+2025-05-19 23:22:59,655 - INFO - Progress: 59/85 scenarios processed (0 successful)
+2025-05-19 23:22:59,655 - INFO - Processing scenario 60/85: Malagasy, Tandroy-Mahafaly
+2025-05-19 23:22:59,655 - ERROR - Error processing scenario Malagasy, Tandroy-Mahafaly: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_tdx_formal.json'
+2025-05-19 23:22:59,655 - INFO - Progress: 60/85 scenarios processed (0 successful)
+2025-05-19 23:22:59,655 - INFO - Processing scenario 61/85: Malagasy, Tanosy
+2025-05-19 23:22:59,656 - ERROR - Error processing scenario Malagasy, Tanosy: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_txy_formal.json'
+2025-05-19 23:22:59,656 - INFO - Progress: 61/85 scenarios processed (0 successful)
+2025-05-19 23:22:59,656 - INFO - Processing scenario 62/85: Malay, Central
+2025-05-19 23:22:59,656 - ERROR - Error processing scenario Malay, Central: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_pse_formal.json'
+2025-05-19 23:22:59,656 - INFO - Progress: 62/85 scenarios processed (0 successful)
+2025-05-19 23:22:59,656 - INFO - Processing scenario 63/85: Malay, Jambi
+2025-05-19 23:22:59,656 - ERROR - Error processing scenario Malay, Jambi: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_jax_formal.json'
+2025-05-19 23:22:59,656 - INFO - Progress: 63/85 scenarios processed (0 successful)
+2025-05-19 23:22:59,656 - INFO - Processing scenario 64/85: Miao, Southern Qiandong
+2025-05-19 23:22:59,656 - ERROR - Error processing scenario Miao, Southern Qiandong: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_hms_formal.json'
+2025-05-19 23:22:59,656 - INFO - Progress: 64/85 scenarios processed (0 successful)
+2025-05-19 23:22:59,656 - INFO - Processing scenario 65/85: Miao, Western Xiangxi
+2025-05-19 23:22:59,656 - ERROR - Error processing scenario Miao, Western Xiangxi: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_mmr_formal.json'
+2025-05-19 23:22:59,656 - INFO - Progress: 65/85 scenarios processed (0 successful)
+2025-05-19 23:22:59,656 - INFO - Processing scenario 66/85: Ngas
+2025-05-19 23:22:59,656 - ERROR - Error processing scenario Ngas: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_anc_formal.json'
+2025-05-19 23:22:59,656 - INFO - Progress: 66/85 scenarios processed (0 successful)
+2025-05-19 23:22:59,656 - INFO - Processing scenario 67/85: Surigaonon
+2025-05-19 23:22:59,656 - ERROR - Error processing scenario Surigaonon: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_sgd_formal.json'
+2025-05-19 23:22:59,656 - INFO - Progress: 67/85 scenarios processed (0 successful)
+2025-05-19 23:22:59,656 - INFO - Processing scenario 68/85: Tamasheq
+2025-05-19 23:22:59,656 - ERROR - Error processing scenario Tamasheq: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_taq_formal.json'
+2025-05-19 23:22:59,656 - INFO - Progress: 68/85 scenarios processed (0 successful)
+2025-05-19 23:22:59,656 - INFO - Processing scenario 69/85: Tibetan, Amdo
+2025-05-19 23:22:59,656 - ERROR - Error processing scenario Tibetan, Amdo: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_adx_formal.json'
+2025-05-19 23:22:59,656 - INFO - Progress: 69/85 scenarios processed (0 successful)
+2025-05-19 23:22:59,656 - INFO - Processing scenario 70/85: Uzbek, Southern
+2025-05-19 23:22:59,657 - ERROR - Error processing scenario Uzbek, Southern: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_uzs_formal.json'
+2025-05-19 23:22:59,657 - INFO - Progress: 70/85 scenarios processed (0 successful)
+2025-05-19 23:22:59,657 - INFO - Processing scenario 71/85: Zhuang, Eastern Hongshuihe
+2025-05-19 23:22:59,657 - ERROR - Error processing scenario Zhuang, Eastern Hongshuihe: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_zeh_formal.json'
+2025-05-19 23:22:59,657 - INFO - Progress: 71/85 scenarios processed (0 successful)
+2025-05-19 23:22:59,657 - INFO - Processing scenario 72/85: Zhuang, Guibei
+2025-05-19 23:22:59,657 - ERROR - Error processing scenario Zhuang, Guibei: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_zgb_formal.json'
+2025-05-19 23:22:59,657 - INFO - Progress: 72/85 scenarios processed (0 successful)
+2025-05-19 23:22:59,657 - INFO - Processing scenario 73/85: Zhuang, Nong
+2025-05-19 23:22:59,657 - ERROR - Error processing scenario Zhuang, Nong: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_zhn_formal.json'
+2025-05-19 23:22:59,657 - INFO - Progress: 73/85 scenarios processed (0 successful)
+2025-05-19 23:22:59,657 - INFO - Processing scenario 74/85: Zhuang, Yongnan
+2025-05-19 23:22:59,657 - ERROR - Error processing scenario Zhuang, Yongnan: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_zyn_formal.json'
+2025-05-19 23:22:59,657 - INFO - Progress: 74/85 scenarios processed (0 successful)
+2025-05-19 23:22:59,657 - INFO - Processing scenario 75/85: Zhuang, Zuojiang
+2025-05-19 23:22:59,657 - ERROR - Error processing scenario Zhuang, Zuojiang: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_zzj_formal.json'
+2025-05-19 23:22:59,657 - INFO - Progress: 75/85 scenarios processed (0 successful)
+2025-05-19 23:22:59,657 - INFO - Processing scenario 76/85: Bislama
+2025-05-19 23:22:59,657 - ERROR - Error processing scenario Bislama: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_bis_formal.json'
+2025-05-19 23:22:59,657 - INFO - Progress: 76/85 scenarios processed (0 successful)
+2025-05-19 23:22:59,657 - INFO - Processing scenario 77/85: French (Francophone Africa)
+2025-05-19 23:22:59,657 - ERROR - Error processing scenario French (Francophone Africa): [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_fra_formal.json'
+2025-05-19 23:22:59,657 - INFO - Progress: 77/85 scenarios processed (0 successful)
+2025-05-19 23:22:59,657 - INFO - Processing scenario 78/85: Portuguese (Brazilian)
+2025-05-19 23:22:59,657 - ERROR - Error processing scenario Portuguese (Brazilian): [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_por_formal.json'
+2025-05-19 23:22:59,657 - INFO - Progress: 78/85 scenarios processed (0 successful)
+2025-05-19 23:22:59,657 - INFO - Processing scenario 79/85: Spanish (Latin America)
+2025-05-19 23:22:59,657 - ERROR - Error processing scenario Spanish (Latin America): [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_spa_formal.json'
+2025-05-19 23:22:59,657 - INFO - Progress: 79/85 scenarios processed (0 successful)
+2025-05-19 23:22:59,657 - INFO - Processing scenario 80/85: Tok Pisin
+2025-05-19 23:22:59,657 - ERROR - Error processing scenario Tok Pisin: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_tpi_formal.json'
+2025-05-19 23:22:59,658 - INFO - Progress: 80/85 scenarios processed (0 successful)
+2025-05-19 23:22:59,658 - INFO - Processing scenario 81/85: Chokwe
+2025-05-19 23:22:59,658 - ERROR - Error processing scenario Chokwe: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_cjk_formal.json'
+2025-05-19 23:22:59,658 - INFO - Progress: 81/85 scenarios processed (0 successful)
+2025-05-19 23:22:59,658 - INFO - Processing scenario 82/85: Chol
+2025-05-19 23:22:59,658 - ERROR - Error processing scenario Chol: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_ctu_formal.json'
+2025-05-19 23:22:59,658 - INFO - Progress: 82/85 scenarios processed (0 successful)
+2025-05-19 23:22:59,658 - INFO - Processing scenario 83/85: Chrau
+2025-05-19 23:22:59,658 - ERROR - Error processing scenario Chrau: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_crw_formal.json'
+2025-05-19 23:22:59,658 - INFO - Progress: 83/85 scenarios processed (0 successful)
+2025-05-19 23:22:59,658 - INFO - Processing scenario 84/85: Lunda
+2025-05-19 23:22:59,658 - ERROR - Error processing scenario Lunda: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_lun_formal.json'
+2025-05-19 23:22:59,658 - INFO - Progress: 84/85 scenarios processed (0 successful)
+2025-05-19 23:22:59,658 - INFO - Processing scenario 85/85: Luo
+2025-05-19 23:22:59,658 - ERROR - Error processing scenario Luo: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_luo_formal.json '
+2025-05-19 23:22:59,658 - INFO - Progress: 85/85 scenarios processed (0 successful)
+2025-05-19 23:22:59,658 - INFO - Translation run complete. 0/85 scenarios processed successfully.
+2025-05-19 23:24:57,286 - INFO - Starting translation run with 85 scenarios
+2025-05-19 23:24:57,286 - INFO - Processing scenario 1/85: Bhojpuri
+2025-05-19 23:24:57,286 - ERROR - Error processing scenario Bhojpuri: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_bho_formal.json'
+2025-05-19 23:24:57,286 - INFO - Progress: 1/85 scenarios processed (0 successful)
+2025-05-19 23:24:57,286 - INFO - Processing scenario 2/85: Chhattisgarhi
+2025-05-19 23:24:57,286 - ERROR - Error processing scenario Chhattisgarhi: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_hne_formal.json'
+2025-05-19 23:24:57,286 - INFO - Progress: 2/85 scenarios processed (0 successful)
+2025-05-19 23:24:57,286 - INFO - Processing scenario 3/85: Chittagonian
+2025-05-19 23:24:57,286 - ERROR - Error processing scenario Chittagonian: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_ctg_formal.json'
+2025-05-19 23:24:57,286 - INFO - Progress: 3/85 scenarios processed (0 successful)
+2025-05-19 23:24:57,286 - INFO - Processing scenario 4/85: Dari
+2025-05-19 23:24:57,286 - ERROR - Error processing scenario Dari: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_prs_formal.json'
+2025-05-19 23:24:57,286 - INFO - Progress: 4/85 scenarios processed (0 successful)
+2025-05-19 23:24:57,286 - INFO - Processing scenario 5/85: Fulfulde, Nigerian
+2025-05-19 23:24:57,286 - ERROR - Error processing scenario Fulfulde, Nigerian: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_fuv_formal.json'
+2025-05-19 23:24:57,286 - INFO - Progress: 5/85 scenarios processed (0 successful)
+2025-05-19 23:24:57,286 - INFO - Processing scenario 6/85: Hassaniyya
+2025-05-19 23:24:57,286 - ERROR - Error processing scenario Hassaniyya: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_mey_formal.json'
+2025-05-19 23:24:57,286 - INFO - Progress: 6/85 scenarios processed (0 successful)
+2025-05-19 23:24:57,286 - INFO - Processing scenario 7/85: Hebrew
+2025-05-19 23:24:57,286 - ERROR - Error processing scenario Hebrew: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_heb_formal.json'
+2025-05-19 23:24:57,286 - INFO - Progress: 7/85 scenarios processed (0 successful)
+2025-05-19 23:24:57,286 - INFO - Processing scenario 8/85: Kanuri, Yerwa
+2025-05-19 23:24:57,286 - ERROR - Error processing scenario Kanuri, Yerwa: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_knc_formal.json'
+2025-05-19 23:24:57,286 - INFO - Progress: 8/85 scenarios processed (0 successful)
+2025-05-19 23:24:57,286 - INFO - Processing scenario 9/85: Kashmiri
+2025-05-19 23:24:57,286 - ERROR - Error processing scenario Kashmiri: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_kas_formal.json'
+2025-05-19 23:24:57,286 - INFO - Progress: 9/85 scenarios processed (0 successful)
+2025-05-19 23:24:57,286 - INFO - Processing scenario 10/85: Kazakh
+2025-05-19 23:24:57,286 - ERROR - Error processing scenario Kazakh: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_kaz_formal.json'
+2025-05-19 23:24:57,286 - INFO - Progress: 10/85 scenarios processed (0 successful)
+2025-05-19 23:24:57,286 - INFO - Processing scenario 11/85: Kurdish, Northern
+2025-05-19 23:24:57,287 - ERROR - Error processing scenario Kurdish, Northern: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_kmr_formal.json'
+2025-05-19 23:24:57,287 - INFO - Progress: 11/85 scenarios processed (0 successful)
+2025-05-19 23:24:57,287 - INFO - Processing scenario 12/85: Luba-Kasai
+2025-05-19 23:24:57,287 - ERROR - Error processing scenario Luba-Kasai: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_lua_formal.json'
+2025-05-19 23:24:57,287 - INFO - Progress: 12/85 scenarios processed (0 successful)
+2025-05-19 23:24:57,287 - INFO - Processing scenario 13/85: Magahi
+2025-05-19 23:24:57,287 - ERROR - Error processing scenario Magahi: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_mag_formal.json'
+2025-05-19 23:24:57,287 - INFO - Progress: 13/85 scenarios processed (0 successful)
+2025-05-19 23:24:57,287 - INFO - Processing scenario 14/85: Maithili
+2025-05-19 23:24:57,287 - ERROR - Error processing scenario Maithili: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_mai_formal.json'
+2025-05-19 23:24:57,287 - INFO - Progress: 14/85 scenarios processed (0 successful)
+2025-05-19 23:24:57,287 - INFO - Processing scenario 15/85: Pashto, Southern
+2025-05-19 23:24:57,287 - ERROR - Error processing scenario Pashto, Southern: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_pbt_formal.json'
+2025-05-19 23:24:57,287 - INFO - Progress: 15/85 scenarios processed (0 successful)
+2025-05-19 23:24:57,287 - INFO - Processing scenario 16/85: Rangpuri
+2025-05-19 23:24:57,287 - ERROR - Error processing scenario Rangpuri: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_rkt_formal.json'
+2025-05-19 23:24:57,287 - INFO - Progress: 16/85 scenarios processed (0 successful)
+2025-05-19 23:24:57,287 - INFO - Processing scenario 17/85: Rundi
+2025-05-19 23:24:57,287 - ERROR - Error processing scenario Rundi: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_run_formal.json'
+2025-05-19 23:24:57,287 - INFO - Progress: 17/85 scenarios processed (0 successful)
+2025-05-19 23:24:57,287 - INFO - Processing scenario 18/85: Santhali
+2025-05-19 23:24:57,287 - ERROR - Error processing scenario Santhali: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_sat_formal.json'
+2025-05-19 23:24:57,287 - INFO - Progress: 18/85 scenarios processed (0 successful)
+2025-05-19 23:24:57,287 - INFO - Processing scenario 19/85: Saraiki
+2025-05-19 23:24:57,287 - ERROR - Error processing scenario Saraiki: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_skr_formal.json'
+2025-05-19 23:24:57,287 - INFO - Progress: 19/85 scenarios processed (0 successful)
+2025-05-19 23:24:57,287 - INFO - Processing scenario 20/85: Sindhi
+2025-05-19 23:24:57,287 - ERROR - Error processing scenario Sindhi: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_snd_formal.json'
+2025-05-19 23:24:57,287 - INFO - Progress: 20/85 scenarios processed (0 successful)
+2025-05-19 23:24:57,287 - INFO - Processing scenario 21/85: Somali
+2025-05-19 23:24:57,287 - ERROR - Error processing scenario Somali: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_som_formal.json'
+2025-05-19 23:24:57,287 - INFO - Progress: 21/85 scenarios processed (0 successful)
+2025-05-19 23:24:57,287 - INFO - Processing scenario 22/85: Sylheti
+2025-05-19 23:24:57,287 - ERROR - Error processing scenario Sylheti: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_syl_formal.json'
+2025-05-19 23:24:57,287 - INFO - Progress: 22/85 scenarios processed (0 successful)
+2025-05-19 23:24:57,287 - INFO - Processing scenario 23/85: Tajik
+2025-05-19 23:24:57,287 - ERROR - Error processing scenario Tajik: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_tgk_formal.json'
+2025-05-19 23:24:57,287 - INFO - Progress: 23/85 scenarios processed (0 successful)
+2025-05-19 23:24:57,287 - INFO - Processing scenario 24/85: Turkmen
+2025-05-19 23:24:57,287 - ERROR - Error processing scenario Turkmen: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_tuk_formal.json'
+2025-05-19 23:24:57,287 - INFO - Progress: 24/85 scenarios processed (0 successful)
+2025-05-19 23:24:57,287 - INFO - Processing scenario 25/85: Umbundu
+2025-05-19 23:24:57,287 - ERROR - Error processing scenario Umbundu: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_umb_formal.json'
+2025-05-19 23:24:57,288 - INFO - Progress: 25/85 scenarios processed (0 successful)
+2025-05-19 23:24:57,288 - INFO - Processing scenario 26/85: Uyghur
+2025-05-19 23:24:57,288 - ERROR - Error processing scenario Uyghur: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_uig_formal.json'
+2025-05-19 23:24:57,288 - INFO - Progress: 26/85 scenarios processed (0 successful)
+2025-05-19 23:24:57,288 - INFO - Processing scenario 27/85: Uzbek, Northern
+2025-05-19 23:24:57,288 - ERROR - Error processing scenario Uzbek, Northern: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_uzn_formal.json'
+2025-05-19 23:24:57,288 - INFO - Progress: 27/85 scenarios processed (0 successful)
+2025-05-19 23:24:57,288 - INFO - Processing scenario 28/85: Azerbaijani, South
+2025-05-19 23:24:57,288 - ERROR - Error processing scenario Azerbaijani, South: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_azb_formal.json'
+2025-05-19 23:24:57,288 - INFO - Progress: 28/85 scenarios processed (0 successful)
+2025-05-19 23:24:57,288 - INFO - Processing scenario 29/85: Burmese
+2025-05-19 23:24:57,288 - ERROR - Error processing scenario Burmese: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_mya_formal.json'
+2025-05-19 23:24:57,288 - INFO - Progress: 29/85 scenarios processed (0 successful)
+2025-05-19 23:24:57,288 - INFO - Processing scenario 30/85: Chichewa
+2025-05-19 23:24:57,288 - ERROR - Error processing scenario Chichewa: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_nya_formal.json'
+2025-05-19 23:24:57,288 - INFO - Progress: 30/85 scenarios processed (0 successful)
+2025-05-19 23:24:57,288 - INFO - Processing scenario 31/85: Chuvash
+2025-05-19 23:24:57,288 - ERROR - Error processing scenario Chuvash: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_chv_formal.json'
+2025-05-19 23:24:57,288 - INFO - Progress: 31/85 scenarios processed (0 successful)
+2025-05-19 23:24:57,288 - INFO - Processing scenario 32/85: Dinka
+2025-05-19 23:24:57,288 - ERROR - Error processing scenario Dinka: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_din_formal.json'
+2025-05-19 23:24:57,288 - INFO - Progress: 32/85 scenarios processed (0 successful)
+2025-05-19 23:24:57,288 - INFO - Processing scenario 33/85: Javanese
+2025-05-19 23:24:57,288 - ERROR - Error processing scenario Javanese: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_jav_formal.json'
+2025-05-19 23:24:57,288 - INFO - Progress: 33/85 scenarios processed (0 successful)
+2025-05-19 23:24:57,288 - INFO - Processing scenario 34/85: Malay, Standard
+2025-05-19 23:24:57,288 - ERROR - Error processing scenario Malay, Standard: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_zsm_formal.json'
+2025-05-19 23:24:57,288 - INFO - Progress: 34/85 scenarios processed (0 successful)
+2025-05-19 23:24:57,288 - INFO - Processing scenario 35/85: Punjabi, Eastern
+2025-05-19 23:24:57,288 - ERROR - Error processing scenario Punjabi, Eastern: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_pan_formal.json'
+2025-05-19 23:24:57,288 - INFO - Progress: 35/85 scenarios processed (0 successful)
+2025-05-19 23:24:57,288 - INFO - Processing scenario 36/85: Arabic, Eastern Egyptian Bedawi
+2025-05-19 23:24:57,288 - ERROR - Error processing scenario Arabic, Eastern Egyptian Bedawi: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_avl_formal.json'
+2025-05-19 23:24:57,288 - INFO - Progress: 36/85 scenarios processed (0 successful)
+2025-05-19 23:24:57,288 - INFO - Processing scenario 37/85: Bai, Central
+2025-05-19 23:24:57,288 - ERROR - Error processing scenario Bai, Central: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_bca_formal.json'
+2025-05-19 23:24:57,288 - INFO - Progress: 37/85 scenarios processed (0 successful)
+2025-05-19 23:24:57,288 - INFO - Processing scenario 38/85: Bareli, Pauri
+2025-05-19 23:24:57,288 - ERROR - Error processing scenario Bareli, Pauri: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_bfb_formal.json'
+2025-05-19 23:24:57,288 - INFO - Progress: 38/85 scenarios processed (0 successful)
+2025-05-19 23:24:57,288 - INFO - Processing scenario 39/85: Batak Mandailing
+2025-05-19 23:24:57,288 - ERROR - Error processing scenario Batak Mandailing: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_btm_formal.json'
+2025-05-19 23:24:57,288 - INFO - Progress: 39/85 scenarios processed (0 successful)
+2025-05-19 23:24:57,288 - INFO - Processing scenario 40/85: Bena
+2025-05-19 23:24:57,289 - ERROR - Error processing scenario Bena: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_bez_formal.json'
+2025-05-19 23:24:57,289 - INFO - Progress: 40/85 scenarios processed (0 successful)
+2025-05-19 23:24:57,289 - INFO - Processing scenario 41/85: Chinese, Gan
+2025-05-19 23:24:57,289 - ERROR - Error processing scenario Chinese, Gan: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_gan_formal.json'
+2025-05-19 23:24:57,289 - INFO - Progress: 41/85 scenarios processed (0 successful)
+2025-05-19 23:24:57,289 - INFO - Processing scenario 42/85: Chinese, Min Bei
+2025-05-19 23:24:57,289 - ERROR - Error processing scenario Chinese, Min Bei: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_mnp_formal.json'
+2025-05-19 23:24:57,289 - INFO - Progress: 42/85 scenarios processed (0 successful)
+2025-05-19 23:24:57,289 - INFO - Processing scenario 43/85: Chinese Sign Language
+2025-05-19 23:24:57,289 - ERROR - Error processing scenario Chinese Sign Language: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_csl_formal.json'
+2025-05-19 23:24:57,289 - INFO - Progress: 43/85 scenarios processed (0 successful)
+2025-05-19 23:24:57,289 - INFO - Processing scenario 44/85: Chinese, Xiang
+2025-05-19 23:24:57,289 - ERROR - Error processing scenario Chinese, Xiang: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_hsn_formal.json'
+2025-05-19 23:24:57,289 - INFO - Progress: 44/85 scenarios processed (0 successful)
+2025-05-19 23:24:57,289 - INFO - Processing scenario 45/85: Dinka, South Central
+2025-05-19 23:24:57,289 - ERROR - Error processing scenario Dinka, South Central: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_dib_formal.json'
+2025-05-19 23:24:57,289 - INFO - Progress: 45/85 scenarios processed (0 successful)
+2025-05-19 23:24:57,289 - INFO - Processing scenario 46/85: Dinka, Southeastern
+2025-05-19 23:24:57,289 - ERROR - Error processing scenario Dinka, Southeastern: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_dks_formal.json'
+2025-05-19 23:24:57,289 - INFO - Progress: 46/85 scenarios processed (0 successful)
+2025-05-19 23:24:57,289 - INFO - Processing scenario 47/85: Fulfulde, Maasina
+2025-05-19 23:24:57,289 - ERROR - Error processing scenario Fulfulde, Maasina: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_ffm_formal.json'
+2025-05-19 23:24:57,289 - INFO - Progress: 47/85 scenarios processed (0 successful)
+2025-05-19 23:24:57,289 - INFO - Processing scenario 48/85: Guyanese English Creole
+2025-05-19 23:24:57,289 - ERROR - Error processing scenario Guyanese English Creole: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_gyn_formal.json'
+2025-05-19 23:24:57,289 - INFO - Progress: 48/85 scenarios processed (0 successful)
+2025-05-19 23:24:57,289 - INFO - Processing scenario 49/85: Hlai
+2025-05-19 23:24:57,289 - ERROR - Error processing scenario Hlai: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_lic_formal.json'
+2025-05-19 23:24:57,289 - INFO - Progress: 49/85 scenarios processed (0 successful)
+2025-05-19 23:24:57,289 - INFO - Processing scenario 50/85: Kabuverdianu
+2025-05-19 23:24:57,289 - ERROR - Error processing scenario Kabuverdianu: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_kea_formal.json'
+2025-05-19 23:24:57,289 - INFO - Progress: 50/85 scenarios processed (0 successful)
+2025-05-19 23:24:57,289 - INFO - Processing scenario 51/85: Kacchi
+2025-05-19 23:24:57,289 - ERROR - Error processing scenario Kacchi: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_kfr_formal.json'
+2025-05-19 23:24:57,289 - INFO - Progress: 51/85 scenarios processed (0 successful)
+2025-05-19 23:24:57,289 - INFO - Processing scenario 52/85: Khorasani Turkish
+2025-05-19 23:24:57,289 - ERROR - Error processing scenario Khorasani Turkish: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_kmz_formal.json'
+2025-05-19 23:24:57,289 - INFO - Progress: 52/85 scenarios processed (0 successful)
+2025-05-19 23:24:57,289 - INFO - Processing scenario 53/85: Kipsigis
+2025-05-19 23:24:57,289 - ERROR - Error processing scenario Kipsigis: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_sgc_formal.json'
+2025-05-19 23:24:57,289 - INFO - Progress: 53/85 scenarios processed (0 successful)
+2025-05-19 23:24:57,289 - INFO - Processing scenario 54/85: Lampung Api
+2025-05-19 23:24:57,289 - ERROR - Error processing scenario Lampung Api: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_ljp_formal.json'
+2025-05-19 23:24:57,289 - INFO - Progress: 54/85 scenarios processed (0 successful)
+2025-05-19 23:24:57,289 - INFO - Processing scenario 55/85: Lesser Antillean French Creole
+2025-05-19 23:24:57,289 - ERROR - Error processing scenario Lesser Antillean French Creole: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_acf_formal.json'
+2025-05-19 23:24:57,290 - INFO - Progress: 55/85 scenarios processed (0 successful)
+2025-05-19 23:24:57,290 - INFO - Processing scenario 56/85: Lingao
+2025-05-19 23:24:57,290 - ERROR - Error processing scenario Lingao: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_onb_formal.json'
+2025-05-19 23:24:57,290 - INFO - Progress: 56/85 scenarios processed (0 successful)
+2025-05-19 23:24:57,290 - INFO - Processing scenario 57/85: Maay
+2025-05-19 23:24:57,290 - ERROR - Error processing scenario Maay: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_ymm_formal.json'
+2025-05-19 23:24:57,290 - INFO - Progress: 57/85 scenarios processed (0 successful)
+2025-05-19 23:24:57,290 - INFO - Processing scenario 58/85: Malagasy, Bara
+2025-05-19 23:24:57,290 - ERROR - Error processing scenario Malagasy, Bara: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_bhr_formal.json'
+2025-05-19 23:24:57,290 - INFO - Progress: 58/85 scenarios processed (0 successful)
+2025-05-19 23:24:57,290 - INFO - Processing scenario 59/85: Malagasy, Masikoro
+2025-05-19 23:24:57,290 - ERROR - Error processing scenario Malagasy, Masikoro: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_msh_formal.json'
+2025-05-19 23:24:57,290 - INFO - Progress: 59/85 scenarios processed (0 successful)
+2025-05-19 23:24:57,290 - INFO - Processing scenario 60/85: Malagasy, Tandroy-Mahafaly
+2025-05-19 23:24:57,290 - ERROR - Error processing scenario Malagasy, Tandroy-Mahafaly: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_tdx_formal.json'
+2025-05-19 23:24:57,290 - INFO - Progress: 60/85 scenarios processed (0 successful)
+2025-05-19 23:24:57,290 - INFO - Processing scenario 61/85: Malagasy, Tanosy
+2025-05-19 23:24:57,290 - ERROR - Error processing scenario Malagasy, Tanosy: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_txy_formal.json'
+2025-05-19 23:24:57,290 - INFO - Progress: 61/85 scenarios processed (0 successful)
+2025-05-19 23:24:57,290 - INFO - Processing scenario 62/85: Malay, Central
+2025-05-19 23:24:57,290 - ERROR - Error processing scenario Malay, Central: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_pse_formal.json'
+2025-05-19 23:24:57,290 - INFO - Progress: 62/85 scenarios processed (0 successful)
+2025-05-19 23:24:57,290 - INFO - Processing scenario 63/85: Malay, Jambi
+2025-05-19 23:24:57,290 - ERROR - Error processing scenario Malay, Jambi: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_jax_formal.json'
+2025-05-19 23:24:57,290 - INFO - Progress: 63/85 scenarios processed (0 successful)
+2025-05-19 23:24:57,290 - INFO - Processing scenario 64/85: Miao, Southern Qiandong
+2025-05-19 23:24:57,290 - ERROR - Error processing scenario Miao, Southern Qiandong: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_hms_formal.json'
+2025-05-19 23:24:57,290 - INFO - Progress: 64/85 scenarios processed (0 successful)
+2025-05-19 23:24:57,290 - INFO - Processing scenario 65/85: Miao, Western Xiangxi
+2025-05-19 23:24:57,290 - ERROR - Error processing scenario Miao, Western Xiangxi: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_mmr_formal.json'
+2025-05-19 23:24:57,290 - INFO - Progress: 65/85 scenarios processed (0 successful)
+2025-05-19 23:24:57,290 - INFO - Processing scenario 66/85: Ngas
+2025-05-19 23:24:57,290 - ERROR - Error processing scenario Ngas: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_anc_formal.json'
+2025-05-19 23:24:57,290 - INFO - Progress: 66/85 scenarios processed (0 successful)
+2025-05-19 23:24:57,290 - INFO - Processing scenario 67/85: Surigaonon
+2025-05-19 23:24:57,290 - ERROR - Error processing scenario Surigaonon: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_sgd_formal.json'
+2025-05-19 23:24:57,290 - INFO - Progress: 67/85 scenarios processed (0 successful)
+2025-05-19 23:24:57,290 - INFO - Processing scenario 68/85: Tamasheq
+2025-05-19 23:24:57,290 - ERROR - Error processing scenario Tamasheq: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_taq_formal.json'
+2025-05-19 23:24:57,290 - INFO - Progress: 68/85 scenarios processed (0 successful)
+2025-05-19 23:24:57,290 - INFO - Processing scenario 69/85: Tibetan, Amdo
+2025-05-19 23:24:57,290 - ERROR - Error processing scenario Tibetan, Amdo: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_adx_formal.json'
+2025-05-19 23:24:57,290 - INFO - Progress: 69/85 scenarios processed (0 successful)
+2025-05-19 23:24:57,290 - INFO - Processing scenario 70/85: Uzbek, Southern
+2025-05-19 23:24:57,290 - ERROR - Error processing scenario Uzbek, Southern: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_uzs_formal.json'
+2025-05-19 23:24:57,290 - INFO - Progress: 70/85 scenarios processed (0 successful)
+2025-05-19 23:24:57,290 - INFO - Processing scenario 71/85: Zhuang, Eastern Hongshuihe
+2025-05-19 23:24:57,290 - ERROR - Error processing scenario Zhuang, Eastern Hongshuihe: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_zeh_formal.json'
+2025-05-19 23:24:57,291 - INFO - Progress: 71/85 scenarios processed (0 successful)
+2025-05-19 23:24:57,291 - INFO - Processing scenario 72/85: Zhuang, Guibei
+2025-05-19 23:24:57,291 - ERROR - Error processing scenario Zhuang, Guibei: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_zgb_formal.json'
+2025-05-19 23:24:57,291 - INFO - Progress: 72/85 scenarios processed (0 successful)
+2025-05-19 23:24:57,291 - INFO - Processing scenario 73/85: Zhuang, Nong
+2025-05-19 23:24:57,291 - ERROR - Error processing scenario Zhuang, Nong: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_zhn_formal.json'
+2025-05-19 23:24:57,291 - INFO - Progress: 73/85 scenarios processed (0 successful)
+2025-05-19 23:24:57,291 - INFO - Processing scenario 74/85: Zhuang, Yongnan
+2025-05-19 23:24:57,291 - ERROR - Error processing scenario Zhuang, Yongnan: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_zyn_formal.json'
+2025-05-19 23:24:57,291 - INFO - Progress: 74/85 scenarios processed (0 successful)
+2025-05-19 23:24:57,291 - INFO - Processing scenario 75/85: Zhuang, Zuojiang
+2025-05-19 23:24:57,291 - ERROR - Error processing scenario Zhuang, Zuojiang: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_zzj_formal.json'
+2025-05-19 23:24:57,291 - INFO - Progress: 75/85 scenarios processed (0 successful)
+2025-05-19 23:24:57,291 - INFO - Processing scenario 76/85: Bislama
+2025-05-19 23:24:57,291 - ERROR - Error processing scenario Bislama: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_bis_formal.json'
+2025-05-19 23:24:57,291 - INFO - Progress: 76/85 scenarios processed (0 successful)
+2025-05-19 23:24:57,291 - INFO - Processing scenario 77/85: French (Francophone Africa)
+2025-05-19 23:24:57,291 - ERROR - Error processing scenario French (Francophone Africa): [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_fra_formal.json'
+2025-05-19 23:24:57,292 - INFO - Progress: 77/85 scenarios processed (0 successful)
+2025-05-19 23:24:57,292 - INFO - Processing scenario 78/85: Portuguese (Brazilian)
+2025-05-19 23:24:57,292 - ERROR - Error processing scenario Portuguese (Brazilian): [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_por_formal.json'
+2025-05-19 23:24:57,292 - INFO - Progress: 78/85 scenarios processed (0 successful)
+2025-05-19 23:24:57,292 - INFO - Processing scenario 79/85: Spanish (Latin America)
+2025-05-19 23:24:57,292 - ERROR - Error processing scenario Spanish (Latin America): [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_spa_formal.json'
+2025-05-19 23:24:57,292 - INFO - Progress: 79/85 scenarios processed (0 successful)
+2025-05-19 23:24:57,292 - INFO - Processing scenario 80/85: Tok Pisin
+2025-05-19 23:24:57,292 - ERROR - Error processing scenario Tok Pisin: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_tpi_formal.json'
+2025-05-19 23:24:57,292 - INFO - Progress: 80/85 scenarios processed (0 successful)
+2025-05-19 23:24:57,292 - INFO - Processing scenario 81/85: Chokwe
+2025-05-19 23:24:57,292 - ERROR - Error processing scenario Chokwe: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_cjk_formal.json'
+2025-05-19 23:24:57,292 - INFO - Progress: 81/85 scenarios processed (0 successful)
+2025-05-19 23:24:57,292 - INFO - Processing scenario 82/85: Chol
+2025-05-19 23:24:57,292 - ERROR - Error processing scenario Chol: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_ctu_formal.json'
+2025-05-19 23:24:57,292 - INFO - Progress: 82/85 scenarios processed (0 successful)
+2025-05-19 23:24:57,292 - INFO - Processing scenario 83/85: Chrau
+2025-05-19 23:24:57,292 - ERROR - Error processing scenario Chrau: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_crw_formal.json'
+2025-05-19 23:24:57,292 - INFO - Progress: 83/85 scenarios processed (0 successful)
+2025-05-19 23:24:57,292 - INFO - Processing scenario 84/85: Lunda
+2025-05-19 23:24:57,292 - ERROR - Error processing scenario Lunda: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_lun_formal.json'
+2025-05-19 23:24:57,292 - INFO - Progress: 84/85 scenarios processed (0 successful)
+2025-05-19 23:24:57,292 - INFO - Processing scenario 85/85: Luo
+2025-05-19 23:24:57,292 - ERROR - Error processing scenario Luo: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_luo_formal.json '
+2025-05-19 23:24:57,292 - INFO - Progress: 85/85 scenarios processed (0 successful)
+2025-05-19 23:24:57,292 - INFO - Translation run complete. 0/85 scenarios processed successfully.
+2025-05-19 23:26:13,024 - INFO - Starting translation run with 85 scenarios
+2025-05-19 23:26:13,025 - INFO - Processing scenario 1/85: Bhojpuri
+2025-05-19 23:26:13,025 - ERROR - Error processing scenario Bhojpuri: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_bho_formal.json'
+2025-05-19 23:26:13,025 - INFO - Progress: 1/85 scenarios processed (0 successful)
+2025-05-19 23:26:13,025 - INFO - Processing scenario 2/85: Chhattisgarhi
+2025-05-19 23:26:13,025 - ERROR - Error processing scenario Chhattisgarhi: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_hne_formal.json'
+2025-05-19 23:26:13,025 - INFO - Progress: 2/85 scenarios processed (0 successful)
+2025-05-19 23:26:13,025 - INFO - Processing scenario 3/85: Chittagonian
+2025-05-19 23:26:13,025 - ERROR - Error processing scenario Chittagonian: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_ctg_formal.json'
+2025-05-19 23:26:13,025 - INFO - Progress: 3/85 scenarios processed (0 successful)
+2025-05-19 23:26:13,025 - INFO - Processing scenario 4/85: Dari
+2025-05-19 23:26:13,025 - ERROR - Error processing scenario Dari: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_prs_formal.json'
+2025-05-19 23:26:13,025 - INFO - Progress: 4/85 scenarios processed (0 successful)
+2025-05-19 23:26:13,025 - INFO - Processing scenario 5/85: Fulfulde, Nigerian
+2025-05-19 23:26:13,025 - ERROR - Error processing scenario Fulfulde, Nigerian: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_fuv_formal.json'
+2025-05-19 23:26:13,025 - INFO - Progress: 5/85 scenarios processed (0 successful)
+2025-05-19 23:26:13,025 - INFO - Processing scenario 6/85: Hassaniyya
+2025-05-19 23:26:13,025 - ERROR - Error processing scenario Hassaniyya: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_mey_formal.json'
+2025-05-19 23:26:13,025 - INFO - Progress: 6/85 scenarios processed (0 successful)
+2025-05-19 23:26:13,025 - INFO - Processing scenario 7/85: Hebrew
+2025-05-19 23:26:13,025 - ERROR - Error processing scenario Hebrew: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_heb_formal.json'
+2025-05-19 23:26:13,025 - INFO - Progress: 7/85 scenarios processed (0 successful)
+2025-05-19 23:26:13,025 - INFO - Processing scenario 8/85: Kanuri, Yerwa
+2025-05-19 23:26:13,025 - ERROR - Error processing scenario Kanuri, Yerwa: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_knc_formal.json'
+2025-05-19 23:26:13,025 - INFO - Progress: 8/85 scenarios processed (0 successful)
+2025-05-19 23:26:13,025 - INFO - Processing scenario 9/85: Kashmiri
+2025-05-19 23:26:13,025 - ERROR - Error processing scenario Kashmiri: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_kas_formal.json'
+2025-05-19 23:26:13,025 - INFO - Progress: 9/85 scenarios processed (0 successful)
+2025-05-19 23:26:13,025 - INFO - Processing scenario 10/85: Kazakh
+2025-05-19 23:26:13,025 - ERROR - Error processing scenario Kazakh: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_kaz_formal.json'
+2025-05-19 23:26:13,025 - INFO - Progress: 10/85 scenarios processed (0 successful)
+2025-05-19 23:26:13,025 - INFO - Processing scenario 11/85: Kurdish, Northern
+2025-05-19 23:26:13,025 - ERROR - Error processing scenario Kurdish, Northern: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_kmr_formal.json'
+2025-05-19 23:26:13,025 - INFO - Progress: 11/85 scenarios processed (0 successful)
+2025-05-19 23:26:13,025 - INFO - Processing scenario 12/85: Luba-Kasai
+2025-05-19 23:26:13,025 - ERROR - Error processing scenario Luba-Kasai: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_lua_formal.json'
+2025-05-19 23:26:13,026 - INFO - Progress: 12/85 scenarios processed (0 successful)
+2025-05-19 23:26:13,026 - INFO - Processing scenario 13/85: Magahi
+2025-05-19 23:26:13,026 - ERROR - Error processing scenario Magahi: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_mag_formal.json'
+2025-05-19 23:26:13,026 - INFO - Progress: 13/85 scenarios processed (0 successful)
+2025-05-19 23:26:13,026 - INFO - Processing scenario 14/85: Maithili
+2025-05-19 23:26:13,026 - ERROR - Error processing scenario Maithili: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_mai_formal.json'
+2025-05-19 23:26:13,026 - INFO - Progress: 14/85 scenarios processed (0 successful)
+2025-05-19 23:26:13,026 - INFO - Processing scenario 15/85: Pashto, Southern
+2025-05-19 23:26:13,026 - ERROR - Error processing scenario Pashto, Southern: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_pbt_formal.json'
+2025-05-19 23:26:13,026 - INFO - Progress: 15/85 scenarios processed (0 successful)
+2025-05-19 23:26:13,026 - INFO - Processing scenario 16/85: Rangpuri
+2025-05-19 23:26:13,026 - ERROR - Error processing scenario Rangpuri: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_rkt_formal.json'
+2025-05-19 23:26:13,026 - INFO - Progress: 16/85 scenarios processed (0 successful)
+2025-05-19 23:26:13,026 - INFO - Processing scenario 17/85: Rundi
+2025-05-19 23:26:13,026 - ERROR - Error processing scenario Rundi: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_run_formal.json'
+2025-05-19 23:26:13,026 - INFO - Progress: 17/85 scenarios processed (0 successful)
+2025-05-19 23:26:13,026 - INFO - Processing scenario 18/85: Santhali
+2025-05-19 23:26:13,026 - ERROR - Error processing scenario Santhali: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_sat_formal.json'
+2025-05-19 23:26:13,026 - INFO - Progress: 18/85 scenarios processed (0 successful)
+2025-05-19 23:26:13,026 - INFO - Processing scenario 19/85: Saraiki
+2025-05-19 23:26:13,026 - ERROR - Error processing scenario Saraiki: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_skr_formal.json'
+2025-05-19 23:26:13,026 - INFO - Progress: 19/85 scenarios processed (0 successful)
+2025-05-19 23:26:13,026 - INFO - Processing scenario 20/85: Sindhi
+2025-05-19 23:26:13,026 - ERROR - Error processing scenario Sindhi: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_snd_formal.json'
+2025-05-19 23:26:13,026 - INFO - Progress: 20/85 scenarios processed (0 successful)
+2025-05-19 23:26:13,026 - INFO - Processing scenario 21/85: Somali
+2025-05-19 23:26:13,026 - ERROR - Error processing scenario Somali: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_som_formal.json'
+2025-05-19 23:26:13,026 - INFO - Progress: 21/85 scenarios processed (0 successful)
+2025-05-19 23:26:13,026 - INFO - Processing scenario 22/85: Sylheti
+2025-05-19 23:26:13,026 - ERROR - Error processing scenario Sylheti: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_syl_formal.json'
+2025-05-19 23:26:13,026 - INFO - Progress: 22/85 scenarios processed (0 successful)
+2025-05-19 23:26:13,026 - INFO - Processing scenario 23/85: Tajik
+2025-05-19 23:26:13,026 - ERROR - Error processing scenario Tajik: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_tgk_formal.json'
+2025-05-19 23:26:13,026 - INFO - Progress: 23/85 scenarios processed (0 successful)
+2025-05-19 23:26:13,026 - INFO - Processing scenario 24/85: Turkmen
+2025-05-19 23:26:13,027 - ERROR - Error processing scenario Turkmen: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_tuk_formal.json'
+2025-05-19 23:26:13,027 - INFO - Progress: 24/85 scenarios processed (0 successful)
+2025-05-19 23:26:13,027 - INFO - Processing scenario 25/85: Umbundu
+2025-05-19 23:26:13,027 - ERROR - Error processing scenario Umbundu: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_umb_formal.json'
+2025-05-19 23:26:13,027 - INFO - Progress: 25/85 scenarios processed (0 successful)
+2025-05-19 23:26:13,027 - INFO - Processing scenario 26/85: Uyghur
+2025-05-19 23:26:13,027 - ERROR - Error processing scenario Uyghur: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_uig_formal.json'
+2025-05-19 23:26:13,027 - INFO - Progress: 26/85 scenarios processed (0 successful)
+2025-05-19 23:26:13,027 - INFO - Processing scenario 27/85: Uzbek, Northern
+2025-05-19 23:26:13,027 - ERROR - Error processing scenario Uzbek, Northern: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_uzn_formal.json'
+2025-05-19 23:26:13,027 - INFO - Progress: 27/85 scenarios processed (0 successful)
+2025-05-19 23:26:13,027 - INFO - Processing scenario 28/85: Azerbaijani, South
+2025-05-19 23:26:13,027 - ERROR - Error processing scenario Azerbaijani, South: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_azb_formal.json'
+2025-05-19 23:26:13,027 - INFO - Progress: 28/85 scenarios processed (0 successful)
+2025-05-19 23:26:13,027 - INFO - Processing scenario 29/85: Burmese
+2025-05-19 23:26:13,027 - ERROR - Error processing scenario Burmese: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_mya_formal.json'
+2025-05-19 23:26:13,027 - INFO - Progress: 29/85 scenarios processed (0 successful)
+2025-05-19 23:26:13,027 - INFO - Processing scenario 30/85: Chichewa
+2025-05-19 23:26:13,027 - ERROR - Error processing scenario Chichewa: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_nya_formal.json'
+2025-05-19 23:26:13,027 - INFO - Progress: 30/85 scenarios processed (0 successful)
+2025-05-19 23:26:13,027 - INFO - Processing scenario 31/85: Chuvash
+2025-05-19 23:26:13,027 - ERROR - Error processing scenario Chuvash: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_chv_formal.json'
+2025-05-19 23:26:13,027 - INFO - Progress: 31/85 scenarios processed (0 successful)
+2025-05-19 23:26:13,027 - INFO - Processing scenario 32/85: Dinka
+2025-05-19 23:26:13,027 - ERROR - Error processing scenario Dinka: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_din_formal.json'
+2025-05-19 23:26:13,027 - INFO - Progress: 32/85 scenarios processed (0 successful)
+2025-05-19 23:26:13,027 - INFO - Processing scenario 33/85: Javanese
+2025-05-19 23:26:13,027 - ERROR - Error processing scenario Javanese: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_jav_formal.json'
+2025-05-19 23:26:13,027 - INFO - Progress: 33/85 scenarios processed (0 successful)
+2025-05-19 23:26:13,028 - INFO - Processing scenario 34/85: Malay, Standard
+2025-05-19 23:26:13,028 - ERROR - Error processing scenario Malay, Standard: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_zsm_formal.json'
+2025-05-19 23:26:13,028 - INFO - Progress: 34/85 scenarios processed (0 successful)
+2025-05-19 23:26:13,028 - INFO - Processing scenario 35/85: Punjabi, Eastern
+2025-05-19 23:26:13,028 - ERROR - Error processing scenario Punjabi, Eastern: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_pan_formal.json'
+2025-05-19 23:26:13,028 - INFO - Progress: 35/85 scenarios processed (0 successful)
+2025-05-19 23:26:13,028 - INFO - Processing scenario 36/85: Arabic, Eastern Egyptian Bedawi
+2025-05-19 23:26:13,028 - ERROR - Error processing scenario Arabic, Eastern Egyptian Bedawi: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_avl_formal.json'
+2025-05-19 23:26:13,028 - INFO - Progress: 36/85 scenarios processed (0 successful)
+2025-05-19 23:26:13,028 - INFO - Processing scenario 37/85: Bai, Central
+2025-05-19 23:26:13,028 - ERROR - Error processing scenario Bai, Central: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_bca_formal.json'
+2025-05-19 23:26:13,028 - INFO - Progress: 37/85 scenarios processed (0 successful)
+2025-05-19 23:26:13,028 - INFO - Processing scenario 38/85: Bareli, Pauri
+2025-05-19 23:26:13,028 - ERROR - Error processing scenario Bareli, Pauri: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_bfb_formal.json'
+2025-05-19 23:26:13,028 - INFO - Progress: 38/85 scenarios processed (0 successful)
+2025-05-19 23:26:13,028 - INFO - Processing scenario 39/85: Batak Mandailing
+2025-05-19 23:26:13,028 - ERROR - Error processing scenario Batak Mandailing: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_btm_formal.json'
+2025-05-19 23:26:13,028 - INFO - Progress: 39/85 scenarios processed (0 successful)
+2025-05-19 23:26:13,028 - INFO - Processing scenario 40/85: Bena
+2025-05-19 23:26:13,028 - ERROR - Error processing scenario Bena: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_bez_formal.json'
+2025-05-19 23:26:13,028 - INFO - Progress: 40/85 scenarios processed (0 successful)
+2025-05-19 23:26:13,028 - INFO - Processing scenario 41/85: Chinese, Gan
+2025-05-19 23:26:13,028 - ERROR - Error processing scenario Chinese, Gan: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_gan_formal.json'
+2025-05-19 23:26:13,028 - INFO - Progress: 41/85 scenarios processed (0 successful)
+2025-05-19 23:26:13,028 - INFO - Processing scenario 42/85: Chinese, Min Bei
+2025-05-19 23:26:13,028 - ERROR - Error processing scenario Chinese, Min Bei: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_mnp_formal.json'
+2025-05-19 23:26:13,028 - INFO - Progress: 42/85 scenarios processed (0 successful)
+2025-05-19 23:26:13,028 - INFO - Processing scenario 43/85: Chinese Sign Language
+2025-05-19 23:26:13,028 - ERROR - Error processing scenario Chinese Sign Language: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_csl_formal.json'
+2025-05-19 23:26:13,028 - INFO - Progress: 43/85 scenarios processed (0 successful)
+2025-05-19 23:26:13,028 - INFO - Processing scenario 44/85: Chinese, Xiang
+2025-05-19 23:26:13,028 - ERROR - Error processing scenario Chinese, Xiang: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_hsn_formal.json'
+2025-05-19 23:26:13,028 - INFO - Progress: 44/85 scenarios processed (0 successful)
+2025-05-19 23:26:13,028 - INFO - Processing scenario 45/85: Dinka, South Central
+2025-05-19 23:26:13,028 - ERROR - Error processing scenario Dinka, South Central: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_dib_formal.json'
+2025-05-19 23:26:13,028 - INFO - Progress: 45/85 scenarios processed (0 successful)
+2025-05-19 23:26:13,028 - INFO - Processing scenario 46/85: Dinka, Southeastern
+2025-05-19 23:26:13,028 - ERROR - Error processing scenario Dinka, Southeastern: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_dks_formal.json'
+2025-05-19 23:26:13,028 - INFO - Progress: 46/85 scenarios processed (0 successful)
+2025-05-19 23:26:13,029 - INFO - Processing scenario 47/85: Fulfulde, Maasina
+2025-05-19 23:26:13,029 - ERROR - Error processing scenario Fulfulde, Maasina: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_ffm_formal.json'
+2025-05-19 23:26:13,029 - INFO - Progress: 47/85 scenarios processed (0 successful)
+2025-05-19 23:26:13,029 - INFO - Processing scenario 48/85: Guyanese English Creole
+2025-05-19 23:26:13,029 - ERROR - Error processing scenario Guyanese English Creole: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_gyn_formal.json'
+2025-05-19 23:26:13,029 - INFO - Progress: 48/85 scenarios processed (0 successful)
+2025-05-19 23:26:13,029 - INFO - Processing scenario 49/85: Hlai
+2025-05-19 23:26:13,029 - ERROR - Error processing scenario Hlai: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_lic_formal.json'
+2025-05-19 23:26:13,029 - INFO - Progress: 49/85 scenarios processed (0 successful)
+2025-05-19 23:26:13,029 - INFO - Processing scenario 50/85: Kabuverdianu
+2025-05-19 23:26:13,029 - ERROR - Error processing scenario Kabuverdianu: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_kea_formal.json'
+2025-05-19 23:26:13,029 - INFO - Progress: 50/85 scenarios processed (0 successful)
+2025-05-19 23:26:13,029 - INFO - Processing scenario 51/85: Kacchi
+2025-05-19 23:26:13,029 - ERROR - Error processing scenario Kacchi: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_kfr_formal.json'
+2025-05-19 23:26:13,029 - INFO - Progress: 51/85 scenarios processed (0 successful)
+2025-05-19 23:26:13,029 - INFO - Processing scenario 52/85: Khorasani Turkish
+2025-05-19 23:26:13,029 - ERROR - Error processing scenario Khorasani Turkish: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_kmz_formal.json'
+2025-05-19 23:26:13,029 - INFO - Progress: 52/85 scenarios processed (0 successful)
+2025-05-19 23:26:13,029 - INFO - Processing scenario 53/85: Kipsigis
+2025-05-19 23:26:13,029 - ERROR - Error processing scenario Kipsigis: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_sgc_formal.json'
+2025-05-19 23:26:13,029 - INFO - Progress: 53/85 scenarios processed (0 successful)
+2025-05-19 23:26:13,029 - INFO - Processing scenario 54/85: Lampung Api
+2025-05-19 23:26:13,029 - ERROR - Error processing scenario Lampung Api: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_ljp_formal.json'
+2025-05-19 23:26:13,029 - INFO - Progress: 54/85 scenarios processed (0 successful)
+2025-05-19 23:26:13,029 - INFO - Processing scenario 55/85: Lesser Antillean French Creole
+2025-05-19 23:26:13,029 - ERROR - Error processing scenario Lesser Antillean French Creole: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_acf_formal.json'
+2025-05-19 23:26:13,029 - INFO - Progress: 55/85 scenarios processed (0 successful)
+2025-05-19 23:26:13,030 - INFO - Processing scenario 56/85: Lingao
+2025-05-19 23:26:13,030 - ERROR - Error processing scenario Lingao: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_onb_formal.json'
+2025-05-19 23:26:13,030 - INFO - Progress: 56/85 scenarios processed (0 successful)
+2025-05-19 23:26:13,030 - INFO - Processing scenario 57/85: Maay
+2025-05-19 23:26:13,030 - ERROR - Error processing scenario Maay: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_ymm_formal.json'
+2025-05-19 23:26:13,030 - INFO - Progress: 57/85 scenarios processed (0 successful)
+2025-05-19 23:26:13,030 - INFO - Processing scenario 58/85: Malagasy, Bara
+2025-05-19 23:26:13,030 - ERROR - Error processing scenario Malagasy, Bara: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_bhr_formal.json'
+2025-05-19 23:26:13,030 - INFO - Progress: 58/85 scenarios processed (0 successful)
+2025-05-19 23:26:13,030 - INFO - Processing scenario 59/85: Malagasy, Masikoro
+2025-05-19 23:26:13,031 - ERROR - Error processing scenario Malagasy, Masikoro: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_msh_formal.json'
+2025-05-19 23:26:13,031 - INFO - Progress: 59/85 scenarios processed (0 successful)
+2025-05-19 23:26:13,031 - INFO - Processing scenario 60/85: Malagasy, Tandroy-Mahafaly
+2025-05-19 23:26:13,031 - ERROR - Error processing scenario Malagasy, Tandroy-Mahafaly: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_tdx_formal.json'
+2025-05-19 23:26:13,031 - INFO - Progress: 60/85 scenarios processed (0 successful)
+2025-05-19 23:26:13,031 - INFO - Processing scenario 61/85: Malagasy, Tanosy
+2025-05-19 23:26:13,031 - ERROR - Error processing scenario Malagasy, Tanosy: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_txy_formal.json'
+2025-05-19 23:26:13,031 - INFO - Progress: 61/85 scenarios processed (0 successful)
+2025-05-19 23:26:13,031 - INFO - Processing scenario 62/85: Malay, Central
+2025-05-19 23:26:13,031 - ERROR - Error processing scenario Malay, Central: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_pse_formal.json'
+2025-05-19 23:26:13,031 - INFO - Progress: 62/85 scenarios processed (0 successful)
+2025-05-19 23:26:13,031 - INFO - Processing scenario 63/85: Malay, Jambi
+2025-05-19 23:26:13,031 - ERROR - Error processing scenario Malay, Jambi: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_jax_formal.json'
+2025-05-19 23:26:13,031 - INFO - Progress: 63/85 scenarios processed (0 successful)
+2025-05-19 23:26:13,031 - INFO - Processing scenario 64/85: Miao, Southern Qiandong
+2025-05-19 23:26:13,031 - ERROR - Error processing scenario Miao, Southern Qiandong: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_hms_formal.json'
+2025-05-19 23:26:13,031 - INFO - Progress: 64/85 scenarios processed (0 successful)
+2025-05-19 23:26:13,032 - INFO - Processing scenario 65/85: Miao, Western Xiangxi
+2025-05-19 23:26:13,032 - ERROR - Error processing scenario Miao, Western Xiangxi: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_mmr_formal.json'
+2025-05-19 23:26:13,032 - INFO - Progress: 65/85 scenarios processed (0 successful)
+2025-05-19 23:26:13,032 - INFO - Processing scenario 66/85: Ngas
+2025-05-19 23:26:13,032 - ERROR - Error processing scenario Ngas: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_anc_formal.json'
+2025-05-19 23:26:13,032 - INFO - Progress: 66/85 scenarios processed (0 successful)
+2025-05-19 23:26:13,032 - INFO - Processing scenario 67/85: Surigaonon
+2025-05-19 23:26:13,032 - ERROR - Error processing scenario Surigaonon: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_sgd_formal.json'
+2025-05-19 23:26:13,032 - INFO - Progress: 67/85 scenarios processed (0 successful)
+2025-05-19 23:26:13,032 - INFO - Processing scenario 68/85: Tamasheq
+2025-05-19 23:26:13,032 - ERROR - Error processing scenario Tamasheq: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_taq_formal.json'
+2025-05-19 23:26:13,032 - INFO - Progress: 68/85 scenarios processed (0 successful)
+2025-05-19 23:26:13,032 - INFO - Processing scenario 69/85: Tibetan, Amdo
+2025-05-19 23:26:13,032 - ERROR - Error processing scenario Tibetan, Amdo: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_adx_formal.json'
+2025-05-19 23:26:13,032 - INFO - Progress: 69/85 scenarios processed (0 successful)
+2025-05-19 23:26:13,032 - INFO - Processing scenario 70/85: Uzbek, Southern
+2025-05-19 23:26:13,032 - ERROR - Error processing scenario Uzbek, Southern: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_uzs_formal.json'
+2025-05-19 23:26:13,032 - INFO - Progress: 70/85 scenarios processed (0 successful)
+2025-05-19 23:26:13,032 - INFO - Processing scenario 71/85: Zhuang, Eastern Hongshuihe
+2025-05-19 23:26:13,032 - ERROR - Error processing scenario Zhuang, Eastern Hongshuihe: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_zeh_formal.json'
+2025-05-19 23:26:13,032 - INFO - Progress: 71/85 scenarios processed (0 successful)
+2025-05-19 23:26:13,032 - INFO - Processing scenario 72/85: Zhuang, Guibei
+2025-05-19 23:26:13,032 - ERROR - Error processing scenario Zhuang, Guibei: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_zgb_formal.json'
+2025-05-19 23:26:13,032 - INFO - Progress: 72/85 scenarios processed (0 successful)
+2025-05-19 23:26:13,032 - INFO - Processing scenario 73/85: Zhuang, Nong
+2025-05-19 23:26:13,032 - ERROR - Error processing scenario Zhuang, Nong: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_zhn_formal.json'
+2025-05-19 23:26:13,032 - INFO - Progress: 73/85 scenarios processed (0 successful)
+2025-05-19 23:26:13,032 - INFO - Processing scenario 74/85: Zhuang, Yongnan
+2025-05-19 23:26:13,032 - ERROR - Error processing scenario Zhuang, Yongnan: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_zyn_formal.json'
+2025-05-19 23:26:13,032 - INFO - Progress: 74/85 scenarios processed (0 successful)
+2025-05-19 23:26:13,032 - INFO - Processing scenario 75/85: Zhuang, Zuojiang
+2025-05-19 23:26:13,032 - ERROR - Error processing scenario Zhuang, Zuojiang: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_zzj_formal.json'
+2025-05-19 23:26:13,032 - INFO - Progress: 75/85 scenarios processed (0 successful)
+2025-05-19 23:26:13,032 - INFO - Processing scenario 76/85: Bislama
+2025-05-19 23:26:13,032 - ERROR - Error processing scenario Bislama: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_bis_formal.json'
+2025-05-19 23:26:13,032 - INFO - Progress: 76/85 scenarios processed (0 successful)
+2025-05-19 23:26:13,033 - INFO - Processing scenario 77/85: French (Francophone Africa)
+2025-05-19 23:26:13,033 - ERROR - Error processing scenario French (Francophone Africa): [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_fra_formal.json'
+2025-05-19 23:26:13,033 - INFO - Progress: 77/85 scenarios processed (0 successful)
+2025-05-19 23:26:13,033 - INFO - Processing scenario 78/85: Portuguese (Brazilian)
+2025-05-19 23:26:13,033 - ERROR - Error processing scenario Portuguese (Brazilian): [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_por_formal.json'
+2025-05-19 23:26:13,033 - INFO - Progress: 78/85 scenarios processed (0 successful)
+2025-05-19 23:26:13,033 - INFO - Processing scenario 79/85: Spanish (Latin America)
+2025-05-19 23:26:13,033 - ERROR - Error processing scenario Spanish (Latin America): [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_spa_formal.json'
+2025-05-19 23:26:13,033 - INFO - Progress: 79/85 scenarios processed (0 successful)
+2025-05-19 23:26:13,033 - INFO - Processing scenario 80/85: Tok Pisin
+2025-05-19 23:26:13,033 - ERROR - Error processing scenario Tok Pisin: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_tpi_formal.json'
+2025-05-19 23:26:13,033 - INFO - Progress: 80/85 scenarios processed (0 successful)
+2025-05-19 23:26:13,033 - INFO - Processing scenario 81/85: Chokwe
+2025-05-19 23:26:13,033 - ERROR - Error processing scenario Chokwe: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_cjk_formal.json'
+2025-05-19 23:26:13,033 - INFO - Progress: 81/85 scenarios processed (0 successful)
+2025-05-19 23:26:13,033 - INFO - Processing scenario 82/85: Chol
+2025-05-19 23:26:13,033 - ERROR - Error processing scenario Chol: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_ctu_formal.json'
+2025-05-19 23:26:13,033 - INFO - Progress: 82/85 scenarios processed (0 successful)
+2025-05-19 23:26:13,033 - INFO - Processing scenario 83/85: Chrau
+2025-05-19 23:26:13,033 - ERROR - Error processing scenario Chrau: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_crw_formal.json'
+2025-05-19 23:26:13,033 - INFO - Progress: 83/85 scenarios processed (0 successful)
+2025-05-19 23:26:13,033 - INFO - Processing scenario 84/85: Lunda
+2025-05-19 23:26:13,033 - ERROR - Error processing scenario Lunda: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_lun_formal.json'
+2025-05-19 23:26:13,033 - INFO - Progress: 84/85 scenarios processed (0 successful)
+2025-05-19 23:26:13,033 - INFO - Processing scenario 85/85: Luo
+2025-05-19 23:26:13,033 - ERROR - Error processing scenario Luo: [Errno 2] No such file or directory: 'swarm_translate/scenarios/luke-only/bible_luo_formal.json '
+2025-05-19 23:26:13,033 - INFO - Progress: 85/85 scenarios processed (0 successful)
+2025-05-19 23:26:13,033 - INFO - Translation run complete. 0/85 scenarios processed successfully.
+2025-05-19 23:28:50,576 - INFO - Starting translation run with 85 scenarios
+2025-05-19 23:28:50,576 - INFO - Processing scenario 1/85: Bhojpuri
+2025-05-19 23:28:50,577 - INFO - Processing Bhojpuri (bho)
+2025-05-19 23:28:50,577 - INFO - Translated Luke 1:1 to bho
+2025-05-19 23:28:50,781 - INFO - Translated Luke 1:2 to bho
+2025-05-19 23:28:50,981 - INFO - Translated Luke 1:3 to bho
+2025-05-19 23:28:51,182 - INFO - Progress: 1/85 scenarios processed (1 successful)
+2025-05-19 23:28:51,182 - INFO - Processing scenario 2/85: Chhattisgarhi
+2025-05-19 23:28:51,183 - INFO - Processing Chhattisgarhi (hne)
+2025-05-19 23:28:51,183 - INFO - Translated Luke 1:1 to hne
+2025-05-19 23:28:51,388 - INFO - Translated Luke 1:2 to hne
+2025-05-19 23:28:51,590 - INFO - Translated Luke 1:3 to hne
+2025-05-19 23:28:51,790 - INFO - Progress: 2/85 scenarios processed (2 successful)
+2025-05-19 23:28:51,791 - INFO - Processing scenario 3/85: Chittagonian
+2025-05-19 23:28:51,792 - INFO - Processing Chittagonian (ctg)
+2025-05-19 23:28:51,792 - INFO - Translated Luke 1:1 to ctg
+2025-05-19 23:28:51,996 - INFO - Translated Luke 1:2 to ctg
+2025-05-19 23:28:52,197 - INFO - Translated Luke 1:3 to ctg
+2025-05-19 23:28:52,400 - INFO - Progress: 3/85 scenarios processed (3 successful)
+2025-05-19 23:28:52,400 - INFO - Processing scenario 4/85: Dari
+2025-05-19 23:28:52,401 - INFO - Processing Dari (prs)
+2025-05-19 23:28:52,401 - INFO - Translated Luke 1:1 to prs
+2025-05-19 23:28:52,611 - INFO - Translated Luke 1:2 to prs
+2025-05-19 23:28:52,822 - INFO - Translated Luke 1:3 to prs
+2025-05-19 23:28:53,028 - INFO - Progress: 4/85 scenarios processed (4 successful)
+2025-05-19 23:28:53,028 - INFO - Processing scenario 5/85: Fulfulde, Nigerian
+2025-05-19 23:28:53,029 - INFO - Processing Fulfulde, Nigerian (fuv)
+2025-05-19 23:28:53,029 - INFO - Translated Luke 1:1 to fuv
+2025-05-19 23:28:53,231 - INFO - Translated Luke 1:2 to fuv
+2025-05-19 23:28:53,436 - INFO - Translated Luke 1:3 to fuv
+2025-05-19 23:28:53,640 - INFO - Progress: 5/85 scenarios processed (5 successful)
+2025-05-19 23:28:53,640 - INFO - Processing scenario 6/85: Hassaniyya
+2025-05-19 23:28:53,641 - INFO - Processing Hassaniyya (mey)
+2025-05-19 23:28:53,641 - INFO - Translated Luke 1:1 to mey
+2025-05-19 23:28:53,843 - INFO - Translated Luke 1:2 to mey
+2025-05-19 23:28:54,045 - INFO - Translated Luke 1:3 to mey
+2025-05-19 23:28:54,248 - INFO - Progress: 6/85 scenarios processed (6 successful)
+2025-05-19 23:28:54,248 - INFO - Processing scenario 7/85: Hebrew
+2025-05-19 23:28:54,249 - INFO - Processing Hebrew (heb)
+2025-05-19 23:28:54,249 - INFO - Translated Luke 1:1 to heb
+2025-05-19 23:28:54,449 - INFO - Translated Luke 1:2 to heb
+2025-05-19 23:28:54,655 - INFO - Translated Luke 1:3 to heb
+2025-05-19 23:28:54,857 - INFO - Progress: 7/85 scenarios processed (7 successful)
+2025-05-19 23:28:54,857 - INFO - Processing scenario 8/85: Kanuri, Yerwa
+2025-05-19 23:28:54,860 - INFO - Processing Kanuri, Yerwa (knc)
+2025-05-19 23:28:54,860 - INFO - Translated Luke 1:1 to knc
+2025-05-19 23:28:55,065 - INFO - Translated Luke 1:2 to knc
+2025-05-19 23:28:55,269 - INFO - Translated Luke 1:3 to knc
+2025-05-19 23:28:55,472 - INFO - Progress: 8/85 scenarios processed (8 successful)
+2025-05-19 23:28:55,472 - INFO - Processing scenario 9/85: Kashmiri
+2025-05-19 23:28:55,474 - INFO - Processing Kashmiri (kas)
+2025-05-19 23:28:55,474 - INFO - Translated Luke 1:1 to kas
+2025-05-19 23:28:55,675 - INFO - Translated Luke 1:2 to kas
+2025-05-19 23:28:55,875 - INFO - Translated Luke 1:3 to kas
+2025-05-19 23:28:56,075 - INFO - Progress: 9/85 scenarios processed (9 successful)
+2025-05-19 23:28:56,075 - INFO - Processing scenario 10/85: Kazakh
+2025-05-19 23:28:56,076 - INFO - Processing Kazakh (kaz)
+2025-05-19 23:28:56,076 - INFO - Translated Luke 1:1 to kaz
+2025-05-19 23:28:56,276 - INFO - Translated Luke 1:2 to kaz
+2025-05-19 23:28:56,481 - INFO - Translated Luke 1:3 to kaz
+2025-05-19 23:28:56,682 - INFO - Progress: 10/85 scenarios processed (10 successful)
+2025-05-19 23:28:56,682 - INFO - Processing scenario 11/85: Kurdish, Northern
+2025-05-19 23:28:56,684 - INFO - Processing Kurdish, Northern (kmr)
+2025-05-19 23:28:56,684 - INFO - Translated Luke 1:1 to kmr
+2025-05-19 23:28:56,885 - INFO - Translated Luke 1:2 to kmr
+2025-05-19 23:28:57,089 - INFO - Translated Luke 1:3 to kmr
+2025-05-19 23:28:57,290 - INFO - Progress: 11/85 scenarios processed (11 successful)
+2025-05-19 23:28:57,290 - INFO - Processing scenario 12/85: Luba-Kasai
+2025-05-19 23:28:57,290 - INFO - Processing Luba-Kasai (lua)
+2025-05-19 23:28:57,291 - INFO - Translated Luke 1:1 to lua
+2025-05-19 23:28:57,496 - INFO - Translated Luke 1:2 to lua
+2025-05-19 23:28:57,699 - INFO - Translated Luke 1:3 to lua
+2025-05-19 23:28:57,904 - INFO - Progress: 12/85 scenarios processed (12 successful)
+2025-05-19 23:28:57,904 - INFO - Processing scenario 13/85: Magahi
+2025-05-19 23:28:57,905 - INFO - Processing Magahi (mag)
+2025-05-19 23:28:57,905 - INFO - Translated Luke 1:1 to mag
+2025-05-19 23:28:58,106 - INFO - Translated Luke 1:2 to mag
+2025-05-19 23:28:58,311 - INFO - Translated Luke 1:3 to mag
+2025-05-19 23:28:58,514 - INFO - Progress: 13/85 scenarios processed (13 successful)
+2025-05-19 23:28:58,515 - INFO - Processing scenario 14/85: Maithili
+2025-05-19 23:28:58,516 - INFO - Processing Maithili (mai)
+2025-05-19 23:28:58,516 - INFO - Translated Luke 1:1 to mai
+2025-05-19 23:28:58,716 - INFO - Translated Luke 1:2 to mai
+2025-05-19 23:28:58,917 - INFO - Translated Luke 1:3 to mai
+2025-05-19 23:28:59,117 - INFO - Progress: 14/85 scenarios processed (14 successful)
+2025-05-19 23:28:59,117 - INFO - Processing scenario 15/85: Pashto, Southern
+2025-05-19 23:28:59,118 - INFO - Processing Pashto, Southern (pbt)
+2025-05-19 23:28:59,118 - INFO - Translated Luke 1:1 to pbt
+2025-05-19 23:28:59,318 - INFO - Translated Luke 1:2 to pbt
+2025-05-19 23:28:59,521 - INFO - Translated Luke 1:3 to pbt
+2025-05-19 23:28:59,723 - INFO - Progress: 15/85 scenarios processed (15 successful)
+2025-05-19 23:28:59,723 - INFO - Processing scenario 16/85: Rangpuri
+2025-05-19 23:28:59,724 - INFO - Processing Rangpuri (rkt)
+2025-05-19 23:28:59,724 - INFO - Translated Luke 1:1 to rkt
+2025-05-19 23:28:59,925 - INFO - Translated Luke 1:2 to rkt
+2025-05-19 23:29:00,125 - INFO - Translated Luke 1:3 to rkt
+2025-05-19 23:29:00,325 - INFO - Progress: 16/85 scenarios processed (16 successful)
+2025-05-19 23:29:00,326 - INFO - Processing scenario 17/85: Rundi
+2025-05-19 23:29:00,327 - INFO - Processing Rundi (run)
+2025-05-19 23:29:00,327 - INFO - Translated Luke 1:1 to run
+2025-05-19 23:29:00,528 - INFO - Translated Luke 1:2 to run
+2025-05-19 23:29:00,731 - INFO - Translated Luke 1:3 to run
+2025-05-19 23:29:00,936 - INFO - Progress: 17/85 scenarios processed (17 successful)
+2025-05-19 23:29:00,936 - INFO - Processing scenario 18/85: Santhali
+2025-05-19 23:29:00,937 - INFO - Processing Santhali (sat)
+2025-05-19 23:29:00,937 - INFO - Translated Luke 1:1 to sat
+2025-05-19 23:29:01,140 - INFO - Translated Luke 1:2 to sat
+2025-05-19 23:29:01,342 - INFO - Translated Luke 1:3 to sat
+2025-05-19 23:29:01,544 - INFO - Progress: 18/85 scenarios processed (18 successful)
+2025-05-19 23:29:01,544 - INFO - Processing scenario 19/85: Saraiki
+2025-05-19 23:29:01,544 - INFO - Processing Saraiki (skr)
+2025-05-19 23:29:01,545 - INFO - Translated Luke 1:1 to skr
+2025-05-19 23:29:01,748 - INFO - Translated Luke 1:2 to skr
+2025-05-19 23:29:01,953 - INFO - Translated Luke 1:3 to skr
+2025-05-19 23:29:02,154 - INFO - Progress: 19/85 scenarios processed (19 successful)
+2025-05-19 23:29:02,154 - INFO - Processing scenario 20/85: Sindhi
+2025-05-19 23:29:02,155 - INFO - Processing Sindhi (snd)
+2025-05-19 23:29:02,155 - INFO - Translated Luke 1:1 to snd
+2025-05-19 23:29:02,355 - INFO - Translated Luke 1:2 to snd
+2025-05-19 23:29:02,556 - INFO - Translated Luke 1:3 to snd
+2025-05-19 23:29:02,757 - INFO - Progress: 20/85 scenarios processed (20 successful)
+2025-05-19 23:29:02,757 - INFO - Processing scenario 21/85: Somali
+2025-05-19 23:29:02,757 - INFO - Processing Somali (som)
+2025-05-19 23:29:02,757 - INFO - Translated Luke 1:1 to som
+2025-05-19 23:29:02,958 - INFO - Translated Luke 1:2 to som
+2025-05-19 23:29:03,161 - INFO - Translated Luke 1:3 to som
+2025-05-19 23:29:03,366 - INFO - Progress: 21/85 scenarios processed (21 successful)
+2025-05-19 23:29:03,366 - INFO - Processing scenario 22/85: Sylheti
+2025-05-19 23:29:03,367 - INFO - Processing Sylheti (syl)
+2025-05-19 23:29:03,367 - INFO - Translated Luke 1:1 to syl
+2025-05-19 23:29:03,569 - INFO - Translated Luke 1:2 to syl
+2025-05-19 23:29:03,770 - INFO - Translated Luke 1:3 to syl
+2025-05-19 23:29:03,974 - INFO - Progress: 22/85 scenarios processed (22 successful)
+2025-05-19 23:29:03,974 - INFO - Processing scenario 23/85: Tajik
+2025-05-19 23:29:03,975 - INFO - Processing Tajik (tgk)
+2025-05-19 23:29:03,975 - INFO - Translated Luke 1:1 to tgk
+2025-05-19 23:29:04,177 - INFO - Translated Luke 1:2 to tgk
+2025-05-19 23:29:04,382 - INFO - Translated Luke 1:3 to tgk
+2025-05-19 23:29:04,583 - INFO - Progress: 23/85 scenarios processed (23 successful)
+2025-05-19 23:29:04,583 - INFO - Processing scenario 24/85: Turkmen
+2025-05-19 23:29:04,584 - INFO - Processing Turkmen (tuk)
+2025-05-19 23:29:04,584 - INFO - Translated Luke 1:1 to tuk
+2025-05-19 23:29:04,786 - INFO - Translated Luke 1:2 to tuk
+2025-05-19 23:29:04,986 - INFO - Translated Luke 1:3 to tuk
+2025-05-19 23:29:05,192 - INFO - Progress: 24/85 scenarios processed (24 successful)
+2025-05-19 23:29:05,192 - INFO - Processing scenario 25/85: Umbundu
+2025-05-19 23:29:05,193 - INFO - Processing Umbundu (umb)
+2025-05-19 23:29:05,193 - INFO - Translated Luke 1:1 to umb
+2025-05-19 23:29:05,399 - INFO - Translated Luke 1:2 to umb
+2025-05-19 23:29:05,602 - INFO - Translated Luke 1:3 to umb
+2025-05-19 23:29:05,807 - INFO - Progress: 25/85 scenarios processed (25 successful)
+2025-05-19 23:29:05,807 - INFO - Processing scenario 26/85: Uyghur
+2025-05-19 23:29:05,808 - INFO - Processing Uyghur (uig)
+2025-05-19 23:29:05,808 - INFO - Translated Luke 1:1 to uig
+2025-05-19 23:29:06,010 - INFO - Translated Luke 1:2 to uig
+2025-05-19 23:29:06,212 - INFO - Translated Luke 1:3 to uig
+2025-05-19 23:32:27,258 - INFO - Starting translation run with 85 scenarios
+2025-05-19 23:32:27,258 - INFO - Processing scenario 1/85: Bhojpuri
+2025-05-19 23:32:27,258 - INFO - Processing Bhojpuri (bho)
+2025-05-19 23:32:27,260 - INFO - Translated Luke 1:1 to bho
+2025-05-19 23:32:27,461 - INFO - Translated Luke 1:2 to bho
+2025-05-19 23:32:27,664 - INFO - Translated Luke 1:3 to bho
+2025-05-19 23:32:27,868 - INFO - Progress: 1/85 scenarios processed (1 successful)
+2025-05-19 23:32:27,868 - INFO - Processing scenario 2/85: Chhattisgarhi
+2025-05-19 23:32:27,869 - INFO - Processing Chhattisgarhi (hne)
+2025-05-19 23:32:27,870 - INFO - Translated Luke 1:1 to hne
+2025-05-19 23:32:28,072 - INFO - Translated Luke 1:2 to hne
+2025-05-19 23:32:28,278 - INFO - Translated Luke 1:3 to hne
+2025-05-19 23:32:28,479 - INFO - Progress: 2/85 scenarios processed (2 successful)
+2025-05-19 23:32:28,479 - INFO - Processing scenario 3/85: Chittagonian
+2025-05-19 23:32:28,480 - INFO - Processing Chittagonian (ctg)
+2025-05-19 23:32:28,481 - INFO - Translated Luke 1:1 to ctg
+2025-05-19 23:32:28,687 - INFO - Translated Luke 1:2 to ctg
+2025-05-19 23:32:28,893 - INFO - Translated Luke 1:3 to ctg
+2025-05-19 23:32:29,094 - INFO - Progress: 3/85 scenarios processed (3 successful)
+2025-05-19 23:32:29,094 - INFO - Processing scenario 4/85: Dari
+2025-05-19 23:32:29,095 - INFO - Processing Dari (prs)
+2025-05-19 23:32:29,097 - INFO - Translated Luke 1:1 to prs
+2025-05-19 23:32:29,298 - INFO - Translated Luke 1:2 to prs
+2025-05-19 23:32:29,503 - INFO - Translated Luke 1:3 to prs
+2025-05-19 23:32:29,708 - INFO - Progress: 4/85 scenarios processed (4 successful)
+2025-05-19 23:32:29,708 - INFO - Processing scenario 5/85: Fulfulde, Nigerian
+2025-05-19 23:32:29,709 - INFO - Processing Fulfulde, Nigerian (fuv)
+2025-05-19 23:32:29,710 - INFO - Translated Luke 1:1 to fuv
+2025-05-19 23:32:29,912 - INFO - Translated Luke 1:2 to fuv
+2025-05-19 23:32:30,114 - INFO - Translated Luke 1:3 to fuv
+2025-05-19 23:32:30,319 - INFO - Progress: 5/85 scenarios processed (5 successful)
+2025-05-19 23:32:30,319 - INFO - Processing scenario 6/85: Hassaniyya
+2025-05-19 23:32:30,319 - INFO - Processing Hassaniyya (mey)
+2025-05-19 23:32:30,321 - INFO - Translated Luke 1:1 to mey
+2025-05-19 23:32:30,528 - INFO - Translated Luke 1:2 to mey
+2025-05-19 23:32:30,730 - INFO - Translated Luke 1:3 to mey
+2025-05-19 23:32:30,932 - INFO - Progress: 6/85 scenarios processed (6 successful)
+2025-05-19 23:32:30,932 - INFO - Processing scenario 7/85: Hebrew
+2025-05-19 23:32:30,933 - INFO - Processing Hebrew (heb)
+2025-05-19 23:32:30,935 - INFO - Translated Luke 1:1 to heb
+2025-05-19 23:32:31,138 - INFO - Translated Luke 1:2 to heb
+2025-05-19 23:32:31,339 - INFO - Translated Luke 1:3 to heb
+2025-05-19 23:32:31,543 - INFO - Progress: 7/85 scenarios processed (7 successful)
+2025-05-19 23:32:31,544 - INFO - Processing scenario 8/85: Kanuri, Yerwa
+2025-05-19 23:32:31,545 - INFO - Processing Kanuri, Yerwa (knc)
+2025-05-19 23:32:31,546 - INFO - Translated Luke 1:1 to knc
+2025-05-19 23:32:31,749 - INFO - Translated Luke 1:2 to knc
+2025-05-19 23:32:31,952 - INFO - Translated Luke 1:3 to knc
+2025-05-19 23:32:32,158 - INFO - Progress: 8/85 scenarios processed (8 successful)
+2025-05-19 23:32:32,158 - INFO - Processing scenario 9/85: Kashmiri
+2025-05-19 23:32:32,161 - INFO - Processing Kashmiri (kas)
+2025-05-19 23:32:32,163 - INFO - Translated Luke 1:1 to kas
+2025-05-19 23:32:32,364 - INFO - Translated Luke 1:2 to kas
+2025-05-19 23:32:32,570 - INFO - Translated Luke 1:3 to kas
+2025-05-19 23:32:32,775 - INFO - Progress: 9/85 scenarios processed (9 successful)
+2025-05-19 23:32:32,775 - INFO - Processing scenario 10/85: Kazakh
+2025-05-19 23:32:32,776 - INFO - Processing Kazakh (kaz)
+2025-05-19 23:32:32,778 - INFO - Translated Luke 1:1 to kaz
+2025-05-19 23:32:32,983 - INFO - Translated Luke 1:2 to kaz
+2025-05-19 23:32:33,189 - INFO - Translated Luke 1:3 to kaz
+2025-05-19 23:32:33,390 - INFO - Progress: 10/85 scenarios processed (10 successful)
+2025-05-19 23:32:33,390 - INFO - Processing scenario 11/85: Kurdish, Northern
+2025-05-19 23:32:33,390 - INFO - Processing Kurdish, Northern (kmr)
+2025-05-19 23:32:33,391 - INFO - Translated Luke 1:1 to kmr
+2025-05-19 23:32:33,595 - INFO - Translated Luke 1:2 to kmr
+2025-05-19 23:32:33,801 - INFO - Translated Luke 1:3 to kmr
+2025-05-19 23:32:34,002 - INFO - Progress: 11/85 scenarios processed (11 successful)
+2025-05-19 23:32:34,002 - INFO - Processing scenario 12/85: Luba-Kasai
+2025-05-19 23:32:34,003 - INFO - Processing Luba-Kasai (lua)
+2025-05-19 23:32:34,005 - INFO - Translated Luke 1:1 to lua
+2025-05-19 23:32:34,211 - INFO - Translated Luke 1:2 to lua
+2025-05-19 23:32:34,413 - INFO - Translated Luke 1:3 to lua
+2025-05-19 23:32:34,619 - INFO - Progress: 12/85 scenarios processed (12 successful)
+2025-05-19 23:32:34,619 - INFO - Processing scenario 13/85: Magahi
+2025-05-19 23:32:34,620 - INFO - Processing Magahi (mag)
+2025-05-19 23:32:34,621 - INFO - Translated Luke 1:1 to mag
+2025-05-19 23:32:34,827 - INFO - Translated Luke 1:2 to mag
+2025-05-19 23:32:35,029 - INFO - Translated Luke 1:3 to mag
+2025-05-19 23:32:35,233 - INFO - Progress: 13/85 scenarios processed (13 successful)
+2025-05-19 23:32:35,233 - INFO - Processing scenario 14/85: Maithili
+2025-05-19 23:32:35,234 - INFO - Processing Maithili (mai)
+2025-05-19 23:32:35,236 - INFO - Translated Luke 1:1 to mai
+2025-05-19 23:32:35,442 - INFO - Translated Luke 1:2 to mai
+2025-05-19 23:32:35,645 - INFO - Translated Luke 1:3 to mai
+2025-05-19 23:32:35,850 - INFO - Progress: 14/85 scenarios processed (14 successful)
+2025-05-19 23:32:35,850 - INFO - Processing scenario 15/85: Pashto, Southern
+2025-05-19 23:32:35,851 - INFO - Processing Pashto, Southern (pbt)
+2025-05-19 23:32:35,853 - INFO - Translated Luke 1:1 to pbt
+2025-05-19 23:32:36,058 - INFO - Translated Luke 1:2 to pbt
+2025-05-19 23:32:36,261 - INFO - Translated Luke 1:3 to pbt
+2025-05-19 23:32:36,462 - INFO - Progress: 15/85 scenarios processed (15 successful)
+2025-05-19 23:32:36,462 - INFO - Processing scenario 16/85: Rangpuri
+2025-05-19 23:32:36,462 - INFO - Processing Rangpuri (rkt)
+2025-05-19 23:32:36,464 - INFO - Translated Luke 1:1 to rkt
+2025-05-19 23:32:36,665 - INFO - Translated Luke 1:2 to rkt
+2025-05-19 23:32:36,870 - INFO - Translated Luke 1:3 to rkt
+2025-05-19 23:32:37,075 - INFO - Progress: 16/85 scenarios processed (16 successful)
+2025-05-19 23:32:37,075 - INFO - Processing scenario 17/85: Rundi
+2025-05-19 23:32:37,076 - INFO - Processing Rundi (run)
+2025-05-19 23:32:37,077 - INFO - Translated Luke 1:1 to run
+2025-05-19 23:35:30,677 - INFO - Starting translation run with 85 scenarios
+2025-05-19 23:35:30,677 - INFO - Processing scenario 1/85: Bhojpuri
+2025-05-19 23:35:30,678 - INFO - Processing Bhojpuri (bho)
+2025-05-19 23:35:30,691 - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-19 23:35:34,807 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-19 23:35:34,816 - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-19 23:35:34,817 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:35:34,817 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:35:34,818 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:35:34,825 - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-19 23:35:36,887 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-19 23:35:36,890 - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-19 23:35:36,890 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:35:36,890 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:35:36,891 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:35:36,895 - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-19 23:35:38,869 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-19 23:35:38,870 - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-19 23:35:38,871 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:35:38,871 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:35:38,871 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:35:38,872 - INFO - Translated Luke 1:1 to bho
+2025-05-19 23:35:39,081 - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-19 23:35:41,653 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-19 23:35:41,655 - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-19 23:35:41,655 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:35:41,656 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:35:41,656 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:35:41,661 - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-19 23:35:43,860 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-19 23:35:43,866 - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-19 23:35:43,867 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:35:43,867 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:35:43,868 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:35:43,871 - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-19 23:35:45,624 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-19 23:35:45,628 - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-19 23:35:45,628 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:35:45,628 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:35:45,629 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:35:45,630 - INFO - Translated Luke 1:2 to bho
+2025-05-19 23:35:45,836 - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-19 23:35:48,812 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-19 23:35:48,820 - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-19 23:35:48,821 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:35:48,821 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:35:48,821 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:35:48,826 - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-19 23:35:50,946 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-19 23:35:50,949 - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-19 23:35:50,949 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:35:50,949 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:35:50,950 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:35:50,953 - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-19 23:35:52,932 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-19 23:35:52,933 - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-19 23:35:52,934 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:35:52,934 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:35:52,935 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:35:52,936 - INFO - Translated Luke 1:3 to bho
+2025-05-19 23:35:53,141 - INFO - Progress: 1/85 scenarios processed (1 successful)
+2025-05-19 23:35:53,141 - INFO - Processing scenario 2/85: Chhattisgarhi
+2025-05-19 23:35:53,142 - INFO - Processing Chhattisgarhi (hne)
+2025-05-19 23:35:53,147 - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-19 23:35:55,178 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-19 23:35:55,181 - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-19 23:35:55,181 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:35:55,181 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:35:55,182 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:35:55,186 - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-19 23:35:57,292 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-19 23:35:57,298 - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-19 23:35:57,298 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:35:57,298 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:35:57,299 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:35:57,301 - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-19 23:35:59,866 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-19 23:35:59,868 - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-19 23:35:59,868 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:35:59,869 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:35:59,871 - INFO - Translated Luke 1:1 to hne
+2025-05-19 23:36:00,077 - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-19 23:36:02,636 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-19 23:36:02,639 - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-19 23:36:02,639 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:36:02,640 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:36:02,643 - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-19 23:36:04,802 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-19 23:36:04,803 - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-19 23:36:04,803 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:36:04,803 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:36:04,804 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:36:04,807 - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-19 23:36:06,956 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-19 23:36:06,959 - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-19 23:36:06,960 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:36:06,960 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:36:06,960 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:36:06,962 - INFO - Translated Luke 1:2 to hne
+2025-05-19 23:36:07,172 - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-19 23:36:10,278 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-19 23:36:10,289 - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-19 23:36:10,289 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:36:10,289 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:36:10,290 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:36:10,295 - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-19 23:36:12,947 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-19 23:36:12,950 - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-19 23:36:12,950 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:36:12,951 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:36:12,954 - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-19 23:36:15,485 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-19 23:36:15,488 - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-19 23:36:15,488 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:36:15,488 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:36:15,489 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:36:15,490 - INFO - Translated Luke 1:3 to hne
+2025-05-19 23:36:15,691 - INFO - Progress: 2/85 scenarios processed (2 successful)
+2025-05-19 23:36:15,691 - INFO - Processing scenario 3/85: Chittagonian
+2025-05-19 23:36:15,692 - INFO - Processing Chittagonian (ctg)
+2025-05-19 23:36:15,697 - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-19 23:36:18,786 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-19 23:36:18,789 - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-19 23:36:18,789 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:36:18,790 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:36:18,794 - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-19 23:36:21,071 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-19 23:36:21,074 - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-19 23:36:21,074 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:36:21,075 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:36:21,079 - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-19 23:36:22,969 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-19 23:36:22,972 - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-19 23:36:22,973 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:36:22,973 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:36:22,973 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:36:22,975 - INFO - Translated Luke 1:1 to ctg
+2025-05-19 23:36:23,180 - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-19 23:36:25,011 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-19 23:36:25,012 - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-19 23:36:25,012 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:36:25,012 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:36:25,013 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:36:25,015 - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-19 23:36:27,237 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-19 23:36:27,239 - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-19 23:36:27,239 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:36:27,239 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:36:27,240 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:36:27,243 - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-19 23:36:28,738 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-19 23:36:28,741 - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-19 23:36:28,741 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:36:28,741 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:36:28,742 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:36:28,744 - INFO - Translated Luke 1:2 to ctg
+2025-05-19 23:36:28,955 - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-19 23:36:31,022 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-19 23:36:31,025 - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-19 23:36:31,025 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:36:31,025 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:36:31,026 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:36:31,030 - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-19 23:36:34,395 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-19 23:36:34,400 - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-19 23:36:34,401 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:36:34,401 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:36:34,401 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:36:34,448 - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-19 23:36:36,556 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-19 23:36:36,558 - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-19 23:36:36,558 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:36:36,558 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:36:36,559 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:36:36,562 - INFO - Translated Luke 1:3 to ctg
+2025-05-19 23:36:36,766 - INFO - Progress: 3/85 scenarios processed (3 successful)
+2025-05-19 23:36:36,766 - INFO - Processing scenario 4/85: Dari
+2025-05-19 23:36:36,767 - INFO - Processing Dari (prs)
+2025-05-19 23:36:36,772 - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-19 23:36:38,985 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-19 23:36:38,995 - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-19 23:36:38,995 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:36:38,995 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:36:38,996 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:36:39,000 - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-19 23:36:40,667 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-19 23:36:40,668 - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-19 23:36:40,669 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:36:40,669 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:36:40,670 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:36:40,673 - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-19 23:36:42,251 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-19 23:36:42,257 - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-19 23:36:42,257 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:36:42,257 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:36:42,258 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:36:42,259 - INFO - Translated Luke 1:1 to prs
+2025-05-19 23:36:42,467 - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-19 23:36:44,347 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-19 23:36:44,348 - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-19 23:36:44,348 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:36:44,348 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:36:44,349 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:36:44,352 - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-19 23:36:46,456 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-19 23:36:46,461 - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-19 23:36:46,462 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:36:46,462 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:36:46,465 - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-19 23:36:48,556 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-19 23:36:48,557 - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-19 23:36:48,558 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:36:48,558 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:36:48,559 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:36:48,560 - INFO - Translated Luke 1:2 to prs
+2025-05-19 23:36:48,765 - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-19 23:36:51,439 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-19 23:36:51,448 - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-19 23:36:51,448 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:36:51,448 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:36:51,449 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:36:51,453 - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-19 23:36:54,111 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-19 23:36:54,114 - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-19 23:36:54,114 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:36:54,114 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:36:54,115 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:36:54,117 - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-19 23:36:55,797 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-19 23:36:55,801 - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-19 23:36:55,801 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:36:55,801 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:36:55,802 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:36:55,805 - INFO - Translated Luke 1:3 to prs
+2025-05-19 23:36:56,010 - INFO - Progress: 4/85 scenarios processed (4 successful)
+2025-05-19 23:36:56,010 - INFO - Processing scenario 5/85: Fulfulde, Nigerian
+2025-05-19 23:36:56,012 - INFO - Processing Fulfulde, Nigerian (fuv)
+2025-05-19 23:36:56,017 - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-19 23:36:58,636 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-19 23:36:58,638 - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-19 23:36:58,638 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:36:58,639 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:36:58,639 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:36:58,642 - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-19 23:37:01,655 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-19 23:37:01,658 - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-19 23:37:01,658 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:37:01,658 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:37:01,659 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:37:01,663 - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-19 23:37:43,392 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-19 23:37:43,484 - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-19 23:37:43,484 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:37:43,484 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:37:43,487 - INFO - Translated Luke 1:1 to fuv
+2025-05-19 23:37:43,692 - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-19 23:37:46,328 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-19 23:37:46,330 - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-19 23:37:46,331 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:37:46,331 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:37:46,332 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:37:46,336 - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-19 23:37:49,577 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-19 23:37:49,579 - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-19 23:37:49,580 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:37:49,580 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:37:49,581 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:37:49,583 - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-19 23:38:35,153 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-19 23:38:35,242 - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-19 23:38:35,242 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:38:35,243 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:38:35,245 - INFO - Translated Luke 1:2 to fuv
+2025-05-19 23:38:35,455 - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-19 23:38:37,808 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-19 23:38:37,809 - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-19 23:38:37,810 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:38:37,810 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:38:37,810 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:38:37,815 - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-19 23:38:41,543 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-19 23:38:41,546 - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-19 23:38:41,546 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:38:41,547 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:38:41,550 - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-19 23:39:19,077 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-19 23:39:19,166 - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-19 23:39:19,166 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:39:19,167 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:39:19,170 - INFO - Translated Luke 1:3 to fuv
+2025-05-19 23:39:19,375 - INFO - Progress: 5/85 scenarios processed (5 successful)
+2025-05-19 23:39:19,375 - INFO - Processing scenario 6/85: Hassaniyya
+2025-05-19 23:39:19,376 - INFO - Processing Hassaniyya (mey)
+2025-05-19 23:39:19,381 - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-19 23:39:21,986 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-19 23:39:21,990 - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-19 23:39:21,990 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:39:21,990 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:39:21,991 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:39:21,994 - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-19 23:39:24,828 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-19 23:39:24,834 - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-19 23:39:24,834 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:39:24,835 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:39:24,838 - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-19 23:39:27,169 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-19 23:39:27,173 - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-19 23:39:27,173 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:39:27,173 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:39:27,175 - INFO - Translated Luke 1:1 to mey
+2025-05-19 23:39:27,380 - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-19 23:39:30,549 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-19 23:39:30,554 - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-19 23:39:30,554 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:39:30,555 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:39:30,558 - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-19 23:39:33,232 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-19 23:39:33,236 - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-19 23:39:33,236 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:39:33,237 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:39:33,240 - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-19 23:39:35,521 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-19 23:39:35,524 - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-19 23:39:35,524 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:39:35,524 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:39:35,525 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:39:35,526 - INFO - Translated Luke 1:2 to mey
+2025-05-19 23:39:35,732 - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-19 23:39:37,851 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-19 23:39:37,855 - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-19 23:39:37,855 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:39:37,856 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:39:37,856 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:39:37,860 - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-19 23:39:40,422 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-19 23:39:40,425 - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-19 23:39:40,425 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:39:40,426 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:39:40,426 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:39:40,429 - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-19 23:39:43,416 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-19 23:39:43,418 - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-19 23:39:43,418 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:39:43,418 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:39:43,419 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:39:43,420 - INFO - Translated Luke 1:3 to mey
+2025-05-19 23:39:43,622 - INFO - Progress: 6/85 scenarios processed (6 successful)
+2025-05-19 23:39:43,622 - INFO - Processing scenario 7/85: Hebrew
+2025-05-19 23:39:43,622 - INFO - Processing Hebrew (heb)
+2025-05-19 23:39:43,627 - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-19 23:39:46,861 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-19 23:39:46,864 - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-19 23:39:46,865 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:39:46,865 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:39:46,865 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:39:46,869 - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-19 23:39:48,878 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-19 23:39:48,879 - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-19 23:39:48,880 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:39:48,880 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:39:48,880 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:39:48,883 - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-19 23:39:53,005 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-19 23:39:53,006 - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-19 23:39:53,006 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:39:53,006 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:39:53,007 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:39:53,008 - INFO - Translated Luke 1:1 to heb
+2025-05-19 23:39:53,213 - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-19 23:39:55,496 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-19 23:39:55,497 - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-19 23:39:55,497 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:39:55,497 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:39:55,501 - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-19 23:39:58,380 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-19 23:39:58,384 - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-19 23:39:58,384 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:39:58,385 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:39:58,385 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:39:58,388 - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-19 23:40:01,253 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-19 23:40:01,263 - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-19 23:40:01,263 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:40:01,263 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:40:01,264 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:40:01,265 - INFO - Translated Luke 1:2 to heb
+2025-05-19 23:40:01,473 - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-19 23:40:03,939 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-19 23:40:03,944 - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-19 23:40:03,944 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:40:03,944 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:40:03,945 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:40:03,948 - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-19 23:40:06,495 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-19 23:40:06,497 - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-19 23:40:06,497 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:40:06,497 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:40:06,498 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:40:06,500 - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-19 23:40:09,764 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-19 23:40:09,766 - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-19 23:40:09,767 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:40:09,767 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:40:09,768 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:40:09,769 - INFO - Translated Luke 1:3 to heb
+2025-05-19 23:40:09,975 - INFO - Progress: 7/85 scenarios processed (7 successful)
+2025-05-19 23:40:09,975 - INFO - Processing scenario 8/85: Kanuri, Yerwa
+2025-05-19 23:40:09,976 - INFO - Processing Kanuri, Yerwa (knc)
+2025-05-19 23:40:09,981 - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-19 23:40:12,322 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-19 23:40:12,324 - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-19 23:40:12,324 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:40:12,324 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:40:12,325 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:40:12,328 - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-19 23:40:15,727 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-19 23:40:15,728 - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-19 23:40:15,728 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:40:15,728 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:40:15,729 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:40:15,731 - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-19 23:40:18,166 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-19 23:40:18,170 - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-19 23:40:18,170 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:40:18,170 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:40:18,171 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:40:18,171 - INFO - Translated Luke 1:1 to knc
+2025-05-19 23:40:18,380 - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-19 23:40:20,565 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-19 23:40:20,566 - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-19 23:40:20,567 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:40:20,567 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:40:20,568 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:40:20,571 - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-19 23:40:23,447 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-19 23:40:23,450 - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-19 23:40:23,451 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:40:23,451 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:40:23,454 - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-19 23:40:26,525 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-19 23:40:26,526 - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-19 23:40:26,526 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:40:26,527 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:40:26,529 - INFO - Translated Luke 1:2 to knc
+2025-05-19 23:40:26,734 - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-19 23:40:29,609 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-19 23:40:29,611 - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-19 23:40:29,612 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:40:29,612 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:40:29,616 - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-19 23:40:32,736 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-19 23:40:32,740 - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-19 23:40:32,740 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:40:32,740 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:40:32,741 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:40:32,743 - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-19 23:40:35,669 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-19 23:40:35,670 - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-19 23:40:35,670 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:40:35,670 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:40:35,671 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:40:35,672 - INFO - Translated Luke 1:3 to knc
+2025-05-19 23:40:35,875 - INFO - Progress: 8/85 scenarios processed (8 successful)
+2025-05-19 23:40:35,875 - INFO - Processing scenario 9/85: Kashmiri
+2025-05-19 23:40:35,876 - INFO - Processing Kashmiri (kas)
+2025-05-19 23:40:35,880 - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-19 23:40:38,259 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-19 23:40:38,303 - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-19 23:40:38,303 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:40:38,303 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:40:38,304 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:40:38,308 - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-19 23:40:40,657 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-19 23:40:40,661 - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-19 23:40:40,661 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:40:40,661 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:40:40,662 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:40:40,664 - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-19 23:40:43,463 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-19 23:40:43,464 - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-19 23:40:43,464 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:40:43,464 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:40:43,465 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:40:43,467 - INFO - Translated Luke 1:1 to kas
+2025-05-19 23:40:43,673 - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-19 23:40:46,390 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-19 23:40:46,393 - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-19 23:40:46,393 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:40:46,393 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:40:46,394 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:40:46,398 - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-19 23:40:49,799 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-19 23:40:49,801 - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-19 23:40:49,801 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:40:49,801 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:40:49,805 - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-19 23:40:52,432 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-19 23:40:52,436 - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-19 23:40:52,436 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:40:52,436 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:40:52,437 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:40:52,438 - INFO - Translated Luke 1:2 to kas
+2025-05-19 23:40:52,647 - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-19 23:40:55,806 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-19 23:40:55,819 - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-19 23:40:55,819 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:40:55,819 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:40:55,820 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:40:55,824 - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-19 23:40:59,896 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-19 23:40:59,900 - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-19 23:40:59,901 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:40:59,901 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:40:59,902 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:40:59,904 - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-19 23:41:04,116 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-19 23:41:04,117 - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-19 23:41:04,117 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:41:04,117 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:41:04,118 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:41:04,120 - INFO - Translated Luke 1:3 to kas
+2025-05-19 23:41:04,321 - INFO - Progress: 9/85 scenarios processed (9 successful)
+2025-05-19 23:41:04,321 - INFO - Processing scenario 10/85: Kazakh
+2025-05-19 23:41:04,322 - INFO - Processing Kazakh (kaz)
+2025-05-19 23:41:04,327 - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-19 23:41:06,963 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-19 23:41:06,968 - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-19 23:41:06,968 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:41:06,969 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:41:06,972 - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-19 23:41:09,858 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-19 23:41:09,862 - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-19 23:41:09,862 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:41:09,863 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:41:09,865 - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-19 23:41:14,041 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-19 23:41:14,047 - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-19 23:41:14,047 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:41:14,047 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:41:14,048 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:41:14,049 - INFO - Translated Luke 1:1 to kaz
+2025-05-19 23:41:14,257 - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-19 23:41:18,413 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-19 23:41:18,415 - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-19 23:41:18,416 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:41:18,416 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:41:18,416 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:41:18,419 - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-19 23:41:22,058 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-19 23:41:22,060 - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-19 23:41:22,060 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:41:22,060 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:41:22,061 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:41:22,066 - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-19 23:41:25,605 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-19 23:41:25,608 - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-19 23:41:25,608 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:41:25,608 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:41:25,609 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:41:25,611 - INFO - Translated Luke 1:2 to kaz
+2025-05-19 23:41:25,817 - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-19 23:41:28,840 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-19 23:41:28,843 - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-19 23:41:28,843 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:41:28,843 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:41:28,844 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:41:28,846 - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-19 23:41:31,616 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-19 23:41:31,620 - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-19 23:41:31,621 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:41:31,624 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:41:31,643 - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-19 23:41:34,311 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-19 23:41:34,314 - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-19 23:41:34,314 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:41:34,315 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:41:34,320 - INFO - Translated Luke 1:3 to kaz
+2025-05-19 23:41:34,521 - INFO - Progress: 10/85 scenarios processed (10 successful)
+2025-05-19 23:41:34,521 - INFO - Processing scenario 11/85: Kurdish, Northern
+2025-05-19 23:41:34,521 - INFO - Processing Kurdish, Northern (kmr)
+2025-05-19 23:41:34,526 - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-19 23:41:37,251 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-19 23:41:37,261 - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-19 23:41:37,261 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:41:37,262 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:41:37,262 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:41:37,265 - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-19 23:41:41,344 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-19 23:41:41,345 - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-19 23:41:41,345 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:41:41,346 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:41:41,349 - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-19 23:41:43,742 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-19 23:41:43,745 - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-19 23:41:43,746 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:41:43,746 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:41:43,747 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:41:43,749 - INFO - Translated Luke 1:1 to kmr
+2025-05-19 23:41:43,955 - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-19 23:41:45,869 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-05-19 23:41:45,870 - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-19 23:41:45,870 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:41:45,870 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:41:45,871 - INFO - selected model name for cost calculation: openai/gpt-4.1-nano-2025-04-14
+2025-05-19 23:41:45,874 - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai

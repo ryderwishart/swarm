@@ -1,0 +1,38 @@
+{
+    "name": "Vox Populi Translation - Saraiki (Formal)",
+    "description": "A formal translation of Luke from Greek to Saraiki, maintaining source language structures while ensuring clarity.",
+    "input": {
+        "file": "/Users/ryderwishart/frontierrnd/swarm/swarm_translate/scenarios/data/luke_greek_vref.csv",
+        "format": "csv",
+        "id_field": "id",
+        "content_field": "content"
+    },
+    "output": {
+        "directory": "translations/luke-only",
+        "format": "jsonl",
+        "filename_template": "bible_skr_formal"
+    },
+    "source": {
+        "code": "grc",
+        "label": "Greek (Luke)"
+    },
+    "target": {
+        "code": "skr",
+        "label": "Saraiki (Formal)"
+    },
+    "linguistic_directives": "When translating from Greek to Saraiki, key considerations include: 1) Word order: Saraiki follows Subject-Object-Verb (SOV) order, unlike Greek's more flexible order. 2) Tense system: Saraiki has a rich tense system with present, past, future, and perfect tenses. 3) Gender: Saraiki has two genders (masculine and feminine) affecting verb agreement. 4) Honorifics: Multiple levels of respect encoded in pronouns and verbs. 5) Postpositions: Saraiki uses postpositions instead of prepositions. 6) Case marking: Extensive case marking system affecting nouns and pronouns. 7) Verb agreement: Verbs agree with subject in person, number, and gender. 8) Aspect: Important distinction between perfective and imperfective aspects. 9) Ergativity: Split ergative system affecting case marking. 10) Vowel harmony: Important phonological feature affecting word formation.",
+    "style": {
+        "formality": "formal",
+        "register": "simple",
+        "notes": "Create a formal equivalence translation that prioritizes accurately reflecting the source text's grammatical structures while maintaining clear readability in Saraiki. Follow standard Biblical translation conventions where they aid understanding, but don't be bound by tradition. Aim for a moderate formal register that remains accessible. When multiple valid translation options exist, choose clear, precise language that best conveys the original meaning. Use appropriate Saraiki honorifics for divine references. Maintain theological terminology where it best represents the source concepts. The goal is a faithful, transparent translation that allows readers to see the underlying text semantics while remaining comprehensible to modern Saraiki speakers."
+    },
+    "models": {
+        "routing": "gpt-4.1-nano",
+        "translation": "gpt-4.1-nano"
+    },
+    "batch_settings": {
+        "batch_size": 10,
+        "save_frequency": 5,
+        "resume_from_last": true
+    }
+}

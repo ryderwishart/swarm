@@ -1,0 +1,38 @@
+{
+    "name": "Vox Populi Translation - Khorasani Turkish (Formal)",
+    "description": "A formal translation of Luke from Greek to Khorasani Turkish, maintaining source language structures while ensuring clarity.",
+    "input": {
+        "file": "/Users/ryderwishart/frontierrnd/swarm/swarm_translate/scenarios/data/luke_greek_vref.csv",
+        "format": "csv",
+        "id_field": "id",
+        "content_field": "content"
+    },
+    "output": {
+        "directory": "translations/luke-only",
+        "format": "jsonl",
+        "filename_template": "bible_kmz_formal"
+    },
+    "source": {
+        "code": "grc",
+        "label": "Greek (Luke)"
+    },
+    "target": {
+        "code": "kmz",
+        "label": "Khorasani Turkish (Formal)"
+    },
+    "linguistic_directives": "When translating from Greek to Khorasani Turkish, key considerations include: 1) Word order: Khorasani Turkish follows Subject-Object-Verb (SOV) order, unlike Greek's SVO. 2) Tense system: Khorasani Turkish uses agglutinative suffixes for tense and aspect. 3) Gender: Khorasani Turkish has no grammatical gender. 4) Honorifics: Multiple levels of respect encoded in pronouns and titles. 5) Postpositions: Khorasani Turkish uses postpositions instead of prepositions. 6) Case marking: Rich case marking system with 6 cases. 7) Verb agreement: Verbs agree with subject in person and number. 8) Aspect: Important distinction between perfective and imperfective aspects. 9) Vowel harmony: Words must follow vowel harmony rules. 10) Agglutination: Extensive use of suffixes for grammatical functions.",
+    "style": {
+        "formality": "formal",
+        "register": "simple",
+        "notes": "Create a formal equivalence translation that prioritizes accurately reflecting the source text's grammatical structures while maintaining clear readability in Khorasani Turkish. Follow standard Biblical translation conventions where they aid understanding, but don't be bound by tradition. Aim for a moderate formal register that remains accessible. When multiple valid translation options exist, choose clear, precise language that best conveys the original meaning. Use appropriate Khorasani Turkish honorifics for divine references. Maintain theological terminology where it best represents the source concepts. The goal is a faithful, transparent translation that allows readers to see the underlying text semantics while remaining comprehensible to modern Khorasani Turkish speakers."
+    },
+    "models": {
+        "routing": "gpt-4.1-nano",
+        "translation": "gpt-4.1-nano"
+    },
+    "batch_settings": {
+        "batch_size": 10,
+        "save_frequency": 5,
+        "resume_from_last": true
+    }
+}

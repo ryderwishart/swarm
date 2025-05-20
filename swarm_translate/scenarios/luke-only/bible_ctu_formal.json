@@ -1,0 +1,38 @@
+{
+    "name": "Vox Populi Translation - Chol (Formal)",
+    "description": "A formal translation of Luke from Greek to Chol, maintaining source language structures while ensuring clarity.",
+    "input": {
+        "file": "/Users/ryderwishart/frontierrnd/swarm/swarm_translate/scenarios/data/luke_greek_vref.csv",
+        "format": "csv",
+        "id_field": "id",
+        "content_field": "content"
+    },
+    "output": {
+        "directory": "translations/luke-only",
+        "format": "jsonl",
+        "filename_template": "bible_ctu_formal"
+    },
+    "source": {
+        "code": "grc",
+        "label": "Greek (Luke)"
+    },
+    "target": {
+        "code": "ctu",
+        "label": "Chol (Formal)"
+    },
+    "linguistic_directives": "When translating from Greek to Chol, key considerations include: 1) Word order: Chol follows Verb-Object-Subject (VOS) order, unlike Greek's more flexible order. 2) Tense system: Chol uses aspect markers and auxiliary verbs. 3) Gender: Chol has no grammatical gender. 4) Honorifics: Multiple levels of respect encoded in pronouns and titles. 5) Prepositions: Chol uses relational nouns instead of prepositions. 6) Case marking: Ergative-absolutive alignment in case marking. 7) Verb agreement: Verbs agree with both subject and object. 8) Aspect: Important distinction between perfective and imperfective aspects. 9) Noun classes: Chol has a complex noun class system. 10) Voice: Extensive use of voice markers to indicate different perspectives.",
+    "style": {
+        "formality": "formal",
+        "register": "simple",
+        "notes": "Create a formal equivalence translation that prioritizes accurately reflecting the source text's grammatical structures while maintaining clear readability in Chol. Follow standard Biblical translation conventions where they aid understanding, but don't be bound by tradition. Aim for a moderate formal register that remains accessible. When multiple valid translation options exist, choose clear, precise language that best conveys the original meaning. Use appropriate Chol honorifics for divine references. Maintain theological terminology where it best represents the source concepts. The goal is a faithful, transparent translation that allows readers to see the underlying text semantics while remaining comprehensible to modern Chol speakers."
+    },
+    "models": {
+        "routing": "gpt-4.1-nano",
+        "translation": "gpt-4.1-nano"
+    },
+    "batch_settings": {
+        "batch_size": 10,
+        "save_frequency": 5,
+        "resume_from_last": true
+    }
+}

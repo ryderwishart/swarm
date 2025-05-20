@@ -1,0 +1,38 @@
+{
+    "name": "Vox Populi Translation - Chinese, Min Bei (Formal)",
+    "description": "A formal translation of Luke from Greek to Chinese, Min Bei, maintaining source language structures while ensuring clarity.",
+    "input": {
+        "file": "/Users/ryderwishart/frontierrnd/swarm/swarm_translate/scenarios/data/luke_greek_vref.csv",
+        "format": "csv",
+        "id_field": "id",
+        "content_field": "content"
+    },
+    "output": {
+        "directory": "translations/luke-only",
+        "format": "jsonl",
+        "filename_template": "bible_mnp_formal"
+    },
+    "source": {
+        "code": "grc",
+        "label": "Greek (Luke)"
+    },
+    "target": {
+        "code": "mnp",
+        "label": "Chinese, Min Bei (Formal)"
+    },
+    "linguistic_directives": "When translating from Greek to Chinese, Min Bei, key considerations include: 1) Word order: Min Bei follows Subject-Verb-Object (SVO) order, similar to Greek. 2) Tense system: Min Bei uses aspect particles and time adverbs rather than verb conjugation. 3) Gender: Min Bei has no grammatical gender. 4) Honorifics: Multiple levels of respect encoded in pronouns and titles. 5) Prepositions: Min Bei uses prepositions similar to Greek. 6) Case marking: No case marking system. 7) Verb agreement: No verb agreement with subject. 8) Aspect: Important distinction between perfective and imperfective aspects using particles. 9) Classifiers: Min Bei uses classifiers for counting and quantifying nouns. 10) Tone: Min Bei is a tonal language with 7-8 tones affecting meaning.",
+    "style": {
+        "formality": "formal",
+        "register": "simple",
+        "notes": "Create a formal equivalence translation that prioritizes accurately reflecting the source text's grammatical structures while maintaining clear readability in Min Bei. Follow standard Biblical translation conventions where they aid understanding, but don't be bound by tradition. Aim for a moderate formal register that remains accessible. When multiple valid translation options exist, choose clear, precise language that best conveys the original meaning. Use appropriate Min Bei honorifics for divine references. Maintain theological terminology where it best represents the source concepts. The goal is a faithful, transparent translation that allows readers to see the underlying text semantics while remaining comprehensible to modern Min Bei speakers."
+    },
+    "models": {
+        "routing": "gpt-4.1-nano",
+        "translation": "gpt-4.1-nano"
+    },
+    "batch_settings": {
+        "batch_size": 10,
+        "save_frequency": 5,
+        "resume_from_last": true
+    }
+}

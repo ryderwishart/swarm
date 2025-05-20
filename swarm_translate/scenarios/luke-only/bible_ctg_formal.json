@@ -1,0 +1,38 @@
+{
+    "name": "Vox Populi Translation - Chittagonian (Formal)",
+    "description": "A formal translation of Luke from Greek to Chittagonian, maintaining source language structures while ensuring clarity.",
+    "input": {
+        "file": "/Users/ryderwishart/frontierrnd/swarm/swarm_translate/scenarios/data/luke_greek_vref.csv",
+        "format": "csv",
+        "id_field": "id",
+        "content_field": "content"
+    },
+    "output": {
+        "directory": "translations/luke-only",
+        "format": "jsonl",
+        "filename_template": "bible_ctg_formal"
+    },
+    "source": {
+        "code": "grc",
+        "label": "Greek (Luke)"
+    },
+    "target": {
+        "code": "ctg",
+        "label": "Chittagonian (Formal)"
+    },
+    "linguistic_directives": "When translating from Greek to Chittagonian, key considerations include: 1) Word order: Chittagonian follows Subject-Object-Verb (SOV) order, unlike Greek's more flexible order. 2) Tense system: Chittagonian has a rich tense system with present, past, future, and perfect tenses. 3) Gender: Chittagonian has two genders (masculine and feminine) affecting verb agreement. 4) Honorifics: Multiple levels of respect encoded in pronouns and verbs. 5) Postpositions: Chittagonian uses postpositions instead of prepositions. 6) Case marking: Extensive case marking system affecting nouns and pronouns. 7) Verb agreement: Verbs agree with both subject and object in person and number. 8) Aspect: Important distinction between perfective and imperfective aspects. 9) Nasalization: Important phonological feature affecting vowels. 10) Compound verbs: Common use of compound verbs for aspect and modality.",
+    "style": {
+        "formality": "formal",
+        "register": "simple",
+        "notes": "Create a formal equivalence translation that prioritizes accurately reflecting the source text's grammatical structures while maintaining clear readability in Chittagonian. Follow standard Biblical translation conventions where they aid understanding, but don't be bound by tradition. Aim for a moderate formal register that remains accessible. When multiple valid translation options exist, choose clear, precise language that best conveys the original meaning. Use appropriate Chittagonian honorifics for divine references. Maintain theological terminology where it best represents the source concepts. The goal is a faithful, transparent translation that allows readers to see the underlying text semantics while remaining comprehensible to modern Chittagonian speakers."
+    },
+    "models": {
+        "routing": "gpt-4.1-nano",
+        "translation": "gpt-4.1-nano"
+    },
+    "batch_settings": {
+        "batch_size": 10,
+        "save_frequency": 5,
+        "resume_from_last": true
+    }
+}

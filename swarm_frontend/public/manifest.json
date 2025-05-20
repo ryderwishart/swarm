@@ -1,141 +1,213 @@
 {
   "scenarios": [
     {
-      "id": "cmn-mnp",
-      "filename": "cmn-mnp_consolidated.jsonl",
-      "source_lang": "cmn",
-      "target_lang": "mnp",
-      "source_label": "Mandarin Chinese (Formal)",
-      "target_label": "Min Bei Chinese"
+      "id": "grc-bho",
+      "filename": "grc-bho_luke.jsonl",
+      "source_lang": "grc",
+      "target_lang": "bho",
+      "source_label": "Greek (Luke)",
+      "target_label": "BHO (Luke)"
     },
     {
-      "id": "eng-afr",
-      "filename": "eng-afr_consolidated.jsonl",
-      "source_lang": "eng",
-      "target_lang": "afr",
-      "source_label": "English (Bible in Basic English)",
-      "target_label": "Afrikaans (Natural, Middle-School Level)"
+      "id": "grc-ctg",
+      "filename": "grc-ctg_luke.jsonl",
+      "source_lang": "grc",
+      "target_lang": "ctg",
+      "source_label": "Greek (Luke)",
+      "target_label": "CTG (Luke)"
     },
     {
-      "id": "eng-ara",
-      "filename": "eng-ara_consolidated.jsonl",
-      "source_lang": "eng",
-      "target_lang": "ara",
-      "source_label": "English (Bible in Basic English)",
-      "target_label": "Arabic (Natural)"
+      "id": "grc-fuv",
+      "filename": "grc-fuv_luke.jsonl",
+      "source_lang": "grc",
+      "target_lang": "fuv",
+      "source_label": "Greek (Luke)",
+      "target_label": "FUV (Luke)"
     },
     {
-      "id": "eng-deu",
-      "filename": "eng-deu_consolidated.jsonl",
-      "source_lang": "eng",
-      "target_lang": "deu",
-      "source_label": "English (Bible in Basic English)",
-      "target_label": "German (Natural)"
+      "id": "grc-heb",
+      "filename": "grc-heb_luke.jsonl",
+      "source_lang": "grc",
+      "target_lang": "heb",
+      "source_label": "Greek (Luke)",
+      "target_label": "HEB (Luke)"
     },
     {
-      "id": "eng-eng",
-      "filename": "eng-eng_consolidated.jsonl",
-      "source_lang": "eng",
-      "target_lang": "eng",
-      "source_label": "English (Berean Standard Bible)",
-      "target_label": "English (Natural, Middle-School Level)"
+      "id": "grc-hne",
+      "filename": "grc-hne_luke.jsonl",
+      "source_lang": "grc",
+      "target_lang": "hne",
+      "source_label": "Greek (Luke)",
+      "target_label": "HNE (Luke)"
     },
     {
-      "id": "eng-fra",
-      "filename": "eng-fra_consolidated.jsonl",
-      "source_lang": "eng",
-      "target_lang": "fra",
-      "source_label": "English (Berean Standard Bible)",
-      "target_label": "French"
+      "id": "grc-kas",
+      "filename": "grc-kas_luke.jsonl",
+      "source_lang": "grc",
+      "target_lang": "kas",
+      "source_label": "Greek (Luke)",
+      "target_label": "KAS (Luke)"
     },
     {
-      "id": "eng-idn",
-      "filename": "eng-idn_consolidated.jsonl",
-      "source_lang": "eng",
-      "target_lang": "idn",
-      "source_label": "English (Bible in Basic English)",
-      "target_label": "Indonesian (Natural)"
+      "id": "grc-kaz",
+      "filename": "grc-kaz_luke.jsonl",
+      "source_lang": "grc",
+      "target_lang": "kaz",
+      "source_label": "Greek (Luke)",
+      "target_label": "KAZ (Luke)"
     },
     {
-      "id": "eng-mal",
-      "filename": "eng-mal_consolidated.jsonl",
-      "source_lang": "eng",
-      "target_lang": "mal",
-      "source_label": "English (Bible in Basic English)",
-      "target_label": "Malayalam (Natural)"
+      "id": "grc-kmr",
+      "filename": "grc-kmr_luke.jsonl",
+      "source_lang": "grc",
+      "target_lang": "kmr",
+      "source_label": "Greek (Luke)",
+      "target_label": "KMR (Luke)"
     },
     {
-      "id": "eng-npi",
-      "filename": "eng-npi_consolidated.jsonl",
-      "source_lang": "eng",
-      "target_lang": "npi",
-      "source_label": "English (Bible in Basic English)",
-      "target_label": "Nepali (Natural)"
+      "id": "grc-knc",
+      "filename": "grc-knc_luke.jsonl",
+      "source_lang": "grc",
+      "target_lang": "knc",
+      "source_label": "Greek (Luke)",
+      "target_label": "KNC (Luke)"
     },
     {
-      "id": "eng-spa",
-      "filename": "eng-spa_consolidated.jsonl",
-      "source_lang": "eng",
-      "target_lang": "spa",
-      "source_label": "English (Berean Standard Bible)",
-      "target_label": "Spanish (Natural)"
+      "id": "grc-lua",
+      "filename": "grc-lua_luke.jsonl",
+      "source_lang": "grc",
+      "target_lang": "lua",
+      "source_label": "Greek (Luke)",
+      "target_label": "LUA (Luke)"
     },
     {
-      "id": "eng-tpi",
-      "filename": "eng-tpi_consolidated.jsonl",
-      "source_lang": "eng",
-      "target_lang": "tpi",
-      "source_label": "English (Berean Standard Bible)",
-      "target_label": "Tok Pisin"
+      "id": "grc-mag",
+      "filename": "grc-mag_luke.jsonl",
+      "source_lang": "grc",
+      "target_lang": "mag",
+      "source_label": "Greek (Luke)",
+      "target_label": "MAG (Luke)"
     },
     {
-      "id": "x-org-ben",
-      "filename": "x-org-ben_consolidated.jsonl",
-      "source_lang": "x-org",
-      "target_lang": "ben",
-      "source_label": "Macula Hebrew and Greek",
-      "target_label": "Bengali (Formal)"
+      "id": "grc-mai",
+      "filename": "grc-mai_luke.jsonl",
+      "source_lang": "grc",
+      "target_lang": "mai",
+      "source_label": "Greek (Luke)",
+      "target_label": "MAI (Luke)"
     },
     {
-      "id": "x-org-cmn",
-      "filename": "x-org-cmn_consolidated.jsonl",
-      "source_lang": "x-org",
-      "target_lang": "cmn",
-      "source_label": "Macula Hebrew and Greek",
-      "target_label": "Mandarin (Formal)"
+      "id": "grc-mey",
+      "filename": "grc-mey_luke.jsonl",
+      "source_lang": "grc",
+      "target_lang": "mey",
+      "source_label": "Greek (Luke)",
+      "target_label": "MEY (Luke)"
     },
     {
-      "id": "x-org-eng",
-      "filename": "x-org-eng_consolidated.jsonl",
-      "source_lang": "x-org",
-      "target_lang": "eng",
-      "source_label": "Macula Hebrew and Greek",
-      "target_label": "English (Millennial)"
+      "id": "grc-pbt",
+      "filename": "grc-pbt_luke.jsonl",
+      "source_lang": "grc",
+      "target_lang": "pbt",
+      "source_label": "Greek (Luke)",
+      "target_label": "PBT (Luke)"
     },
     {
-      "id": "x-org-hin",
-      "filename": "x-org-hin_consolidated.jsonl",
-      "source_lang": "x-org",
-      "target_lang": "hin",
-      "source_label": "Macula Hebrew and Greek",
-      "target_label": "Hindi (Formal)"
+      "id": "grc-prs",
+      "filename": "grc-prs_luke.jsonl",
+      "source_lang": "grc",
+      "target_lang": "prs",
+      "source_label": "Greek (Luke)",
+      "target_label": "PRS (Luke)"
     },
     {
-      "id": "x-org-jpn",
-      "filename": "x-org-jpn_consolidated.jsonl",
-      "source_lang": "x-org",
-      "target_lang": "jpn",
-      "source_label": "Macula Hebrew and Greek",
-      "target_label": "Modern Formal Japanese"
+      "id": "grc-rkt",
+      "filename": "grc-rkt_luke.jsonl",
+      "source_lang": "grc",
+      "target_lang": "rkt",
+      "source_label": "Greek (Luke)",
+      "target_label": "RKT (Luke)"
     },
     {
-      "id": "x-org-kor",
-      "filename": "x-org-kor_consolidated.jsonl",
-      "source_lang": "x-org",
-      "target_lang": "kor",
-      "source_label": "Macula Hebrew and Greek",
-      "target_label": "Korean (Formal)"
+      "id": "grc-run",
+      "filename": "grc-run_luke.jsonl",
+      "source_lang": "grc",
+      "target_lang": "run",
+      "source_label": "Greek (Luke)",
+      "target_label": "RUN (Luke)"
+    },
+    {
+      "id": "grc-sat",
+      "filename": "grc-sat_luke.jsonl",
+      "source_lang": "grc",
+      "target_lang": "sat",
+      "source_label": "Greek (Luke)",
+      "target_label": "SAT (Luke)"
+    },
+    {
+      "id": "grc-skr",
+      "filename": "grc-skr_luke.jsonl",
+      "source_lang": "grc",
+      "target_lang": "skr",
+      "source_label": "Greek (Luke)",
+      "target_label": "SKR (Luke)"
+    },
+    {
+      "id": "grc-snd",
+      "filename": "grc-snd_luke.jsonl",
+      "source_lang": "grc",
+      "target_lang": "snd",
+      "source_label": "Greek (Luke)",
+      "target_label": "SND (Luke)"
+    },
+    {
+      "id": "grc-som",
+      "filename": "grc-som_luke.jsonl",
+      "source_lang": "grc",
+      "target_lang": "som",
+      "source_label": "Greek (Luke)",
+      "target_label": "SOM (Luke)"
+    },
+    {
+      "id": "grc-syl",
+      "filename": "grc-syl_luke.jsonl",
+      "source_lang": "grc",
+      "target_lang": "syl",
+      "source_label": "Greek (Luke)",
+      "target_label": "SYL (Luke)"
+    },
+    {
+      "id": "grc-tgk",
+      "filename": "grc-tgk_luke.jsonl",
+      "source_lang": "grc",
+      "target_lang": "tgk",
+      "source_label": "Greek (Luke)",
+      "target_label": "TGK (Luke)"
+    },
+    {
+      "id": "grc-tuk",
+      "filename": "grc-tuk_luke.jsonl",
+      "source_lang": "grc",
+      "target_lang": "tuk",
+      "source_label": "Greek (Luke)",
+      "target_label": "TUK (Luke)"
+    },
+    {
+      "id": "grc-uig",
+      "filename": "grc-uig_luke.jsonl",
+      "source_lang": "grc",
+      "target_lang": "uig",
+      "source_label": "Greek (Luke)",
+      "target_label": "UIG (Luke)"
+    },
+    {
+      "id": "grc-umb",
+      "filename": "grc-umb_luke.jsonl",
+      "source_lang": "grc",
+      "target_lang": "umb",
+      "source_label": "Greek (Luke)",
+      "target_label": "UMB (Luke)"
     }
   ],
-  "updated_at": "2025-03-17T13:19:29.428389"
+  "updated_at": "2025-05-20T06:24:23.175796"
 }

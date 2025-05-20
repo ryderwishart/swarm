@@ -1,7 +1,95 @@
 {
   "scenarios": [
     {
-      "id": "grc-bho",
+      "id": "cmn-mnp",
+      "filename": "cmn-mnp_consolidated.jsonl",
+      "source_lang": "cmn",
+      "target_lang": "mnp",
+      "source_label": "Mandarin Chinese (Formal)",
+      "target_label": "Min Bei Chinese"
+    },
+    {
+      "id": "eng-afr",
+      "filename": "eng-afr_consolidated.jsonl",
+      "source_lang": "eng",
+      "target_lang": "afr",
+      "source_label": "English (Bible in Basic English)",
+      "target_label": "Afrikaans (Natural, Middle-School Level)"
+    },
+    {
+      "id": "eng-ara",
+      "filename": "eng-ara_consolidated.jsonl",
+      "source_lang": "eng",
+      "target_lang": "ara",
+      "source_label": "English (Bible in Basic English)",
+      "target_label": "Arabic (Natural)"
+    },
+    {
+      "id": "eng-deu",
+      "filename": "eng-deu_consolidated.jsonl",
+      "source_lang": "eng",
+      "target_lang": "deu",
+      "source_label": "English (Bible in Basic English)",
+      "target_label": "German (Natural)"
+    },
+    {
+      "id": "eng-eng",
+      "filename": "eng-eng_consolidated.jsonl",
+      "source_lang": "eng",
+      "target_lang": "eng",
+      "source_label": "English (Berean Standard Bible)",
+      "target_label": "English (Natural, Middle-School Level)"
+    },
+    {
+      "id": "eng-fra",
+      "filename": "eng-fra_consolidated.jsonl",
+      "source_lang": "eng",
+      "target_lang": "fra",
+      "source_label": "English (Berean Standard Bible)",
+      "target_label": "French"
+    },
+    {
+      "id": "eng-idn",
+      "filename": "eng-idn_consolidated.jsonl",
+      "source_lang": "eng",
+      "target_lang": "idn",
+      "source_label": "English (Bible in Basic English)",
+      "target_label": "Indonesian (Natural)"
+    },
+    {
+      "id": "eng-mal",
+      "filename": "eng-mal_consolidated.jsonl",
+      "source_lang": "eng",
+      "target_lang": "mal",
+      "source_label": "English (Bible in Basic English)",
+      "target_label": "Malayalam (Natural)"
+    },
+    {
+      "id": "eng-npi",
+      "filename": "eng-npi_consolidated.jsonl",
+      "source_lang": "eng",
+      "target_lang": "npi",
+      "source_label": "English (Bible in Basic English)",
+      "target_label": "Nepali (Natural)"
+    },
+    {
+      "id": "eng-spa",
+      "filename": "eng-spa_consolidated.jsonl",
+      "source_lang": "eng",
+      "target_lang": "spa",
+      "source_label": "English (Berean Standard Bible)",
+      "target_label": "Spanish (Natural)"
+    },
+    {
+      "id": "eng-tpi",
+      "filename": "eng-tpi_consolidated.jsonl",
+      "source_lang": "eng",
+      "target_lang": "tpi",
+      "source_label": "English (Berean Standard Bible)",
+      "target_label": "Tok Pisin"
+    },
+    {
+      "id": "grc-bho_luke",
       "filename": "grc-bho_luke.jsonl",
       "source_lang": "grc",
       "target_lang": "bho",
@@ -9,7 +97,7 @@
       "target_label": "BHO (Luke)"
     },
     {
-      "id": "grc-ctg",
+      "id": "grc-ctg_luke",
       "filename": "grc-ctg_luke.jsonl",
       "source_lang": "grc",
       "target_lang": "ctg",
@@ -17,7 +105,7 @@
       "target_label": "CTG (Luke)"
     },
     {
-      "id": "grc-fuv",
+      "id": "grc-fuv_luke",
       "filename": "grc-fuv_luke.jsonl",
       "source_lang": "grc",
       "target_lang": "fuv",
@@ -25,7 +113,7 @@
       "target_label": "FUV (Luke)"
     },
     {
-      "id": "grc-heb",
+      "id": "grc-heb_luke",
       "filename": "grc-heb_luke.jsonl",
       "source_lang": "grc",
       "target_lang": "heb",
@@ -33,7 +121,7 @@
       "target_label": "HEB (Luke)"
     },
     {
-      "id": "grc-hne",
+      "id": "grc-hne_luke",
       "filename": "grc-hne_luke.jsonl",
       "source_lang": "grc",
       "target_lang": "hne",
@@ -41,7 +129,7 @@
       "target_label": "HNE (Luke)"
     },
     {
-      "id": "grc-kas",
+      "id": "grc-kas_luke",
       "filename": "grc-kas_luke.jsonl",
       "source_lang": "grc",
       "target_lang": "kas",
@@ -49,7 +137,7 @@
       "target_label": "KAS (Luke)"
     },
     {
-      "id": "grc-kaz",
+      "id": "grc-kaz_luke",
       "filename": "grc-kaz_luke.jsonl",
       "source_lang": "grc",
       "target_lang": "kaz",
@@ -57,7 +145,7 @@
       "target_label": "KAZ (Luke)"
     },
     {
-      "id": "grc-kmr",
+      "id": "grc-kmr_luke",
       "filename": "grc-kmr_luke.jsonl",
       "source_lang": "grc",
       "target_lang": "kmr",
@@ -65,7 +153,7 @@
       "target_label": "KMR (Luke)"
     },
     {
-      "id": "grc-knc",
+      "id": "grc-knc_luke",
       "filename": "grc-knc_luke.jsonl",
       "source_lang": "grc",
       "target_lang": "knc",
@@ -73,7 +161,7 @@
       "target_label": "KNC (Luke)"
     },
     {
-      "id": "grc-lua",
+      "id": "grc-lua_luke",
       "filename": "grc-lua_luke.jsonl",
       "source_lang": "grc",
       "target_lang": "lua",
@@ -81,7 +169,7 @@
       "target_label": "LUA (Luke)"
     },
     {
-      "id": "grc-mag",
+      "id": "grc-mag_luke",
       "filename": "grc-mag_luke.jsonl",
       "source_lang": "grc",
       "target_lang": "mag",
@@ -89,7 +177,7 @@
       "target_label": "MAG (Luke)"
     },
     {
-      "id": "grc-mai",
+      "id": "grc-mai_luke",
       "filename": "grc-mai_luke.jsonl",
       "source_lang": "grc",
       "target_lang": "mai",
@@ -97,7 +185,7 @@
       "target_label": "MAI (Luke)"
     },
     {
-      "id": "grc-mey",
+      "id": "grc-mey_luke",
       "filename": "grc-mey_luke.jsonl",
       "source_lang": "grc",
       "target_lang": "mey",
@@ -105,7 +193,7 @@
       "target_label": "MEY (Luke)"
     },
     {
-      "id": "grc-pbt",
+      "id": "grc-pbt_luke",
       "filename": "grc-pbt_luke.jsonl",
       "source_lang": "grc",
       "target_lang": "pbt",
@@ -113,7 +201,7 @@
       "target_label": "PBT (Luke)"
     },
     {
-      "id": "grc-prs",
+      "id": "grc-prs_luke",
       "filename": "grc-prs_luke.jsonl",
       "source_lang": "grc",
       "target_lang": "prs",
@@ -121,7 +209,7 @@
       "target_label": "PRS (Luke)"
     },
     {
-      "id": "grc-rkt",
+      "id": "grc-rkt_luke",
       "filename": "grc-rkt_luke.jsonl",
       "source_lang": "grc",
       "target_lang": "rkt",
@@ -129,7 +217,7 @@
       "target_label": "RKT (Luke)"
     },
     {
-      "id": "grc-run",
+      "id": "grc-run_luke",
       "filename": "grc-run_luke.jsonl",
       "source_lang": "grc",
       "target_lang": "run",
@@ -137,7 +225,7 @@
       "target_label": "RUN (Luke)"
     },
     {
-      "id": "grc-sat",
+      "id": "grc-sat_luke",
       "filename": "grc-sat_luke.jsonl",
       "source_lang": "grc",
       "target_lang": "sat",
@@ -145,7 +233,7 @@
       "target_label": "SAT (Luke)"
     },
     {
-      "id": "grc-skr",
+      "id": "grc-skr_luke",
       "filename": "grc-skr_luke.jsonl",
       "source_lang": "grc",
       "target_lang": "skr",
@@ -153,7 +241,7 @@
       "target_label": "SKR (Luke)"
     },
     {
-      "id": "grc-snd",
+      "id": "grc-snd_luke",
       "filename": "grc-snd_luke.jsonl",
       "source_lang": "grc",
       "target_lang": "snd",
@@ -161,7 +249,7 @@
       "target_label": "SND (Luke)"
     },
     {
-      "id": "grc-som",
+      "id": "grc-som_luke",
       "filename": "grc-som_luke.jsonl",
       "source_lang": "grc",
       "target_lang": "som",
@@ -169,7 +257,7 @@
       "target_label": "SOM (Luke)"
     },
     {
-      "id": "grc-syl",
+      "id": "grc-syl_luke",
       "filename": "grc-syl_luke.jsonl",
       "source_lang": "grc",
       "target_lang": "syl",
@@ -177,7 +265,7 @@
       "target_label": "SYL (Luke)"
     },
     {
-      "id": "grc-tgk",
+      "id": "grc-tgk_luke",
       "filename": "grc-tgk_luke.jsonl",
       "source_lang": "grc",
       "target_lang": "tgk",
@@ -185,7 +273,7 @@
       "target_label": "TGK (Luke)"
     },
     {
-      "id": "grc-tuk",
+      "id": "grc-tuk_luke",
       "filename": "grc-tuk_luke.jsonl",
       "source_lang": "grc",
       "target_lang": "tuk",
@@ -193,7 +281,7 @@
       "target_label": "TUK (Luke)"
     },
     {
-      "id": "grc-uig",
+      "id": "grc-uig_luke",
       "filename": "grc-uig_luke.jsonl",
       "source_lang": "grc",
       "target_lang": "uig",
@@ -201,13 +289,69 @@
       "target_label": "UIG (Luke)"
     },
     {
-      "id": "grc-umb",
+      "id": "grc-umb_luke",
       "filename": "grc-umb_luke.jsonl",
       "source_lang": "grc",
       "target_lang": "umb",
       "source_label": "Greek (Luke)",
       "target_label": "UMB (Luke)"
+    },
+    {
+      "id": "x-org-ben",
+      "filename": "x-org-ben_consolidated.jsonl",
+      "source_lang": "x-org",
+      "target_lang": "ben",
+      "source_label": "Macula Hebrew and Greek",
+      "target_label": "Bengali (Formal)"
+    },
+    {
+      "id": "x-org-cmn",
+      "filename": "x-org-cmn_consolidated.jsonl",
+      "source_lang": "x-org",
+      "target_lang": "cmn",
+      "source_label": "Macula Hebrew and Greek",
+      "target_label": "Mandarin (Formal)"
+    },
+    {
+      "id": "x-org-eng",
+      "filename": "x-org-eng_consolidated.jsonl",
+      "source_lang": "x-org",
+      "target_lang": "eng",
+      "source_label": "Macula Hebrew and Greek",
+      "target_label": "English (Millennial)"
+    },
+    {
+      "id": "x-org-hin",
+      "filename": "x-org-hin_consolidated.jsonl",
+      "source_lang": "x-org",
+      "target_lang": "hin",
+      "source_label": "Macula Hebrew and Greek",
+      "target_label": "Hindi (Formal)"
+    },
+    {
+      "id": "x-org-jpn",
+      "filename": "x-org-jpn_consolidated.jsonl",
+      "source_lang": "x-org",
+      "target_lang": "jpn",
+      "source_label": "Macula Hebrew and Greek",
+      "target_label": "Modern Formal Japanese"
+    },
+    {
+      "id": "x-org-kor",
+      "filename": "x-org-kor_consolidated.jsonl",
+      "source_lang": "x-org",
+      "target_lang": "kor",
+      "source_label": "Macula Hebrew and Greek",
+      "target_label": "Korean (Formal)"
+    },
+    {
+      "id": "x-org-por",
+      "filename": "x-org-por_consolidated.jsonl",
+      "source_lang": "x-org",
+      "target_lang": "por",
+      "source_label": "Macula Hebrew and Greek",
+      "target_label": "Portuguese (Formal)"
     }
   ],
-  "updated_at": "2025-05-20T06:24:23.175796"
+  "updated_at": "2025-05-20T06:40:16.200634"
 }

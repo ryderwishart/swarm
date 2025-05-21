@@ -27,8 +27,8 @@
         "notes": "Create a formal equivalence translation that prioritizes accurately reflecting the source text's grammatical structures while maintaining clear readability in Brazilian Portuguese. Follow standard Biblical translation conventions where they aid understanding, but don't be bound by tradition. Aim for a moderate formal register that remains accessible. When multiple valid translation options exist, choose clear, precise language that best conveys the original meaning. Use appropriate Portuguese honorifics for divine references. Maintain theological terminology where it best represents the source concepts. The goal is a faithful, transparent translation that allows readers to see the underlying text semantics while remaining comprehensible to modern Brazilian Portuguese speakers."
     },
     "models": {
-        "routing": "gpt-4.1-nano",
-        "translation": "gpt-4.1-nano"
+        "routing": "gpt-4.1-mini",
+        "translation": "gpt-4.1-mini"
     },
     "batch_settings": {
         "batch_size": 10,

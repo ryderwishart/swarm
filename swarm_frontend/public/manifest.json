@@ -89,6 +89,22 @@
       "target_label": "Tok Pisin"
     },
     {
+      "id": "grc-bca_luke",
+      "filename": "grc-bca_luke.jsonl",
+      "source_lang": "grc",
+      "target_lang": "bca",
+      "source_label": "Greek (Luke)",
+      "target_label": "BCA (Luke)"
+    },
+    {
+      "id": "grc-bfb_luke",
+      "filename": "grc-bfb_luke.jsonl",
+      "source_lang": "grc",
+      "target_lang": "bfb",
+      "source_label": "Greek (Luke)",
+      "target_label": "BFB (Luke)"
+    },
+    {
       "id": "grc-bho_luke",
       "filename": "grc-bho_luke.jsonl",
       "source_lang": "grc",
@@ -97,12 +113,52 @@
       "target_label": "BHO (Luke)"
     },
     {
+      "id": "grc-btm_luke",
+      "filename": "grc-btm_luke.jsonl",
+      "source_lang": "grc",
+      "target_lang": "btm",
+      "source_label": "Greek (Luke)",
+      "target_label": "BTM (Luke)"
+    },
+    {
+      "id": "grc-chv_luke",
+      "filename": "grc-chv_luke.jsonl",
+      "source_lang": "grc",
+      "target_lang": "chv",
+      "source_label": "Greek (Luke)",
+      "target_label": "CHV (Luke)"
+    },
+    {
+      "id": "grc-csl_luke",
+      "filename": "grc-csl_luke.jsonl",
+      "source_lang": "grc",
+      "target_lang": "csl",
+      "source_label": "Greek (Luke)",
+      "target_label": "CSL (Luke)"
+    },
+    {
       "id": "grc-ctg_luke",
       "filename": "grc-ctg_luke.jsonl",
       "source_lang": "grc",
       "target_lang": "ctg",
       "source_label": "Greek (Luke)",
       "target_label": "CTG (Luke)"
+    },
+    {
+      "id": "grc-dib_luke",
+      "filename": "grc-dib_luke.jsonl",
+      "source_lang": "grc",
+      "target_lang": "dib",
+      "source_label": "Greek (Luke)",
+      "target_label": "DIB (Luke)"
+    },
+    {
+      "id": "grc-din_luke",
+      "filename": "grc-din_luke.jsonl",
+      "source_lang": "grc",
+      "target_lang": "din",
+      "source_label": "Greek (Luke)",
+      "target_label": "DIN (Luke)"
     },
     {
       "id": "grc-fuv_luke",
@@ -127,6 +183,22 @@
       "target_lang": "hne",
       "source_label": "Greek (Luke)",
       "target_label": "HNE (Luke)"
+    },
+    {
+      "id": "grc-hsn_luke",
+      "filename": "grc-hsn_luke.jsonl",
+      "source_lang": "grc",
+      "target_lang": "hsn",
+      "source_label": "Greek (Luke)",
+      "target_label": "HSN (Luke)"
+    },
+    {
+      "id": "grc-jav_luke",
+      "filename": "grc-jav_luke.jsonl",
+      "source_lang": "grc",
+      "target_lang": "jav",
+      "source_label": "Greek (Luke)",
+      "target_label": "JAV (Luke)"
     },
     {
       "id": "grc-kas_luke",
@@ -297,6 +369,14 @@
       "target_label": "UMB (Luke)"
     },
     {
+      "id": "grc-uzn_luke",
+      "filename": "grc-uzn_luke.jsonl",
+      "source_lang": "grc",
+      "target_lang": "uzn",
+      "source_label": "Greek (Luke)",
+      "target_label": "UZN (Luke)"
+    },
+    {
       "id": "x-org-ben",
       "filename": "x-org-ben_consolidated.jsonl",
       "source_lang": "x-org",
@@ -353,5 +433,5 @@
       "target_label": "Portuguese (Formal)"
     }
   ],
-  "updated_at": "2025-05-20T13:41:19.623426"
+  "updated_at": "2025-05-21T06:33:49.758932"
 }

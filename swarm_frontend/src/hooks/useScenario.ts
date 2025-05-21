@@ -34,9 +34,8 @@ interface UseScenarioReturn {
     error: string | null;
 }
 
-const ENDPOINT = process.env.NODE_ENV === 'production'
-    ? 'https://raw.githubusercontent.com/ryderwishart/swarm/refs/heads/master/swarm_translate/scenarios/consolidated'
-    : '/consolidated';
+const GITHUB_ENDPOINT = 'https://raw.githubusercontent.com/ryderwishart/swarm/refs/heads/master/swarm_translate/scenarios/consolidated';
+const DEV_ENDPOINT = '/consolidated';
 
 export function useScenario(id: string | undefined): UseScenarioReturn {
     const [scenario, setScenario] = useState<Scenario | null>(null);
@@ -66,18 +65,31 @@ export function useScenario(id: string | undefined): UseScenarioReturn {
 
                 setScenario(matchingScenario);
 
+                // Determine if this is a Luke translation (local) or other translation (remote)
+                const isLukeTranslation = id.includes('_luke');
+
+                // Choose the appropriate endpoint based on translation type and environment
+                let endpoint;
+                if (isLukeTranslation) {
+                    // Luke translations are always in the public directory
+                    endpoint = '';
+                } else {
+                    // For regular translations, use GitHub in production, local in development
+                    endpoint = process.env.NODE_ENV === 'production' ? GITHUB_ENDPOINT : DEV_ENDPOINT;
+                }
+
                 // Then, load the translations
-                const translationsResponse = await fetch(`${ENDPOINT}/${matchingScenario.filename}`);
+                const translationsResponse = await fetch(`${endpoint}/${matchingScenario.filename}`);
                 if (!translationsResponse.ok) {
                     throw new Error('Failed to fetch translations');
                 }
 
                 const text = await translationsResponse.text();
                 console.log('Raw translation file content:', text.slice(0, 500)); // Log the first 500 chars
-                
+
                 const lines = text.split('\n');
                 console.log('First few lines:', lines.slice(0, 3)); // Log first 3 lines
-                
+
                 const parsedTranslations: Translation[] = [];
 
                 for (const line of lines) {

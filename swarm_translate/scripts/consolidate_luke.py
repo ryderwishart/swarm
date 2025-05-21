@@ -64,8 +64,26 @@ def consolidate_luke_files(source_dir: str, target_dir: str, frontend_dir: str =
     for lang_code, data in language_data.items():
         print(f"\nProcessing translations for {lang_code}")
         
-        # Parse lines into objects, sort them, then convert back to strings
-        parsed_lines = [json.loads(line) for line in data]
+        # Parse lines into objects, filter out failed translations, then sort
+        parsed_lines = []
+        for line in data:
+            try:
+                entry = json.loads(line)
+                # Skip failed translations
+                if not entry['translation'].startswith("[Translation failed:"):
+                    parsed_lines.append(entry)
+                else:
+                    print(f"Skipping failed translation for {entry['id']}: {entry['translation'][:50]}...")
+            except json.JSONDecodeError:
+                print(f"Failed to parse line: {line[:50]}...")
+                continue
+        
+        # Check if we have any valid translations after filtering
+        if not parsed_lines:
+            print(f"No valid translations found for {lang_code} after filtering")
+            continue
+            
+        # Sort by chapter and verse
         parsed_lines.sort(key=lambda x: parse_luke_reference(x['id']))
         sorted_data = [json.dumps(line, ensure_ascii=False) + '\n' for line in parsed_lines]
         

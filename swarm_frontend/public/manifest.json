@@ -89,12 +89,28 @@
       "target_label": "Tok Pisin"
     },
     {
+      "id": "grc-azb_luke",
+      "filename": "grc-azb_luke.jsonl",
+      "source_lang": "grc",
+      "target_lang": "azb",
+      "source_label": "Greek (Luke)",
+      "target_label": "AZB (Luke)"
+    },
+    {
       "id": "grc-bca_luke",
       "filename": "grc-bca_luke.jsonl",
       "source_lang": "grc",
       "target_lang": "bca",
       "source_label": "Greek (Luke)",
       "target_label": "BCA (Luke)"
+    },
+    {
+      "id": "grc-bez_luke",
+      "filename": "grc-bez_luke.jsonl",
+      "source_lang": "grc",
+      "target_lang": "bez",
+      "source_label": "Greek (Luke)",
+      "target_label": "BEZ (Luke)"
     },
     {
       "id": "grc-bfb_luke",
@@ -159,6 +175,14 @@
       "target_lang": "din",
       "source_label": "Greek (Luke)",
       "target_label": "DIN (Luke)"
+    },
+    {
+      "id": "grc-dks_luke",
+      "filename": "grc-dks_luke.jsonl",
+      "source_lang": "grc",
+      "target_lang": "dks",
+      "source_label": "Greek (Luke)",
+      "target_label": "DKS (Luke)"
     },
     {
       "id": "grc-fuv_luke",
@@ -377,6 +401,14 @@
       "target_label": "UZN (Luke)"
     },
     {
+      "id": "grc-zsm_luke",
+      "filename": "grc-zsm_luke.jsonl",
+      "source_lang": "grc",
+      "target_lang": "zsm",
+      "source_label": "Greek (Luke)",
+      "target_label": "ZSM (Luke)"
+    },
+    {
       "id": "x-org-ben",
       "filename": "x-org-ben_consolidated.jsonl",
       "source_lang": "x-org",
@@ -433,5 +465,5 @@
       "target_label": "Portuguese (Formal)"
     }
   ],
-  "updated_at": "2025-05-21T06:33:49.758932"
+  "updated_at": "2025-05-21T12:01:26.367258"
 }

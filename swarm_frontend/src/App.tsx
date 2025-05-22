@@ -15,6 +15,7 @@ import { cn } from './lib/utils';
 import { InfoIcon, ArrowRightIcon, DownloadIcon } from 'lucide-react';
 import { SEO } from './components/SEO';
 import { Button } from './components/ui/button';
+import JSZip from 'jszip';
 
 interface Scenario {
   id: string;
@@ -291,27 +292,59 @@ const App = () => {
       const lines = text.split('\n').filter((line) => line.trim());
       const translations: Translation[] = lines.map((line) => JSON.parse(line));
 
-      // Format the translations in the required format
-      const formattedLines = translations
-        .map((translation) => {
-          if (translation.error) return null; // Skip failed translations
+      // Group translations by book
+      const bookGroups: Record<string, Translation[]> = {};
 
-          const { book, chapter, verse } = parseVerseId(translation.id);
-          const abbr = getBookAbbreviation(book);
+      translations.forEach((translation) => {
+        if (translation.error) return; // Skip failed translations
 
-          return `${abbr} ${chapter}:${verse} ${translation.translation}`;
-        })
-        .filter(Boolean); // Remove null entries
+        const { book } = parseVerseId(translation.id);
+        const abbr = getBookAbbreviation(book);
 
-      // Create and download the file
+        if (!bookGroups[abbr]) {
+          bookGroups[abbr] = [];
+        }
+
+        bookGroups[abbr].push(translation);
+      });
+
+      // Create a ZIP file
+      const zip = new JSZip();
+
+      // Add each book as a separate text file
+      Object.entries(bookGroups).forEach(([bookAbbr, bookTranslations]) => {
+        // Sort translations by chapter and verse
+        bookTranslations.sort((a, b) => {
+          const idA = parseVerseId(a.id);
+          const idB = parseVerseId(b.id);
+
+          // Compare chapter numbers
+          const chapterDiff = parseInt(idA.chapter) - parseInt(idB.chapter);
+          if (chapterDiff !== 0) return chapterDiff;
+
+          // If chapters are equal, compare verse numbers
+          return parseInt(idA.verse) - parseInt(idB.verse);
+        });
+
+        // Format the translations
+        const formattedLines = bookTranslations.map((translation) => {
+          const { chapter, verse } = parseVerseId(translation.id);
+          return `${bookAbbr} ${chapter}:${verse} ${translation.translation}`;
+        });
+
+        // Add file to ZIP
+        zip.file(`${bookAbbr}.txt`, formattedLines.join('\n'));
+      });
+
+      // Generate ZIP file
+      const zipBlob = await zip.generateAsync({ type: 'blob' });
+
+      // Create download link
+      const url = URL.createObjectURL(zipBlob);
       const fileName = `${scenario.target_lang}_${scenario.target_label.replace(
         /\s+/g,
         '_',
-      )}.txt`;
-      const fileContent = formattedLines.join('\n');
-
-      const blob = new Blob([fileContent], { type: 'text/plain' });
-      const url = URL.createObjectURL(blob);
+      )}.zip`;
 
       const a = document.createElement('a');
       a.href = url;
@@ -440,7 +473,10 @@ const App = () => {
                           size="icon"
                           className="h-6 w-6"
                           onClick={(e) => handleDownloadClick(e, scenario)}
-                          title="Download as text"
+                          title="Download Bible texts as separate files"
+                          disabled={
+                            downloadStatus[scenario.id] === 'downloading'
+                          }
                         >
                           <DownloadIcon className="h-3 w-3" />
                         </Button>
@@ -487,19 +523,19 @@ const App = () => {
                           size="sm"
                           className="text-xs h-6 px-2 flex items-center gap-1"
                           onClick={(e) => handleDownloadClick(e, scenario)}
-                          title="Download as text"
+                          title="Download Bible texts as separate files"
                           disabled={
                             downloadStatus[scenario.id] === 'downloading'
                           }
                         >
                           <DownloadIcon className="h-3 w-3 mr-1" />
                           {downloadStatus[scenario.id] === 'downloading'
-                            ? 'Downloading...'
+                            ? 'Creating ZIP...'
                             : downloadStatus[scenario.id] === 'completed'
-                            ? 'Downloaded'
+                            ? 'Downloaded ZIP'
                             : downloadStatus[scenario.id] === 'error'
                             ? 'Error'
-                            : 'Download'}
+                            : 'Download Books'}
                         </Button>
                       </CardFooter>
                     </Card>

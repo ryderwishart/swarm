@@ -185,12 +185,28 @@
       "target_label": "DKS (Luke)"
     },
     {
+      "id": "grc-ffm_luke",
+      "filename": "grc-ffm_luke.jsonl",
+      "source_lang": "grc",
+      "target_lang": "ffm",
+      "source_label": "Greek (Luke)",
+      "target_label": "FFM (Luke)"
+    },
+    {
       "id": "grc-fuv_luke",
       "filename": "grc-fuv_luke.jsonl",
       "source_lang": "grc",
       "target_lang": "fuv",
       "source_label": "Greek (Luke)",
       "target_label": "FUV (Luke)"
+    },
+    {
+      "id": "grc-gan_luke",
+      "filename": "grc-gan_luke.jsonl",
+      "source_lang": "grc",
+      "target_lang": "gan",
+      "source_label": "Greek (Luke)",
+      "target_label": "GAN (Luke)"
     },
     {
       "id": "grc-heb_luke",
@@ -287,6 +303,22 @@
       "target_lang": "mey",
       "source_label": "Greek (Luke)",
       "target_label": "MEY (Luke)"
+    },
+    {
+      "id": "grc-mya_luke",
+      "filename": "grc-mya_luke.jsonl",
+      "source_lang": "grc",
+      "target_lang": "mya",
+      "source_label": "Greek (Luke)",
+      "target_label": "MYA (Luke)"
+    },
+    {
+      "id": "grc-pan_luke",
+      "filename": "grc-pan_luke.jsonl",
+      "source_lang": "grc",
+      "target_lang": "pan",
+      "source_label": "Greek (Luke)",
+      "target_label": "PAN (Luke)"
     },
     {
       "id": "grc-pbt_luke",
@@ -465,5 +497,5 @@
       "target_label": "Portuguese (Formal)"
     }
   ],
-  "updated_at": "2025-05-21T12:01:26.367258"
+  "updated_at": "2025-05-21T20:13:17.222698"
 }

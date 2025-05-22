@@ -37,8 +37,10 @@ const CopyrightStatement = () => (
     </CardHeader>
     <CardContent className="text-xs text-blue-700 dark:text-blue-300 py-0 px-4 pb-2">
       <p className="mb-1">
-        Our goal is to release all of these translations into the public domain.
-        All rights reserved until novelty verified (coming soon!).
+        All of these translations are in the public domain with a CC0 license.
+        Each has been translated by AI directly from a specific, openly licensed
+        source text such as the Macula Greek and Hebrew, or the Berean Standard
+        Bible.
       </p>
       <p>
         Please check our{' '}

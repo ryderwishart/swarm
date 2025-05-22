@@ -89,6 +89,22 @@
       "target_label": "Tok Pisin"
     },
     {
+      "id": "grc-acf_luke",
+      "filename": "grc-acf_luke.jsonl",
+      "source_lang": "grc",
+      "target_lang": "acf",
+      "source_label": "Greek (Luke)",
+      "target_label": "ACF (Luke)"
+    },
+    {
+      "id": "grc-avl_luke",
+      "filename": "grc-avl_luke.jsonl",
+      "source_lang": "grc",
+      "target_lang": "avl",
+      "source_label": "Greek (Luke)",
+      "target_label": "AVL (Luke)"
+    },
+    {
       "id": "grc-azb_luke",
       "filename": "grc-azb_luke.jsonl",
       "source_lang": "grc",
@@ -209,6 +225,14 @@
       "target_label": "GAN (Luke)"
     },
     {
+      "id": "grc-gyn_luke",
+      "filename": "grc-gyn_luke.jsonl",
+      "source_lang": "grc",
+      "target_lang": "gyn",
+      "source_label": "Greek (Luke)",
+      "target_label": "GYN (Luke)"
+    },
+    {
       "id": "grc-heb_luke",
       "filename": "grc-heb_luke.jsonl",
       "source_lang": "grc",
@@ -273,6 +297,14 @@
       "target_label": "KNC (Luke)"
     },
     {
+      "id": "grc-lic_luke",
+      "filename": "grc-lic_luke.jsonl",
+      "source_lang": "grc",
+      "target_lang": "lic",
+      "source_label": "Greek (Luke)",
+      "target_label": "LIC (Luke)"
+    },
+    {
       "id": "grc-lua_luke",
       "filename": "grc-lua_luke.jsonl",
       "source_lang": "grc",
@@ -305,12 +337,28 @@
       "target_label": "MEY (Luke)"
     },
     {
+      "id": "grc-mnp_luke",
+      "filename": "grc-mnp_luke.jsonl",
+      "source_lang": "grc",
+      "target_lang": "mnp",
+      "source_label": "Greek (Luke)",
+      "target_label": "MNP (Luke)"
+    },
+    {
       "id": "grc-mya_luke",
       "filename": "grc-mya_luke.jsonl",
       "source_lang": "grc",
       "target_lang": "mya",
       "source_label": "Greek (Luke)",
       "target_label": "MYA (Luke)"
+    },
+    {
+      "id": "grc-nya_luke",
+      "filename": "grc-nya_luke.jsonl",
+      "source_lang": "grc",
+      "target_lang": "nya",
+      "source_label": "Greek (Luke)",
+      "target_label": "NYA (Luke)"
     },
     {
       "id": "grc-pan_luke",
@@ -409,6 +457,14 @@
       "target_label": "TUK (Luke)"
     },
     {
+      "id": "grc-txy_luke",
+      "filename": "grc-txy_luke.jsonl",
+      "source_lang": "grc",
+      "target_lang": "txy",
+      "source_label": "Greek (Luke)",
+      "target_label": "TXY (Luke)"
+    },
+    {
       "id": "grc-uig_luke",
       "filename": "grc-uig_luke.jsonl",
       "source_lang": "grc",
@@ -497,5 +553,5 @@
       "target_label": "Portuguese (Formal)"
     }
   ],
-  "updated_at": "2025-05-21T20:13:17.222698"
+  "updated_at": "2025-05-21T23:57:56.863271"
 }

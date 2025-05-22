@@ -6,13 +6,15 @@ import {
   CardTitle,
   CardDescription,
   CardContent,
+  CardFooter,
 } from './components/ui/card';
 import { ScrollArea } from './components/ui/scroll-area';
 import { Separator } from './components/ui/separator';
 import { Input } from './components/ui/input';
 import { cn } from './lib/utils';
-import { InfoIcon, ArrowRightIcon } from 'lucide-react';
+import { InfoIcon, ArrowRightIcon, DownloadIcon } from 'lucide-react';
 import { SEO } from './components/SEO';
+import { Button } from './components/ui/button';
 
 interface Scenario {
   id: string;
@@ -26,6 +28,91 @@ interface Scenario {
 interface Manifest {
   scenarios: Scenario[];
 }
+
+interface Translation {
+  source_lang: string;
+  source_label: string;
+  target_lang: string;
+  target_label: string;
+  original: string;
+  translation: string;
+  translation_time?: number;
+  model?: string;
+  calver?: string;
+  id: string;
+  error?: string;
+}
+
+// Book abbreviation mapping - standard 3-letter abbreviations
+const BOOK_ABBREVIATIONS: Record<string, string> = {
+  Genesis: 'GEN',
+  Exodus: 'EXO',
+  Leviticus: 'LEV',
+  Numbers: 'NUM',
+  Deuteronomy: 'DEU',
+  Joshua: 'JOS',
+  Judges: 'JDG',
+  Ruth: 'RUT',
+  '1 Samuel': '1SA',
+  '2 Samuel': '2SA',
+  '1 Kings': '1KI',
+  '2 Kings': '2KI',
+  '1 Chronicles': '1CH',
+  '2 Chronicles': '2CH',
+  Ezra: 'EZR',
+  Nehemiah: 'NEH',
+  Esther: 'EST',
+  Job: 'JOB',
+  Psalms: 'PSA',
+  Psalm: 'PSA',
+  Proverbs: 'PRO',
+  Ecclesiastes: 'ECC',
+  'Song of Solomon': 'SNG',
+  Isaiah: 'ISA',
+  Jeremiah: 'JER',
+  Lamentations: 'LAM',
+  Ezekiel: 'EZK',
+  Daniel: 'DAN',
+  Hosea: 'HOS',
+  Joel: 'JOL',
+  Amos: 'AMO',
+  Obadiah: 'OBA',
+  Jonah: 'JON',
+  Micah: 'MIC',
+  Nahum: 'NAM',
+  Habakkuk: 'HAB',
+  Zephaniah: 'ZEP',
+  Haggai: 'HAG',
+  Zechariah: 'ZEC',
+  Malachi: 'MAL',
+  Matthew: 'MAT',
+  Mark: 'MRK',
+  Luke: 'LUK',
+  John: 'JHN',
+  Acts: 'ACT',
+  Romans: 'ROM',
+  '1 Corinthians': '1CO',
+  '2 Corinthians': '2CO',
+  Galatians: 'GAL',
+  Ephesians: 'EPH',
+  Philippians: 'PHP',
+  Colossians: 'COL',
+  '1 Thessalonians': '1TH',
+  '2 Thessalonians': '2TH',
+  '1 Timothy': '1TI',
+  '2 Timothy': '2TI',
+  Titus: 'TIT',
+  Philemon: 'PHM',
+  Hebrews: 'HEB',
+  James: 'JAS',
+  '1 Peter': '1PE',
+  '2 Peter': '2PE',
+  '1 John': '1JN',
+  '2 John': '2JN',
+  '3 John': '3JN',
+  Jude: 'JUD',
+  Revelation: 'REV',
+};
 
 const CopyrightStatement = () => (
   <Card className="border-l-4 border-l-blue-500 bg-blue-50 dark:bg-blue-950/50 mb-3">
@@ -62,6 +149,9 @@ const App = () => {
   const [scenarios, setScenarios] = useState<Scenario[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [error, setError] = useState<string | null>(null);
+  const [downloadStatus, setDownloadStatus] = useState<Record<string, string>>(
+    {},
+  );
 
   useEffect(() => {
     const loadManifest = async () => {
@@ -96,6 +186,174 @@ const App = () => {
     };
     loadManifest();
   }, []);
+
+  // Parse verse ID to get book and verse reference
+  const parseVerseId = (
+    verseId: string,
+  ): { book: string; chapter: string; verse: string } => {
+    // Handle different formats of verse IDs
+
+    // Format 1: "Joshua 9:7" (standard book chapter:verse format)
+    const standardMatch = verseId.match(
+      /^((?:[\d]\s+)?[A-Za-z]+(?:\s+of\s+[A-Za-z]+)?)\s+(\d+):(\d+)$/i,
+    );
+    if (standardMatch) {
+      return {
+        book: standardMatch[1].trim(),
+        chapter: standardMatch[2],
+        verse: standardMatch[3],
+      };
+    }
+
+    // Format 2: "Joshua_9_7" (underscore separated)
+    const underscoreMatch = verseId.match(
+      /^((?:[\d]_)?[A-Za-z]+(?:_of_[A-Za-z]+)?)[_-](\d+)[_-](\d+)$/i,
+    );
+    if (underscoreMatch) {
+      return {
+        book: underscoreMatch[1].replace(/_/g, ' '),
+        chapter: underscoreMatch[2],
+        verse: underscoreMatch[3],
+      };
+    }
+
+    // Format 3: Try to handle other formats by looking for numbers
+    const numbersMatch = verseId.match(/[^\d]*(\d+)[^\d]+(\d+)$/);
+    if (numbersMatch) {
+      // Extract book name by removing everything after the first number
+      const bookEnd = verseId.search(/\d/);
+      const bookName = verseId.substring(0, bookEnd).trim();
+
+      return {
+        book: bookName || 'Unknown',
+        chapter: numbersMatch[1],
+        verse: numbersMatch[2],
+      };
+    }
+
+    // Default fallback for unparseable formats
+    console.warn(`Could not parse verse ID: ${verseId}`);
+    return {
+      book: verseId.replace(/\d/g, '').trim() || 'Unknown',
+      chapter: '0',
+      verse: '0',
+    };
+  };
+
+  // Convert book name to standard 3-letter abbreviation
+  const getBookAbbreviation = (bookName: string): string => {
+    const abbreviation = BOOK_ABBREVIATIONS[bookName];
+    if (abbreviation) return abbreviation;
+
+    // Try to match partial names if exact match not found
+    for (const [book, abbr] of Object.entries(BOOK_ABBREVIATIONS)) {
+      if (bookName.includes(book) || book.includes(bookName)) {
+        return abbr;
+      }
+    }
+
+    // If no match, return first 3 letters capitalized
+    return bookName.slice(0, 3).toUpperCase();
+  };
+
+  // Function to download translations as plaintext
+  const downloadTranslation = async (scenario: Scenario) => {
+    try {
+      setDownloadStatus((prev) => ({ ...prev, [scenario.id]: 'downloading' }));
+
+      // Determine if this is a Luke translation (local) or other translation (remote)
+      const isLukeTranslation = scenario.id.includes('_luke');
+
+      // Choose the appropriate endpoint based on translation type
+      let endpoint;
+      if (isLukeTranslation) {
+        // Luke translations are always in the public directory
+        endpoint = '';
+      } else {
+        // For regular translations, use GitHub in production, local in development
+        const GITHUB_ENDPOINT =
+          'https://raw.githubusercontent.com/ryderwishart/swarm/refs/heads/master/swarm_translate/scenarios/consolidated';
+        const DEV_ENDPOINT = '/consolidated';
+        endpoint =
+          process.env.NODE_ENV === 'production'
+            ? GITHUB_ENDPOINT
+            : DEV_ENDPOINT;
+      }
+
+      // Fetch the translation file
+      const response = await fetch(`${endpoint}/${scenario.filename}`);
+      if (!response.ok) {
+        throw new Error(`Failed to fetch translation: ${response.status}`);
+      }
+
+      // Process the JSONL file
+      const text = await response.text();
+      const lines = text.split('\n').filter((line) => line.trim());
+      const translations: Translation[] = lines.map((line) => JSON.parse(line));
+
+      // Format the translations in the required format
+      const formattedLines = translations
+        .map((translation) => {
+          if (translation.error) return null; // Skip failed translations
+
+          const { book, chapter, verse } = parseVerseId(translation.id);
+          const abbr = getBookAbbreviation(book);
+
+          return `${abbr} ${chapter}:${verse} ${translation.translation}`;
+        })
+        .filter(Boolean); // Remove null entries
+
+      // Create and download the file
+      const fileName = `${scenario.target_lang}_${scenario.target_label.replace(
+        /\s+/g,
+        '_',
+      )}.txt`;
+      const fileContent = formattedLines.join('\n');
+
+      const blob = new Blob([fileContent], { type: 'text/plain' });
+      const url = URL.createObjectURL(blob);
+
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = fileName;
+      document.body.appendChild(a);
+      a.click();
+
+      // Cleanup
+      setTimeout(() => {
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        setDownloadStatus((prev) => ({ ...prev, [scenario.id]: 'completed' }));
+
+        // Reset status after 3 seconds
+        setTimeout(() => {
+          setDownloadStatus((prev) => {
+            const newStatus = { ...prev };
+            delete newStatus[scenario.id];
+            return newStatus;
+          });
+        }, 3000);
+      }, 100);
+    } catch (err) {
+      console.error('Error downloading translation:', err);
+      setDownloadStatus((prev) => ({ ...prev, [scenario.id]: 'error' }));
+
+      // Reset error status after 3 seconds
+      setTimeout(() => {
+        setDownloadStatus((prev) => {
+          const newStatus = { ...prev };
+          delete newStatus[scenario.id];
+          return newStatus;
+        });
+      }, 3000);
+    }
+  };
+
+  // Handle download click (prevent navigation)
+  const handleDownloadClick = (e: React.MouseEvent, scenario: Scenario) => {
+    e.stopPropagation();
+    downloadTranslation(scenario);
+  };
 
   const filteredScenarios = useMemo(() => {
     const query = searchQuery.toLowerCase().trim();
@@ -176,7 +434,18 @@ const App = () => {
                           </code>
                         </div>
                       </div>
-                      <ArrowRightIcon className="h-3 w-3 text-muted-foreground/50 shrink-0 ml-1" />
+                      <div className="flex items-center gap-1">
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          className="h-6 w-6"
+                          onClick={(e) => handleDownloadClick(e, scenario)}
+                          title="Download as text"
+                        >
+                          <DownloadIcon className="h-3 w-3" />
+                        </Button>
+                        <ArrowRightIcon className="h-3 w-3 text-muted-foreground/50 shrink-0 ml-1" />
+                      </div>
                     </div>
                   ))}
                 </div>
@@ -212,6 +481,27 @@ const App = () => {
                           </div>
                         </div>
                       </CardHeader>
+                      <CardFooter className="p-1 flex justify-end">
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          className="text-xs h-6 px-2 flex items-center gap-1"
+                          onClick={(e) => handleDownloadClick(e, scenario)}
+                          title="Download as text"
+                          disabled={
+                            downloadStatus[scenario.id] === 'downloading'
+                          }
+                        >
+                          <DownloadIcon className="h-3 w-3 mr-1" />
+                          {downloadStatus[scenario.id] === 'downloading'
+                            ? 'Downloading...'
+                            : downloadStatus[scenario.id] === 'completed'
+                            ? 'Downloaded'
+                            : downloadStatus[scenario.id] === 'error'
+                            ? 'Error'
+                            : 'Download'}
+                        </Button>
+                      </CardFooter>
                     </Card>
                   ))}
                 </div>

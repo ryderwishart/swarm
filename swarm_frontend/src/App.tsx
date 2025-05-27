@@ -402,6 +402,18 @@ const App = () => {
     });
   }, [scenarios, searchQuery]);
 
+  const lukeScenarios = useMemo(() => {
+    return filteredScenarios.filter((scenario) =>
+      scenario.target_label.endsWith('(Luke)'),
+    );
+  }, [filteredScenarios]);
+
+  const regularScenarios = useMemo(() => {
+    return filteredScenarios.filter(
+      (scenario) => !scenario.target_label.endsWith('(Luke)'),
+    );
+  }, [filteredScenarios]);
+
   const handleScenarioClick = (scenario: Scenario) => {
     navigate(`/translation/${scenario.id}`, { state: scenario });
   };
@@ -449,7 +461,7 @@ const App = () => {
               <>
                 {/* Mobile List View */}
                 <div className="md:hidden space-y-0.5 pb-4">
-                  {filteredScenarios.map((scenario) => (
+                  {regularScenarios.map((scenario) => (
                     <div
                       key={scenario.id}
                       className="flex items-center p-1.5 border-b hover:bg-gray-50 dark:hover:bg-gray-800/50 cursor-pointer"
@@ -488,7 +500,7 @@ const App = () => {
 
                 {/* Desktop Card Grid View */}
                 <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 pb-3">
-                  {filteredScenarios.map((scenario) => (
+                  {regularScenarios.map((scenario) => (
                     <Card
                       key={scenario.id}
                       className={cn(
@@ -503,7 +515,9 @@ const App = () => {
                           <div className="flex items-center justify-between">
                             <div className="flex items-center gap-1.5 min-w-0">
                               <span className="font-medium text-sm">
-                                {scenario.target_label}
+                                {scenario.target_label.endsWith('(Luke)')
+                                  ? scenario.target_label.replace(' (Luke)', '')
+                                  : scenario.target_label}
                               </span>
                             </div>
                             <div className="text-muted-foreground/50 hover:text-primary transition-colors text-xs shrink-0">
@@ -541,6 +555,130 @@ const App = () => {
                     </Card>
                   ))}
                 </div>
+
+                {lukeScenarios.length > 0 && (
+                  <>
+                    <Separator className="my-2 flex-shrink-0" />
+                    <Card className="border-l-4 border-l-amber-500 bg-amber-50 dark:bg-amber-950/50 mb-3">
+                      <CardHeader className="py-2 px-4">
+                        <CardTitle className="text-amber-700 dark:text-amber-300 flex items-center gap-2 text-xs font-medium">
+                          <InfoIcon className="h-3 w-3" />
+                          Sample Translations (Luke Chapters)
+                        </CardTitle>
+                      </CardHeader>
+                      <CardContent className="text-xs text-amber-700 dark:text-amber-300 py-0 px-4 pb-2">
+                        <p>
+                          These are sample generations using a small model,
+                          focusing on select chapters of Luke. They are likely
+                          to contain many low-quality or nonsensical
+                          translations, especially for lower-resource languages.
+                          The purpose of these translations is to provide a
+                          baseline for what is possible with a small model
+                          (e.g., gpt-4.1-nano) <em>without</em> any reference
+                          samples for the model to compare.
+                        </p>
+                      </CardContent>
+                    </Card>
+                    {/* Mobile List View - Luke */}
+                    <div className="md:hidden space-y-0.5 pb-4">
+                      {lukeScenarios.map((scenario) => (
+                        <div
+                          key={scenario.id}
+                          className="flex items-center p-1.5 border-b hover:bg-gray-50 dark:hover:bg-gray-800/50 cursor-pointer"
+                          onClick={() => handleScenarioClick(scenario)}
+                        >
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center gap-1">
+                              <span className="font-medium text-xs">
+                                {scenario.target_label.replace(' (Luke)', '')}{' '}
+                                (Luke)
+                              </span>
+                            </div>
+                            <div className="flex items-center gap-1 text-[10px] text-muted-foreground mt-0.5">
+                              <code className="px-0.5 py-0 rounded bg-muted text-[9px]">
+                                {scenario.target_lang}
+                              </code>
+                            </div>
+                          </div>
+                          <div className="flex items-center gap-1">
+                            <Button
+                              variant="ghost"
+                              size="icon"
+                              className="h-6 w-6"
+                              onClick={(e) => handleDownloadClick(e, scenario)}
+                              title="Download Bible texts as separate files"
+                              disabled={
+                                downloadStatus[scenario.id] === 'downloading'
+                              }
+                            >
+                              <DownloadIcon className="h-3 w-3" />
+                            </Button>
+                            <ArrowRightIcon className="h-3 w-3 text-muted-foreground/50 shrink-0 ml-1" />
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                    {/* Desktop Card Grid View - Luke */}
+                    <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 pb-3">
+                      {lukeScenarios.map((scenario) => (
+                        <Card
+                          key={scenario.id}
+                          className={cn(
+                            'transition-all hover:shadow-md cursor-pointer',
+                            'border hover:border-primary/50',
+                            'bg-card/50 hover:bg-card',
+                          )}
+                          onClick={() => handleScenarioClick(scenario)}
+                        >
+                          <CardHeader className="p-3 space-y-1.5">
+                            <div className="flex flex-col gap-1.5 min-w-0">
+                              <div className="flex items-center justify-between">
+                                <div className="flex items-center gap-1.5 min-w-0">
+                                  <span className="font-medium text-sm">
+                                    {scenario.target_label.replace(
+                                      ' (Luke)',
+                                      '',
+                                    )}{' '}
+                                    (Luke)
+                                  </span>
+                                </div>
+                                <div className="text-muted-foreground/50 hover:text-primary transition-colors text-xs shrink-0">
+                                  →
+                                </div>
+                              </div>
+                              <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
+                                <code className="px-1 py-0.5 rounded bg-muted text-[10px]">
+                                  {scenario.target_lang}
+                                </code>
+                              </div>
+                            </div>
+                          </CardHeader>
+                          <CardFooter className="p-1 flex justify-end">
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              className="text-xs h-6 px-2 flex items-center gap-1"
+                              onClick={(e) => handleDownloadClick(e, scenario)}
+                              title="Download Bible texts as separate files"
+                              disabled={
+                                downloadStatus[scenario.id] === 'downloading'
+                              }
+                            >
+                              <DownloadIcon className="h-3 w-3 mr-1" />
+                              {downloadStatus[scenario.id] === 'downloading'
+                                ? 'Creating ZIP...'
+                                : downloadStatus[scenario.id] === 'completed'
+                                ? 'Downloaded ZIP'
+                                : downloadStatus[scenario.id] === 'error'
+                                ? 'Error'
+                                : 'Download Books'}
+                            </Button>
+                          </CardFooter>
+                        </Card>
+                      ))}
+                    </div>
+                  </>
+                )}
               </>
             )}
           </ScrollArea>

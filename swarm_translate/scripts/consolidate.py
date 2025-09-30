@@ -31,18 +31,32 @@ def parse_reference(id: str) -> tuple:
     }
     
     # Extract book, chapter, and verse using regex
-    # Format: "Book Name 1:1" or "Book of Name 1:1"
-    match = re.match(r'((?:\d\s)?[A-Za-z]+(?:\s+(?:of\s+)?[A-Za-z]+)*)\s+(\d+):(\d+)', id)
-    if not match:
-        return (float('inf'), 0, 0)  # Put invalid formats at the end
-        
-    book, chapter, verse = match.groups()
-    book = book.lower()
+    # Updated pattern to better handle multi-word books like "Song of Solomon"
+    # Try multiple patterns in order of specificity
+    patterns = [
+        # Pattern for "Song of Solomon" specifically
+        r'(Song of Solomon)\s+(\d+):(\d+)',
+        # Pattern for numbered books like "1 Samuel", "2 Kings", etc.
+        r'(\d\s+[A-Za-z]+(?:\s+[A-Za-z]+)*)\s+(\d+):(\d+)',
+        # Pattern for single-word books
+        r'([A-Za-z]+)\s+(\d+):(\d+)',
+        # Pattern for other multi-word books
+        r'([A-Za-z]+(?:\s+[A-Za-z]+)*)\s+(\d+):(\d+)'
+    ]
     
-    # Get book order (default to infinity if book not in list)
-    book_num = BOOK_ORDER.get(book, float('inf'))
+    for pattern in patterns:
+        match = re.match(pattern, id, re.IGNORECASE)
+        if match:
+            book, chapter, verse = match.groups()
+            book = book.lower()
+            
+            # Get book order (default to infinity if book not in list)
+            book_num = BOOK_ORDER.get(book, float('inf'))
+            
+            return (book_num, int(chapter), int(verse))
     
-    return (book_num, int(chapter), int(verse))
+    # If no pattern matches, return default
+    return (float('inf'), 0, 0)  # Put invalid formats at the end
 
 def get_scenario_config(project_name: str, base_dir: str = "scenarios") -> Optional[Dict]:
     """Find and load the scenario config file for a given project."""
